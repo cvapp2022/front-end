@@ -102,7 +102,7 @@ import {mapActions} from 'vuex';
 
 export default {
 
-    props:['reffrence','type'],
+    props:['reffrence','type','CvId'],
     data(){
 
         let ReffFormVal;
@@ -122,7 +122,8 @@ export default {
                 RefNameI:"",
                 RefJobI:"",
                 RefMailI:"",
-                RefPhoneI:""
+                RefPhoneI:"",
+                RefCvI:this.CvId
             }
         }
 

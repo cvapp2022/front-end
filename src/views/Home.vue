@@ -1,6 +1,9 @@
 <template>
   <div class="home">
     <h4>Home page</h4>
+
+    <router-link to="profile" > my account </router-link>
+
   </div>
 </template>
 

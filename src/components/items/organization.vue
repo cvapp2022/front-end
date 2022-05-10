@@ -124,7 +124,7 @@
 import { mapActions,mapGetters } from 'vuex';
 export default {
 
-    props:['organization','type'],
+    props:['organization','type','CvId'],
     data(){
         
         let OrgFormVal;
@@ -143,7 +143,8 @@ export default {
                 OrgJobI:"",
                 OrgFromI:"",
                 OrgToI:"",
-                OrgDescI:""
+                OrgDescI:"",
+                OrgCvI:this.CvId
             }
         }
         return{

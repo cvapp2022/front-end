@@ -137,7 +137,7 @@ import skill from '../../components/items/skill.vue';
 
 
 export default {
-    props:['education','type'],
+    props:['education','type','CvId'],
     data(){
 
         let EduFormVal;
@@ -148,7 +148,8 @@ export default {
                 EduTypeI:this.education.EduType,
                 EduFromI:new Date(this.education.EduFrom).toISOString().substring(0, 10),
                 EduToI:new Date(this.education.EduTo).toISOString().substring(0, 10),
-                EduDescI:this.education.EduDesc
+                EduDescI:this.education.EduDesc,
+        
             }
         }
         else if(this.type === 'newItem'){
@@ -157,7 +158,8 @@ export default {
                 EduTypeI:null,
                 EduFromI:"",
                 EduToI:"",
-                EduDescI:""
+                EduDescI:"",
+                EduCvI:this.CvId
             }
         }
 

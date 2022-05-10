@@ -83,7 +83,7 @@ import { mapActions } from 'vuex';
 
 export default {
 
-    props:['type','project'],
+    props:['type','project','CvId'],
 
     data(){
 
@@ -104,6 +104,7 @@ export default {
                 ProjNameI:"",
                 ProjDateI:"",
                 ProjDescI:"",
+                ProjCvI:this.CvId
             }
             
         }

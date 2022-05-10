@@ -60,8 +60,8 @@ export default {
 
         return {
             form:{
-                UserI:'',
-                PassI:''
+                UserI:'blaxk@blaxk.wwg',
+                PassI:'a123456'
             }
         }
 

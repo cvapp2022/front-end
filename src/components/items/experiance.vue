@@ -132,7 +132,7 @@ import skill from '../../components/items/skill.vue';
 
 export default {
 
-    props:['experiance','type'],
+    props:['experiance','type','CvId'],
     components:{
         skill
     },
@@ -154,7 +154,8 @@ export default {
                 ExpJobI:"",
                 ExpFromI:"",
                 ExpToI:"",
-                ExpDescI:""
+                ExpDescI:"",
+                ExpCvI:this.CvId
             }
         }
         return{
@@ -189,7 +190,7 @@ export default {
     },
     mounted(){
  
-        console.log(this.ExpForm)
+     
     
     }
 
