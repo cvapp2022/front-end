@@ -47,7 +47,7 @@
 
         <!-- Start project Desc -->
         <b-col cols="12" sm="12">
-            <validation-provider
+            <!-- <validation-provider
             name="Project Description"
             :rules="{ required: true, min: 3 }"
             v-slot="validationContext">
@@ -63,7 +63,8 @@
                 </b-textarea>
                 <b-form-invalid-feedback id="proj-desc-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
             </b-form-group>
-            </validation-provider>
+            </validation-provider> -->
+            <vue-editor v-model="ProjForm.ProjDescI" :editorToolbar="customToolbar"></vue-editor>
         </b-col>
         <!-- End Project Desc -->
 
@@ -80,10 +81,16 @@
 <script>
 
 import { mapActions } from 'vuex';
+import { VueEditor } from "vue2-editor";
+import _ from 'lodash';
+
 
 export default {
 
     props:['type','project','CvId'],
+    components:{
+        VueEditor
+    },
 
     data(){
 
@@ -110,21 +117,52 @@ export default {
         }
 
         return{
-            ProjForm:ProjFormVal
+            ProjForm:ProjFormVal,
+                  customToolbar: [
+        ["bold", "italic", "underline"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [
+          { align: "" },
+          { align: "center" },
+          { align: "right" },
+          { align: "justify" },
+        ],
+        [{ color: [] }],
+      ],
+      updateable:false
         }
     },
+      watch: {
+    ProjForm: {
+      handler() {
+        if (this.type === "item" && this.updateable) {
+          this.updateProjWatch();
+        }
+        this.updateable = true;
+      },
+      deep: true,
+    },
+  },
     methods:{
         getValidationState({ dirty, validated, valid = null }) {
         return dirty || validated ? valid : null;
         },
-        ...mapActions(['SaveProj']),
+        ...mapActions(['saveProj','updateProj']),
         ProjSubmit:function(){
 
             if(this.type === 'newItem'){
-                this.SaveProj(this.ProjForm)
+                this.saveProj(this.ProjForm)
             }
+        },
+        updateProjWatch:_.debounce(function(){
 
-        }
+            var data={
+                data:this.ProjForm,
+                ProjId:this.project._id
+            }
+            this.updateProj(data)
+
+        },6000)
     },
 
 

@@ -81,7 +81,7 @@
 
 import { mapActions } from 'vuex';
 export default {
-
+    props:['CvId'],
     methods:{
         getValidationState({ dirty, validated, valid = null }) {
           return dirty || validated ? valid : null;
@@ -97,6 +97,7 @@ export default {
                 SkillTitleI:"",
                 SkillValI:"",
                 SkillDescI:"",
+                SkillCvI:this.CvId
             }
         }
     },

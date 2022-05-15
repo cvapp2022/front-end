@@ -4,8 +4,31 @@
       <!-- Profile Card Start -->
       <b-card class="my-3">
         <h4 class="text-start card-title mb-4 p-1 font-weight-bold">Profile</h4>
-
+        <b-row>
+          <img
+            v-if="cvOne.cvImg !== null"
+            :src="'https://drive.google.com/thumbnail?id=' + cvOne.cvImg"
+            alt=""
+          />
+        </b-row>
         <b-form class="row">
+          <b-col cols="12" sm="6">
+            <b-form-group
+              id="cv-img-group"
+              label="Image profile:"
+              label-for="cv-img"
+              description="max 8 MB"
+            >
+              <b-form-file
+                id="cv-img"
+                size="large"
+                accept="image/jpeg, image/png, image/gif"
+                placeholder="Choose a file or drop it here..."
+                v-model="cvimg"
+                drop-placeholder="Drop file here..."
+              ></b-form-file>
+            </b-form-group>
+          </b-col>
           <b-col cols="12" sm="6">
             <b-form-group
               id="input-group-1"
@@ -17,7 +40,6 @@
                 id="input-1"
                 size="large"
                 type="email"
-                v-model="socialForm.mail"
                 placeholder="Enter email"
                 required
               ></b-form-input>
@@ -56,293 +78,29 @@
       </b-card>
 
       <!-- Social media Card Start -->
-      <b-card class="my-3 p-2">
-        <b-row classs="justify-content-between align-items-start">
-          <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
-            Social Media
-          </h4>
-        </b-row>
-        <b-form>
-          <b-row>
-            <!-- mail input -->
-            <b-col cols="12" sm="6" class="my-2">
-              <b-input-group>
-                <b-input-group-prepend is-text>
-                  <b-icon icon="mailbox2"></b-icon>
-                </b-input-group-prepend>
-                <b-form-input
-                  id="input-mail"
-                  size="large"
-                  placeholder="Enter email"
-                  v-model="socialForm.mail"
-                ></b-form-input>
-              </b-input-group>
-            </b-col>
-
-            <!-- LinkedIn input -->
-            <b-col cols="12" sm="6" class="my-2">
-              <b-input-group>
-                <b-input-group-prepend is-text>
-                  <b-icon icon="linkedin"></b-icon>
-                </b-input-group-prepend>
-                <b-form-input
-                  id="input-linkedin"
-                  size="large"
-                  placeholder="Enter linkedin"
-                  required
-                ></b-form-input>
-              </b-input-group>
-            </b-col>
-          </b-row>
-
-          <b-row>
-            <!-- facebook input -->
-            <b-col cols="12" sm="6" class="my-2">
-              <b-input-group>
-                <b-input-group-prepend is-text>
-                  <b-icon icon="facebook"></b-icon>
-                </b-input-group-prepend>
-                <b-form-input
-                  id="input-facebook"
-                  size="large"
-                  placeholder="Enter Facebook"
-                  required
-                ></b-form-input>
-              </b-input-group>
-            </b-col>
-
-            <!-- Twitter input -->
-            <b-col cols="12" sm="6" class="my-2">
-              <b-input-group>
-                <b-input-group-prepend is-text>
-                  <b-icon icon="twitter"></b-icon>
-                </b-input-group-prepend>
-                <b-form-input
-                  id="input-twitter"
-                  size="large"
-                  placeholder="Enter Twitter"
-                  required
-                ></b-form-input>
-              </b-input-group>
-            </b-col>
-          </b-row>
-
-          <b-row>
-            <!-- Google input -->
-            <b-col cols="12" sm="6" class="my-2">
-              <b-input-group>
-                <b-input-group-prepend is-text>
-                  <b-icon icon="google"></b-icon>
-                </b-input-group-prepend>
-                <b-form-input
-                  id="input-google"
-                  size="large"
-                  placeholder="Enter Google"
-                  required
-                ></b-form-input>
-              </b-input-group>
-            </b-col>
-          </b-row>
-        </b-form>
-      </b-card>
+      <ContactList></ContactList>
 
       <!-- Skills Card Start -->
-      <b-card class="my-3 p-2">
-        <b-row class="justify-content-between align-items-start">
-          <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
-            Skills
-          </h4>
-        </b-row>
-        <skill
-          v-for="(skill, index) in this.skills"
-          v-bind:key="index"
-          v-bind:skill="skill"
-          v-bind:type="'list'"
-        ></skill>
-        <b-button
-          pill
-          v-b-modal.add-skill-modal
-          class="m-1 p-3 text-center skill-item"
-          variant="outline-primary"
-        >
-          + Add Skill
-        </b-button>
-      </b-card>
-      <skillModal></skillModal>
+      <SkillList></SkillList>
+      <skillModal :CvId="cvOne.cvId"></skillModal>
 
       <!-- Experiance Card Start -->
-      <b-card class="my-3 px-2">
-        <b-row class="justify-content-between align-items-start">
-          <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
-            Experiance
-          </h4>
-          <b-button
-            variant="link"
-            class="font-weight-bold h5 text-dark"
-            v-b-toggle.collapse-exp
-          >
-            + Add Experiance</b-button
-          >
-        </b-row>
-        <b-row>
-          <b-collapse id="collapse-exp" class="mt-2" style="flex: 1">
-            <experiance
-              v-bind:CvId="cvOne.cvId"
-              v-bind:type="'newItem'"
-            ></experiance>
-          </b-collapse>
-        </b-row>
-      </b-card>
-      <b-card
-        class="my-3 p-2"
-        v-for="exp in this.experiances"
-        v-bind:key="exp._id"
-      >
-        <experiance
-          v-bind:CvId="cvOne.cvId"
-          v-bind:experiance="exp"
-          v-bind:type="'item'"
-          @setModalProp="SetSkillModalProp('experiance', exp._id)"
-        ></experiance>
-      </b-card>
+      <ExperianceList></ExperianceList>
 
       <!-- Education Card Start -->
-      <b-card class="my-3 px-2">
-        <b-row class="justify-content-between align-items-start">
-          <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
-            Education
-          </h4>
-          <b-button
-            variant="link"
-            class="font-weight-bold h5 text-dark"
-            v-b-toggle.collapse-edu
-          >
-            + Add Education</b-button
-          >
-        </b-row>
-        <b-row>
-          <b-collapse id="collapse-edu" class="mt-2" style="flex: 1">
-            <education
-              v-bind:CvId="cvOne.cvId"
-              v-bind:type="'newItem'"
-            ></education>
-          </b-collapse>
-        </b-row>
-      </b-card>
-      <b-card
-        class="my-3 p-2"
-        v-for="edu in this.educations"
-        v-bind:key="edu._id"
-      >
-        <education
-          v-bind:CvId="cvOne.cvId"
-          v-bind:education="edu"
-          v-bind:type="'item'"
-          @setModalProp="SetSkillModalProp('education', edu._id)"
-        ></education>
-      </b-card>
+      <EducationList></EducationList>
 
       <!-- Reffrence Card Start  -->
-      <b-card class="my-3 px-2">
-        <b-row class="justify-content-between align-items-start">
-          <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
-            Reffrence
-          </h4>
-          <b-button
-            variant="link"
-            class="font-weight-bold h5 text-dark"
-            v-b-toggle.collapse-reff
-          >
-            + Add Reffrence</b-button
-          >
-        </b-row>
-        <b-row>
-          <b-collapse id="collapse-reff" class="mt-2" style="flex: 1">
-            <reffrence
-              v-bind:CvId="cvOne.cvId"
-              v-bind:type="'newItem'"
-            ></reffrence>
-          </b-collapse>
-        </b-row>
-      </b-card>
-      <b-card
-        class="my-3 p-2"
-        v-for="(reff, index) in this.reffrences"
-        v-bind:key="index"
-      >
-        <reffrence
-          v-bind:CvId="cvOne.cvId"
-          v-bind:reffrence="reff"
-          v-bind:type="'item'"
-        ></reffrence>
-      </b-card>
+      <ReffrenceList></ReffrenceList>
 
       <!-- Projects Card Start -->
-      <b-card class="my-3 px-2">
-        <b-row class="justify-content-between align-items-start">
-          <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
-            Project
-          </h4>
-          <b-button
-            variant="link"
-            class="font-weight-bold h5 text-dark"
-            v-b-toggle.collapse-proj
-          >
-            + Add Project</b-button
-          >
-        </b-row>
-        <b-row>
-          <b-collapse id="collapse-proj" class="mt-2" style="flex: 1">
-            <project v-bind:CvId="cvOne.cvId" v-bind:type="'newItem'"></project>
-          </b-collapse>
-        </b-row>
-      </b-card>
-      <b-card
-        class="my-3 p-2"
-        v-for="proj in this.projects"
-        v-bind:key="proj._id"
-      >
-        <project
-          v-bind:CvId="cvOne.cvId"
-          v-bind:project="proj"
-          v-bind:type="'item'"
-        ></project>
-      </b-card>
+      <ProjectList></ProjectList>
 
       <!-- Organizations Card Start -->
-      <b-card class="my-3 px-2">
-        <b-row class="justify-content-between align-items-start">
-          <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
-            Organization
-          </h4>
-          <b-button
-            variant="link"
-            class="font-weight-bold h5 text-dark"
-            v-b-toggle.collapse-org
-          >
-            + Add Organization</b-button
-          >
-        </b-row>
-        <b-row>
-          <b-collapse id="collapse-org" class="mt-2" style="flex: 1">
-            <organization
-              v-bind:CvId="cvOne.cvId"
-              v-bind:type="'newItem'"
-            ></organization>
-          </b-collapse>
-        </b-row>
-      </b-card>
-      <b-card
-        class="my-3 p-2"
-        v-for="org in this.organizations"
-        v-bind:key="org._id"
-      >
-        <organization
-          v-bind:CvId="cvOne.cvId"
-          v-bind:organization="org"
-          v-bind:type="'item'"
-        ></organization>
-      </b-card>
+      <OrganizationList></OrganizationList>
+
+      <!-- Awards Card Start -->
+      <AwardList></AwardList>
     </div>
     <skillListModal
       v-bind:CvId="cvOne.cvId"
@@ -353,48 +111,45 @@
 </template>
 
 <script>
-import experiance from "../components/items/experiance.vue";
-import education from "../components/items/education.vue";
-import reffrence from "../components/items/reffrence.vue";
-import project from "../components/items/project.vue";
-import organization from "../components/items/organization.vue";
-import skill from "../components/items/skill.vue";
+import SkillList from "../components/lists/SkillList.vue";
+import ContactList from "../components/lists/ContactList.vue";
+import ExperianceList from "../components/lists/ExperineceList.vue";
+import EducationList from "../components/lists/EducationList.vue";
+import ReffrenceList from "../components/lists/ReffrenceList.vue";
+import ProjectList from "../components/lists/ProjectList.vue";
+import OrganizationList from "../components/lists/OrganizationList.vue";
+import AwardList from "../components/lists/AwardsList.vue";
+
 import skillModal from "../components/widget/skillModal.vue";
 import skillListModal from "../components/widget/skillListModal.vue";
+
 import { mapGetters } from "vuex";
+import _ from "lodash";
 
 export default {
   components: {
-    experiance,
-    education,
-    reffrence,
-    project,
-    organization,
-    skill,
+    ContactList,
+    SkillList,
+    ExperianceList,
+    EducationList,
+    ReffrenceList,
+    ProjectList,
+    OrganizationList,
     skillModal,
     skillListModal,
+    AwardList,
   },
 
   data() {
     return {
-      socialForm: {
-        mail: "",
-      },
+      cvimg: null,
       SkillModalItemType: "",
       SkillModalItemId: "",
+      cvOneLoaded: false,
     };
   },
   computed: {
-    ...mapGetters([
-      "cvOne",
-      "experiances",
-      "educations",
-      "contacts",
-      "projects",
-      "reffrences",
-      "organizations",
-      "skills",
-    ]),
+    ...mapGetters(["cvOne", "skills"]),
   },
   methods: {
     FindContact(item) {
@@ -418,13 +173,28 @@ export default {
     getValidationState({ dirty, validated, valid = null }) {
       return dirty || validated ? valid : null;
     },
+    updateImgWatch(newVal) {
+      console.log(newVal);
+    },
   },
 
-  mounted() {
-    //update contacts form
-    var mail = this.FindContact("mail");
+  watch: {
+    // cvOne:{
+    //   handler(){
+    //     console.log("Cv Loaded", this.cvOneLoaded);
+    //     this.cvOneLoaded = true;
+    //   },
+    //   deep:true
+    // },
 
-    this.socialForm.mail = mail;
+    cvimg: _.debounce(function (newVal) {
+      console.log("updated", newVal);
+
+      this.updateImgWatch(newVal);
+    }, 6000),
+    mounted() {
+      //update contacts form
+    },
   },
 };
 </script>

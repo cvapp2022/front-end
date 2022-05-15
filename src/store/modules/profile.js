@@ -47,7 +47,8 @@ const actions = {
 
                 var cvObj={
                     cvName:data.CVName,
-                    cvId:data._id
+                    cvId:data._id,
+                    cvImg:data.CVImg
                 }
 
                 commit('cvOne',cvObj)
@@ -56,7 +57,10 @@ const actions = {
                 commit('reffrences',data.CVReff)
                 commit('contacts',data.CVContact)
                 commit('projects',data.CVProj)
+                commit('organizations',data.CVOrg)
+                commit('awards',data.CVAw)
                 commit('skills',data.CVSkill)
+                
                 
                 router.push({name:'cvOne'})
 
@@ -77,6 +81,19 @@ const actions = {
                 commit('clOne',resp.data.payload)
                 
                 router.push({name:'clOne'})
+            }
+        })
+
+    },
+
+    updateCl({commit},data){
+        var url = process.env.VUE_APP_BASEURL + '/Cl/'+data.clid;
+        axios.put(url,data.data).then(resp=>{
+            if(resp.data.success){
+                console.log('ClOne Updated')
+                commit('clOne',resp.data.payload)
+                
+                //router.push({name:'clOne'})
             }
         })
 

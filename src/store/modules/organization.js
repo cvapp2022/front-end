@@ -14,7 +14,7 @@ const getters = {
 const actions = {
 
 
-    SaveOrg({commit},data){
+    saveOrg({commit},data){
 
         //console.log('form',data)
         var url = process.env.VUE_APP_BASEURL + '/Org/';
@@ -22,6 +22,29 @@ const actions = {
             if(resp.data.status){
                 console.log('Organization Saved')
                 commit('organizations',resp.data.items.list)
+            }
+        })
+
+    },
+
+    updateOrg(_,data){
+        var url = process.env.VUE_APP_BASEURL + '/Org/'+data.OrgId;
+        axios.put(url,data.data).then(resp=>{
+            if(resp.data.success){
+                console.log('Organization Updated')
+                
+            }
+        })
+    },
+    deleteOrg({commit},orgid){
+
+        var url = process.env.VUE_APP_BASEURL + '/Org/'+orgid;
+
+        axios.delete(url).then(resp=>{
+            if(resp.data.success){
+                commit('organizations',resp.data.payload.list)
+                console.log('organization Deleted')
+                
             }
         })
 

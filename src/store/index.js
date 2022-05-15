@@ -9,6 +9,7 @@ import contact from './modules/contact';
 import project from './modules/project';
 import reffrence from './modules/reffrence';
 import organization from './modules/organization';
+import awards from './modules/award';
 import skill from './modules/skills';
 
 Vue.use(Vuex)
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     project,
     reffrence,
     organization,
-    skill
+    skill,
+    awards
   }
 })

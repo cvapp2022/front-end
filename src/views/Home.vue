@@ -2,7 +2,7 @@
   <div class="home">
     <h4>Home page</h4>
 
-    <router-link to="profile" > my account </router-link>
+    <router-link to="profile" > my account  eedd</router-link>
 
   </div>
 </template>

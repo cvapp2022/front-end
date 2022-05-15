@@ -1,3 +1,4 @@
+import axios from "axios"; 
 const state = {
     contacts:[]
 }
@@ -9,6 +10,18 @@ const getters = {
 
 const actions = {
 
+    updateSocial(_,data){
+
+        var url = process.env.VUE_APP_BASEURL + '/Contact/';
+        console.log(data)
+        axios.put(url,data).then(resp=>{
+            if(resp.data.success){
+                console.log('Contact Updated')
+                
+            }
+        })
+
+    }
 
 }
 

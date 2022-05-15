@@ -61,7 +61,11 @@ export default {
 
   min-height: 100vh;
   height: max-content;
+}
 
+.card-body{
+
+  padding: 0.8rem !important;
 }
 
 

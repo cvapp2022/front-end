@@ -2,23 +2,18 @@
   <div class="">
     <b-card class="my-3 px-2">
       <b-row class="justify-content-between align-items-start">
-        <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
-          Experiance
-        </h4>
+        <h4 class="text-start card-title mb-4 p-1 font-weight-bold">Award</h4>
         <b-button
           variant="link"
           class="font-weight-bold h5 text-dark"
-          v-b-toggle.collapse-exp
+          v-b-toggle.collapse-aw
         >
-          + Add Experiance</b-button
+          + Add Award</b-button
         >
       </b-row>
       <b-row>
-        <b-collapse id="collapse-exp" class="mt-2" style="flex: 1">
-          <experiance
-            v-bind:CvId="cvOne.cvId"
-            v-bind:type="'newItem'"
-          ></experiance>
+        <b-collapse id="collapse-aw" class="mt-2" style="flex: 1">
+          <award v-bind:CvId="cvOne.cvId" v-bind:type="'newItem'"></award>
         </b-collapse>
       </b-row>
     </b-card>
@@ -29,30 +24,30 @@
         group="people"
         @start="drag = true"
         @end="DragEnd()"
+        v-model="draglist"
       >
         <transition-group type="transition" :name="!drag ? 'flip-list' : null">
           <b-card
             class="my-3 p-2"
-            v-for="exp in this.experiances"
-            v-bind:key="exp._id"
+            v-for="aw in this.draglist"
+            v-bind:key="aw._id"
           >
             <div class="d-flex justify-content-between">
               <b-icon icon="justify" class="h1 handle"></b-icon>
-              <h4>{{ exp.ExpTitle }}</h4>
+              <h4>{{ aw.AwTitle }}</h4>
               <div class="">
-                <b-button v-b-toggle="'collap' + exp._id"> colp </b-button>
-                <b-button @click="DeleteExpSubmit(exp._id)" variant="danger"
+                <b-button v-b-toggle="'collap' + aw._id"> colp </b-button>
+                <b-button @click="DeleteAwSubmit(aw._id)" variant="danger"
                   >Del</b-button
                 >
               </div>
             </div>
-            <b-collapse :id="'collap' + exp._id">
-              <experiance
+            <b-collapse :id="'collap' + aw._id">
+              <award
                 v-bind:CvId="cvOne.cvId"
-                v-bind:experiance="exp"
+                v-bind:award="aw"
                 v-bind:type="'item'"
-                @setModalProp="SetSkillModalProp('experiance', exp._id)"
-              ></experiance>
+              ></award>
             </b-collapse>
           </b-card>
         </transition-group>
@@ -63,16 +58,16 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-
-import experiance from "../items/experiance.vue";
+import award from "../items/award.vue";
 import draggable from "vuedraggable";
+
 export default {
   components: {
-    experiance,
+    award,
     draggable,
   },
   computed: {
-    ...mapGetters(["experiances", "cvOne"]),
+    ...mapGetters(["awards", "cvOne"]),
     dragOptions() {
       return {
         animation: 200,
@@ -82,32 +77,35 @@ export default {
       };
     },
   },
+  watch:{
+
+    cvOne(){
+      console.log(' award chnaged after delete from award list')
+    }
+
+  },
   data() {
     return {
       drag: false,
+      draglist:[]
     };
   },
   methods: {
-    ...mapActions(["deleteExp"]),
-    SetSkillModalProp(type, id) {
-      this.SkillModalItemType = type;
-      this.SkillModalItemId = id;
+    ...mapActions(["deleteAw","changeAw"]),
+    DeleteAwSubmit: function (awid) {
+      this.deleteAw(awid);
     },
-    DeleteExpSubmit: function (expid) {
-      this.deleteExp(expid);
+    DragEnd() {
+      this.drag = false;
+      console.log("drag end");
+      console.log(this.draglist)
+      this.changeAw({list:this.draglist,CvId:this.cvOne.cvId})
     },
-    DragEnd(){
-      this.drag=false;
-      console.log('drag end')
-    }
   },
+  mounted(){
+    this.draglist=this.awards;
+  }
 };
 </script>
 
-<style>
-.handle {
-  float: left;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-</style>
+<style></style>

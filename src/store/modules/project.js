@@ -12,7 +12,7 @@ const getters = {
 
 const actions = {
 
-    SaveProj({commit},data){
+    saveProj({commit},data){
 
         var url = process.env.VUE_APP_BASEURL + '/Proj/';
         axios.post(url,data).then(resp=>{
@@ -21,6 +21,30 @@ const actions = {
                 commit('projects',resp.data.items.list)
             }
         })
+    },
+    updateProj(_,data){
+
+        
+        var url = process.env.VUE_APP_BASEURL + '/Proj/'+data.ProjId;
+        axios.put(url,data.data).then(resp=>{
+            if(resp.data.success){
+                console.log('project Updated')
+                
+            }
+        })
+    },
+    deleteProj({commit},projid){
+
+        var url = process.env.VUE_APP_BASEURL + '/Proj/'+projid;
+
+        axios.delete(url).then(resp=>{
+            if(resp.data.success){
+                commit('projects',resp.data.payload.list)
+                console.log('project Deleted')
+                
+            }
+        })
+
     }
 
 }
