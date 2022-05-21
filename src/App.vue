@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     
-        <navbar></navbar>
+        <!-- <navbar></navbar> -->
         <router-view/>
    
     </div>
@@ -13,14 +13,14 @@
 
 
 <script>
-import navbar from './components/layout/navbar.vue';
+// import navbar from './components/layout/navbar.vue';
 //import sidenav from './components/layout/sidenav.vue';
 import VueCookie from 'vue-cookies';
 import { mapActions } from 'vuex';
 
 export default {
   components:{
-    navbar,
+    // navbar,
     //sidenav
   },
   data(){

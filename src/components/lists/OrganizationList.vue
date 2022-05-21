@@ -22,52 +22,98 @@
         </b-collapse>
       </b-row>
     </b-card>
-    <b-card
-      class="my-3 p-2"
-      v-for="org in this.organizations"
-      v-bind:key="org._id"
-    >
-      <div class="d-flex justify-content-between">
-        <h4>{{ org.OrgTitle }}</h4>
-        <div class="">
-          <b-button v-b-toggle="'collap' + org._id"> colp </b-button>
-          <b-button @click="DeleteOrgSubmit(org._id)" variant="danger"
-            >Del</b-button
+    <div class="">
+      <draggable
+        v-bind="dragOptions"
+        handle=".handle"
+        group="people"
+        @start="drag = true"
+        @end="DragEnd()"
+        v-model="draglist"
+      >
+        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+          <b-card
+            class="my-3 p-2"
+            v-for="org in this.draglist"
+            v-bind:key="org._id"
           >
-        </div>
-      </div>
-      <b-collapse :id="'collap'+org._id" > 
-      <organization
-        v-bind:CvId="cvOne.cvId"
-        v-bind:organization="org"
-        v-bind:type="'item'"
-      ></organization>
-
-      </b-collapse>
-    </b-card>
+            <div class="d-flex justify-content-between">
+               <b-icon icon="justify" class="h1 handle"></b-icon>
+              <h4>{{ org.OrgTitle }}</h4>
+              <div class="">
+                <b-button v-b-toggle="'collap' + org._id"> colp </b-button>
+                <b-button @click="DeleteOrgSubmit(org._id)" variant="danger"
+                  >Del</b-button
+                >
+              </div>
+            </div>
+            <b-collapse :id="'collap' + org._id">
+              <organization
+                v-bind:CvId="cvOne.cvId"
+                v-bind:organization="org"
+                v-bind:type="'item'"
+              ></organization>
+            </b-collapse>
+          </b-card>
+        </transition-group>
+      </draggable>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters,mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import organization from "../items/organization.vue";
+import draggable from "vuedraggable";
 export default {
   components: {
     organization,
+    draggable,
   },
   computed: {
     ...mapGetters(["organizations", "cvOne"]),
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost",
+      };
+    },
+  },
+  watch: {
+    organizations() {
+      console.log(" organizations getter changes");
+      this.draglist = this.organizations;
+    },
+  },
+  data() {
+    return {
+      drag: false,
+      draglist: [],
+    };
   },
   methods: {
-    ...mapActions(["deleteOrg"]),
+    ...mapActions(["deleteOrg","changeOrg"]),
     SetSkillModalProp(type, id) {
       this.SkillModalItemType = type;
       this.SkillModalItemId = id;
     },
-        DeleteOrgSubmit:function(orgid){
-      this.deleteOrg(orgid)
-    }
+    DeleteOrgSubmit: function (orgid) {
+      this.deleteOrg(orgid);
+    },
+    DragEnd() {
+      this.drag = false;
+      
+      this.changeOrg({ list: this.draglist, CvId: this.cvOne.cvId });
+      console.log("drag end");
+    },
   },
+  mounted(){
+
+    this.draglist=this.organizations;
+
+  }
 };
 </script>
 

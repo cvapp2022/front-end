@@ -79,8 +79,9 @@ export default {
   },
   watch:{
 
-    cvOne(){
-      console.log(' award chnaged after delete from award list')
+    awards(){
+      console.log(' award getter changes')
+      this.draglist=this.awards
     }
 
   },
@@ -93,12 +94,10 @@ export default {
   methods: {
     ...mapActions(["deleteAw","changeAw"]),
     DeleteAwSubmit: function (awid) {
-      this.deleteAw(awid);
+      this.deleteAw(awid)
     },
     DragEnd() {
       this.drag = false;
-      console.log("drag end");
-      console.log(this.draglist)
       this.changeAw({list:this.draglist,CvId:this.cvOne.cvId})
     },
   },

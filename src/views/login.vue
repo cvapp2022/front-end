@@ -60,7 +60,7 @@ export default {
 
         return {
             form:{
-                UserI:'blaxk@blaxk.wwg',
+                UserI:'blaxk@blaxk.ww',
                 PassI:'a123456'
             }
         }

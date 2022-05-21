@@ -22,43 +22,80 @@
         </b-collapse>
       </b-row>
     </b-card>
-    <b-card
-      class="my-3 p-2"
-      v-for="(reff, index) in this.reffrences"
-      v-bind:key="index"
-    >
-      <div class="d-flex justify-content-between">
-        <h4>{{ reff.RefName }}</h4>
-        <div class="">
-          <b-button v-b-toggle="'collap' + reff._id"> colp </b-button>
-          <b-button @click="DeleteRefSubmit(reff._id)" variant="danger"
-            >Del</b-button
+    <div class="">
+      <draggable
+        v-bind="dragOptions"
+        handle=".handle"
+        group="people"
+        @start="drag = true"
+        @end="DragEnd()"
+        v-model="draglist"
+      >
+        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+          <b-card
+            class="my-3 p-2"
+            v-for="reff in this.draglist"
+            v-bind:key="reff._id"
           >
-        </div>
-      </div>
-      <b-collapse :id="'collap'+reff._id" >
-      <reffrence
-        v-bind:CvId="cvOne.cvId"
-        v-bind:reffrence="reff"
-        v-bind:type="'item'"
-      ></reffrence>
-      </b-collapse>
-    </b-card>
+            <div class="d-flex justify-content-between">
+              <b-icon icon="justify" class="h1 handle"></b-icon>
+              <h4>{{ reff.RefName }}</h4>
+              <div class="">
+                <b-button v-b-toggle="'collap' + reff._id"> colp </b-button>
+                <b-button @click="DeleteRefSubmit(reff._id)" variant="danger"
+                  >Del</b-button
+                >
+              </div>
+            </div>
+            <b-collapse :id="'collap' + reff._id">
+              <reffrence
+                v-bind:CvId="cvOne.cvId"
+                v-bind:reffrence="reff"
+                v-bind:type="'item'"
+              ></reffrence>
+            </b-collapse>
+          </b-card>
+        </transition-group>
+      </draggable>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions} from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import reffrence from "../items/reffrence.vue";
+import draggable from "vuedraggable";
 export default {
   components: {
     reffrence,
+    draggable,
   },
   computed: {
     ...mapGetters(["reffrences", "cvOne"]),
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost",
+      };
+    },
+  },
+  watch: {
+    reffrences() {
+      console.log(" projects getter changes");
+      this.draglist = this.reffrences;
+    },
+  },
+  data() {
+    return {
+      drag: false,
+      draglist: [],
+    };
   },
   methods: {
-    ...mapActions(["deleteRef"]),
+    ...mapActions(["deleteRef","changeReff"]),
+
     SetSkillModalProp(type, id) {
       this.SkillModalItemType = type;
       this.SkillModalItemId = id;
@@ -66,6 +103,15 @@ export default {
     DeleteRefSubmit: function (reffid) {
       this.deleteRef(reffid);
     },
+    DragEnd() {
+      this.drag = false;
+
+      this.changeReff({ list: this.draglist, CvId: this.cvOne.cvId });
+      console.log("drag end");
+    },
+  },
+  mounted() {
+    this.draglist = this.reffrences;
   },
 };
 </script>

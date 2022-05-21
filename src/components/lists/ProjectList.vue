@@ -17,43 +17,79 @@
         </b-collapse>
       </b-row>
     </b-card>
-    <b-card
-      class="my-3 p-2"
-      v-for="proj in this.projects"
-      v-bind:key="proj._id"
-    >
-      <div class="d-flex justify-content-between">
-        <h4>{{ proj.ProjName }}</h4>
-        <div class="">
-          <b-button v-b-toggle="'collap' + proj._id"> colp </b-button>
-          <b-button @click="DeleteProjSubmit(proj._id)" variant="danger"
-            >Del</b-button
+    <div class="">
+      <draggable
+        v-bind="dragOptions"
+        handle=".handle"
+        group="people"
+        @start="drag = true"
+        @end="DragEnd()"
+        v-model="draglist"
+      >
+        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+          <b-card
+            class="my-3 p-2"
+            v-for="proj in this.draglist"
+            v-bind:key="proj._id"
           >
-        </div>
-      </div>
-      <b-collapse :id="'collap' + proj._id">
-        <project
-          v-bind:CvId="cvOne.cvId"
-          v-bind:project="proj"
-          v-bind:type="'item'"
-        ></project>
-      </b-collapse>
-    </b-card>
+            <div class="d-flex justify-content-between">
+              <b-icon icon="justify" class="h1 handle"></b-icon>
+              <h4>{{ proj.ProjName }}</h4>
+              <div class="">
+                <b-button v-b-toggle="'collap' + proj._id"> colp </b-button>
+                <b-button @click="DeleteProjSubmit(proj._id)" variant="danger"
+                  >Del</b-button
+                >
+              </div>
+            </div>
+            <b-collapse :id="'collap' + proj._id">
+              <project
+                v-bind:CvId="cvOne.cvId"
+                v-bind:project="proj"
+                v-bind:type="'item'"
+              ></project>
+            </b-collapse>
+          </b-card>
+        </transition-group>
+      </draggable>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 import project from "../items/project.vue";
+import draggable from "vuedraggable";
 export default {
   components: {
     project,
+    draggable,
   },
   computed: {
     ...mapGetters(["projects", "cvOne"]),
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost",
+      };
+    },
+  },
+  watch: {
+    projects() {
+      console.log(" projects getter changes");
+      this.draglist = this.projects;
+    },
+  },
+  data() {
+    return {
+      drag: false,
+      draglist: [],
+    };
   },
   methods: {
-    ...mapActions(["deleteProj"]),
+    ...mapActions(["deleteProj", "changeProj"]),
     SetSkillModalProp(type, id) {
       this.SkillModalItemType = type;
       this.SkillModalItemId = id;
@@ -61,6 +97,15 @@ export default {
     DeleteProjSubmit: function (projid) {
       this.deleteProj(projid);
     },
+    DragEnd() {
+      this.drag = false;
+
+      this.changeProj({ list: this.draglist, CvId: this.cvOne.cvId });
+      console.log("drag end");
+    },
+  },
+  mounted() {
+    this.draglist = this.projects;
   },
 };
 </script>

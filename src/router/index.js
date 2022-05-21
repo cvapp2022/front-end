@@ -11,6 +11,10 @@ import clOne from '../views/clOne.vue';
 import login from '../views/login.vue'
 import profile from '../views/profile.vue';
 
+
+import meet from '../views/mn/meet.vue';
+
+
 import naron from '../components/templates/naron/naron.vue';
 import sophia from '../components/templates/sophia/sophia.vue';
 import jane from '../components/templates/jane/jane.vue';
@@ -68,6 +72,11 @@ const routes = [
     meta:{
       requireAuth:true
     }
+  },
+  {
+    path:'/meet/',
+    name:'meet',
+    component:meet
   },
   {
     path:'/login',

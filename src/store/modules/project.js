@@ -45,6 +45,32 @@ const actions = {
             }
         })
 
+    },
+    changeProj(_,data){
+
+        var arr=[];
+        //get new sort
+        data.list.forEach((item,index) => {
+            arr.push({id:item._id,sort:index})
+        });
+
+        var newData ={
+            items:arr,
+            CvId:data.CvId
+        }
+
+    
+
+        var url = process.env.VUE_APP_BASEURL + '/Proj/changeSort';
+
+        axios.post(url,newData).then(resp=>{
+            if(resp.data.success){
+                //commit('awards',resp.data.payload.list)
+                console.log('project Sort Updated')
+                
+            }
+        })
+
     }
 
 }

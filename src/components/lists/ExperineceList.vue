@@ -29,11 +29,12 @@
         group="people"
         @start="drag = true"
         @end="DragEnd()"
+         v-model="draglist"
       >
         <transition-group type="transition" :name="!drag ? 'flip-list' : null">
           <b-card
             class="my-3 p-2"
-            v-for="exp in this.experiances"
+            v-for="exp in this.draglist"
             v-bind:key="exp._id"
           >
             <div class="d-flex justify-content-between">
@@ -82,13 +83,20 @@ export default {
       };
     },
   },
+    watch:{
+    experiances(){
+      console.log(' experiances getter changes')
+      this.draglist=this.experiances
+    }
+  },
   data() {
     return {
       drag: false,
+      draglist:[]
     };
   },
   methods: {
-    ...mapActions(["deleteExp"]),
+    ...mapActions(["deleteExp","changeExp"]),
     SetSkillModalProp(type, id) {
       this.SkillModalItemType = type;
       this.SkillModalItemId = id;
@@ -98,9 +106,15 @@ export default {
     },
     DragEnd(){
       this.drag=false;
+     
+      this.changeExp({list:this.draglist,CvId:this.cvOne.cvId})
       console.log('drag end')
     }
   },
+  mounted(){
+
+    this.draglist=this.experiances;
+  }
 };
 </script>
 
