@@ -3,14 +3,19 @@ import Vuex from 'vuex'
 
 import User from './modules/user';
 import profile from './modules/profile';
-import experiance from './modules/experiance';
-import education from './modules/education';
-import contact from './modules/contact';
-import project from './modules/project';
-import reffrence from './modules/reffrence';
-import organization from './modules/organization';
-import awards from './modules/award';
-import skill from './modules/skills';
+import program from './modules/mentorship/program';
+import request from './modules/mentorship/request';
+import session from './modules/mentorship/session';
+
+import experiance from './modules/cv/experiance';
+import education from './modules/cv/education';
+import contact from './modules/cv/contact';
+import project from './modules/cv/project';
+import reffrence from './modules/cv/reffrence';
+import organization from './modules/cv/organization';
+import awards from './modules/cv/award';
+import skill from './modules/cv/skills';
+
 
 Vue.use(Vuex)
 
@@ -18,6 +23,9 @@ export default new Vuex.Store({
   modules: {
     User,
     profile,
+    program,
+    request,
+    session,
     experiance,
     education,
     contact,

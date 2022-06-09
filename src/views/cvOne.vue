@@ -123,7 +123,7 @@ import AwardList from "../components/lists/AwardsList.vue";
 import skillModal from "../components/widget/skillModal.vue";
 import skillListModal from "../components/widget/skillListModal.vue";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import _ from "lodash";
 
 export default {
@@ -152,6 +152,7 @@ export default {
     ...mapGetters(["cvOne", "skills"]),
   },
   methods: {
+    ...mapActions(["getCvOne"]),
     FindContact(item) {
       var arr = this.contacts;
       let value;
@@ -192,9 +193,11 @@ export default {
 
       this.updateImgWatch(newVal);
     }, 6000),
-    mounted() {
-      //update contacts form
-    },
+  },
+  mounted() {
+    //update contacts form
+    console.log("cvone mounted");
+    this.getCvOne(this.$route.params.cvId);
   },
 };
 </script>

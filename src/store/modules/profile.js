@@ -2,67 +2,90 @@ import axios from "axios";
 import router from "../../router";
 
 const state = {
-    cv:[],
-    cl:[],
-    cvOne:{},
-    clOne:{}
+    cv: [],
+    cl: [],
+    cvOne: {},
+    clOne: {}
 }
 
 const getters = {
-    cv:state=>state.cv,
-    cl:state=>state.cl,
-    cvOne:state=>state.cvOne,
-    clOne:state=>state.clOne
+    cv: state => state.cv,
+    cl: state => state.cl,
+    cvOne: state => state.cvOne,
+    clOne: state => state.clOne
 }
 
 const actions = {
 
 
-    getProfile({commit}){
+    getProfile({ commit }) {
 
 
         var url = process.env.VUE_APP_BASEURL + '/User/';
-        axios.get(url).then(resp=>{
+        axios.get(url).then(resp => {
 
 
-            if(resp.data.success){
-                commit('cv',resp.data.payload.CVUCvId)
-                commit('cl',resp.data.payload.CVUClId)
+            if (resp.data.success) {
+                commit('cv', resp.data.payload.CVUCvId)
+                commit('cl', resp.data.payload.CVUClId)
+                commit('User',resp.data.payload)
+                commit('requests', resp.data.payload.MNRequests)
+            }
+        })
+    },
+
+    createCv({ commit }) {
+        var url = process.env.VUE_APP_BASEURL + '/Cv/';
+        axios.post(url, { CvNameI: 'untiteld' }).then(resp => {
+
+            if (resp.data.success) {
+                console.log(resp.data)
+                commit('cv',resp.data.payload.list)
             }
         })
 
-
-
     },
 
+    deleteCv({commit},cvId){
 
-    getCvOne({commit},cvid){
-        var url = process.env.VUE_APP_BASEURL + '/Cv/'+cvid;
-        axios.get(url).then(resp=>{
-
+        var url = process.env.VUE_APP_BASEURL+'/Cv/'+cvId;
+        axios.delete(url).then(resp=>{
 
             if(resp.data.success){
+
+                commit('cv',resp.data.payload.list)
+            }
+
+        })
+
+    },
+    getCvOne({ commit }, cvid) {
+        var url = process.env.VUE_APP_BASEURL + '/Cv/' + cvid;
+        axios.get(url).then(resp => {
+
+
+            if (resp.data.success) {
 
                 var data = resp.data.payload;
 
-                var cvObj={
-                    cvName:data.CVName,
-                    cvId:data._id,
-                    cvImg:data.CVImg
+                var cvObj = {
+                    cvName: data.CVName,
+                    cvId: data._id,
+                    cvImg: data.CVImg
                 }
 
-                commit('cvOne',cvObj)
-                commit('experiances',data.CVExp)
-                commit('educations',data.CVEdu)
-                commit('reffrences',data.CVReff)
-                commit('contacts',data.CVContact)
-                commit('projects',data.CVProj)
-                commit('organizations',data.CVOrg)
-                commit('awards',data.CVAw)
-                commit('skills',data.CVSkill)
-                
-                
-                router.push({name:'cvOne'})
+                commit('cvOne', cvObj)
+                commit('experiances', data.CVExp)
+                commit('educations', data.CVEdu)
+                commit('reffrences', data.CVReff)
+                commit('contacts', data.CVContact)
+                commit('projects', data.CVProj)
+                commit('organizations', data.CVOrg)
+                commit('awards', data.CVAw)
+                commit('skills', data.CVSkill)
+
+
+                //router.push({name:'cvOne'})
 
 
             }
@@ -73,26 +96,26 @@ const actions = {
 
 
 
-    getClOne({commit},clid){
-        var url = process.env.VUE_APP_BASEURL + '/Cl/'+clid;
-        axios.get(url).then(resp=>{
-            if(resp.data.success){
+    getClOne({ commit }, clid) {
+        var url = process.env.VUE_APP_BASEURL + '/Cl/' + clid;
+        axios.get(url).then(resp => {
+            if (resp.data.success) {
                 console.log('ClOne Fetched')
-                commit('clOne',resp.data.payload)
-                
-                router.push({name:'clOne'})
+                commit('clOne', resp.data.payload)
+
+                router.push({ name: 'clOne' })
             }
         })
 
     },
 
-    updateCl({commit},data){
-        var url = process.env.VUE_APP_BASEURL + '/Cl/'+data.clid;
-        axios.put(url,data.data).then(resp=>{
-            if(resp.data.success){
+    updateCl({ commit }, data) {
+        var url = process.env.VUE_APP_BASEURL + '/Cl/' + data.clid;
+        axios.put(url, data.data).then(resp => {
+            if (resp.data.success) {
                 console.log('ClOne Updated')
-                commit('clOne',resp.data.payload)
-                
+                commit('clOne', resp.data.payload)
+
                 //router.push({name:'clOne'})
             }
         })
@@ -105,10 +128,10 @@ const actions = {
 
 const mutations = {
 
-    cv:(state,cv)=>(state.cv = cv),
-    cl:(state,cl)=>(state.cl = cl),
-    cvOne:(state,cvOne)=>(state.cvOne = cvOne),
-    clOne:(state,clOne)=>(state.clOne = clOne)
+    cv: (state, cv) => (state.cv = cv),
+    cl: (state, cl) => (state.cl = cl),
+    cvOne: (state, cvOne) => (state.cvOne = cvOne),
+    clOne: (state, clOne) => (state.clOne = clOne)
 
 }
 

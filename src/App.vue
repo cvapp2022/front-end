@@ -35,14 +35,11 @@ export default {
   mounted(){
 
     //Check Cookie
-    var User=VueCookie.get('user')
+
     var Token=VueCookie.get('token')
-    if(User && Token){
-      this.LoginByCookie({Token,User});
+    if(Token){
+      this.LoginByCookie({Token});
     }
-
-
-
   }
 }
 </script>
