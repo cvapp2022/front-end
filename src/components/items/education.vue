@@ -173,7 +173,7 @@
 import { mapActions } from "vuex";
 import skill from "../../components/items/skill.vue";
 import { VueEditor } from "vue2-editor";
-import _ from 'lodash';
+import _ from "lodash";
 export default {
   props: ["education", "type", "CvId"],
   data() {
@@ -188,6 +188,7 @@ export default {
           .substring(0, 10),
         EduToI: new Date(this.education.EduTo).toISOString().substring(0, 10),
         EduDescI: this.education.EduDesc,
+        EduCvI: this.CvId,
       };
     } else if (this.type === "newItem") {
       EduFormVal = {
@@ -218,11 +219,11 @@ export default {
         { text: "Colleage", value: "Colleage" },
         { text: "Self Learned", value: "Self Learn" },
       ],
-      updateable:false
+      updateable: false,
     };
   },
   methods: {
-    ...mapActions(["saveEdu",'updateEdu']),
+    ...mapActions(["saveEdu", "updateEdu"]),
     updateModal() {
       this.$emit("setModalProp");
     },
@@ -233,15 +234,13 @@ export default {
       this.saveEdu(this.EduForm);
       console.log("Education Saved");
     },
-    updateEduWatch:_.debounce(function(){
-
-      var data={
-        EduId:this.education._id,
-        data:this.EduForm
-      }
-      this.updateEdu(data)
-
-    },6000)
+    updateEduWatch: _.debounce(function () {
+      var data = {
+        EduId: this.education._id,
+        data: this.EduForm,
+      };
+      this.updateEdu(data);
+    }, 6000),
   },
   components: {
     skill,
@@ -257,7 +256,7 @@ export default {
       },
       deep: true,
     },
-  }
+  },
 };
 </script>
 

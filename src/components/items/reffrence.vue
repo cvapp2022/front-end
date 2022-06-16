@@ -116,7 +116,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import _ from 'lodash';
+import _ from "lodash";
 
 export default {
   props: ["reffrence", "type", "CvId"],
@@ -129,6 +129,7 @@ export default {
         RefJobI: this.reffrence.RefJob,
         RefMailI: this.reffrence.RefMail,
         RefPhoneI: this.reffrence.RefPhone,
+        RefCvI: this.CvId,
       };
     } else if (this.type === "newItem") {
       ReffFormVal = {
@@ -159,23 +160,19 @@ export default {
     getValidationState({ dirty, validated, valid = null }) {
       return dirty || validated ? valid : null;
     },
-    ...mapActions(["saveReff","updateReff"]),
+    ...mapActions(["saveReff", "updateReff"]),
     SaveReffSubmit: function () {
       this.saveReff(this.ReffForm);
       console.log("Reff Saved");
     },
-    updateProjWatch:_.debounce(function(){
+    updateProjWatch: _.debounce(function () {
+      var data = {
+        RefId: this.reffrence._id,
+        data: this.ReffForm,
+      };
 
-        var data={
-            RefId:this.reffrence._id,
-            data:this.ReffForm
-        }
-
-        this.updateReff(data)
-
-
-
-    },6000)
+      this.updateReff(data);
+    }, 6000),
   },
 };
 </script>

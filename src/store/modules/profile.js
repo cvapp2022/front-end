@@ -1,5 +1,5 @@
 import axios from "axios";
-import router from "../../router";
+
 
 const state = {
     cv: [],
@@ -28,7 +28,7 @@ const actions = {
             if (resp.data.success) {
                 commit('cv', resp.data.payload.CVUCvId)
                 commit('cl', resp.data.payload.CVUClId)
-                commit('User',resp.data.payload)
+                commit('User', resp.data.payload)
                 commit('requests', resp.data.payload.MNRequests)
             }
         })
@@ -40,26 +40,28 @@ const actions = {
 
             if (resp.data.success) {
                 console.log(resp.data)
-                commit('cv',resp.data.payload.list)
+                commit('cv', resp.data.payload.list)
             }
         })
 
     },
 
-    deleteCv({commit},cvId){
+    deleteCv({ commit }, cvId) {
 
-        var url = process.env.VUE_APP_BASEURL+'/Cv/'+cvId;
-        axios.delete(url).then(resp=>{
+        var url = process.env.VUE_APP_BASEURL + '/Cv/' + cvId;
+        axios.delete(url).then(resp => {
 
-            if(resp.data.success){
+            if (resp.data.success) {
 
-                commit('cv',resp.data.payload.list)
+                commit('cv', resp.data.payload.list)
             }
 
         })
 
     },
     getCvOne({ commit }, cvid) {
+
+
         var url = process.env.VUE_APP_BASEURL + '/Cv/' + cvid;
         axios.get(url).then(resp => {
 
@@ -71,7 +73,8 @@ const actions = {
                 var cvObj = {
                     cvName: data.CVName,
                     cvId: data._id,
-                    cvImg: data.CVImg
+                    cvImg: data.CVImg,
+                    cvSections: data.CvSections
                 }
 
                 commit('cvOne', cvObj)
@@ -103,12 +106,33 @@ const actions = {
                 console.log('ClOne Fetched')
                 commit('clOne', resp.data.payload)
 
-                router.push({ name: 'clOne' })
+                //router.push({ name: 'clOne' })
             }
         })
 
     },
+    createCl({ commit }) {
 
+        var url = process.env.VUE_APP_BASEURL + '/Cl/';
+        axios.post(url, { ClNameI: 'untiteld' }).then((resp) => {
+
+            if (resp.data.success) {
+                commit('cl', resp.data.payload.list)
+            }
+        })
+    },
+    deleteCl({ commit }, clId) {
+        var url = process.env.VUE_APP_BASEURL + '/Cl/' + clId;
+        axios.delete(url).then(resp => {
+
+            if (resp.data.success) {
+
+                commit('cl', resp.data.payload.list)
+            }
+
+        })
+
+    },
     updateCl({ commit }, data) {
         var url = process.env.VUE_APP_BASEURL + '/Cl/' + data.clid;
         axios.put(url, data.data).then(resp => {
@@ -119,7 +143,41 @@ const actions = {
                 //router.push({name:'clOne'})
             }
         })
+    },
+    changeSectionSort(_, data) {
+        var url = process.env.VUE_APP_BASEURL + '/CV/' + data.cvId + '/changeSort';
+        axios.put(url, { SortI: data.newSort })
 
+    },
+    addSection({ commit }, data) {
+
+        var url = process.env.VUE_APP_BASEURL + '/CV/' + data.cvId + '/addSection';
+        axios.put(url, { SectionNameI: data.section }).then(function (resp) {
+            if (resp.data.success) {
+                var cvOne = {
+                    cvId: resp.data.payload._id,
+                    cvImg: resp.data.payload.CVImg,
+                    cvName: resp.data.payload.CVName,
+                    cvSections: resp.data.payload.CvSections
+                }
+                commit('cvOne', cvOne)
+            }
+        })
+    },
+    removeSection({ commit }, data) {
+
+        var url = process.env.VUE_APP_BASEURL + '/CV/' + data.cvId + '/removeSection';
+        axios.put(url, { SectionNameI: data.section }).then(function (resp) {
+            if (resp.data.success) {
+                var cvOne = {
+                    cvId: resp.data.payload._id,
+                    cvImg: resp.data.payload.CVImg,
+                    cvName: resp.data.payload.CVName,
+                    cvSections: resp.data.payload.CvSections
+                }
+                commit('cvOne', cvOne)
+            }
+        })
     }
 
 

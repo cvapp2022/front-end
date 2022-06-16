@@ -12,6 +12,7 @@
         >
           + Add Organization</b-button
         >
+        <b-button variant="danger" @click="removeSectionBtn('organizations')"  >rm</b-button>
       </b-row>
       <b-row>
         <b-collapse id="collapse-org" class="mt-2" style="flex: 1">
@@ -22,39 +23,37 @@
         </b-collapse>
       </b-row>
     </b-card>
-    <div class="">
+    <div class="mx-4">
       <draggable
         v-bind="dragOptions"
         handle=".handle"
-        group="people"
+        group="Organization"
         @start="drag = true"
         @end="DragEnd()"
         v-model="draglist"
       >
         <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-          <b-card
-            class="my-3 p-2"
-            v-for="org in this.draglist"
-            v-bind:key="org._id"
-          >
-            <div class="d-flex justify-content-between">
-               <b-icon icon="justify" class="h1 handle"></b-icon>
-              <h4>{{ org.OrgTitle }}</h4>
-              <div class="">
-                <b-button v-b-toggle="'collap' + org._id"> colp </b-button>
-                <b-button @click="DeleteOrgSubmit(org._id)" variant="danger"
-                  >Del</b-button
-                >
+          <div class="" v-for="org in this.draglist" v-bind:key="org._id">
+            <b-icon icon="justify" class="h1 handle"></b-icon>
+            <b-card class="my-3 p-2">
+              <div class="d-flex justify-content-between">
+                <h4>{{ org.OrgTitle }}</h4>
+                <div class="">
+                  <b-button v-b-toggle="'collap' + org._id"> colp </b-button>
+                  <b-button @click="DeleteOrgSubmit(org._id)" variant="danger"
+                    >Del</b-button
+                  >
+                </div>
               </div>
-            </div>
-            <b-collapse :id="'collap' + org._id">
-              <organization
-                v-bind:CvId="cvOne.cvId"
-                v-bind:organization="org"
-                v-bind:type="'item'"
-              ></organization>
-            </b-collapse>
-          </b-card>
+              <b-collapse :id="'collap' + org._id">
+                <organization
+                  v-bind:CvId="cvOne.cvId"
+                  v-bind:organization="org"
+                  v-bind:type="'item'"
+                ></organization>
+              </b-collapse>
+            </b-card>
+          </div>
         </transition-group>
       </draggable>
     </div>
@@ -94,7 +93,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["deleteOrg","changeOrg"]),
+    ...mapActions(["deleteOrg", "changeOrg","removeSection"]),
     SetSkillModalProp(type, id) {
       this.SkillModalItemType = type;
       this.SkillModalItemId = id;
@@ -104,16 +103,20 @@ export default {
     },
     DragEnd() {
       this.drag = false;
-      
       this.changeOrg({ list: this.draglist, CvId: this.cvOne.cvId });
       console.log("drag end");
     },
+    removeSectionBtn(section) {
+      var data = {
+        cvId: this.cvOne.cvId,
+        section,
+      };
+      this.removeSection(data);
+    },
   },
-  mounted(){
-
-    this.draglist=this.organizations;
-
-  }
+  mounted() {
+    this.draglist = this.organizations;
+  },
 };
 </script>
 

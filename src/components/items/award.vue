@@ -104,7 +104,7 @@
             }}</b-form-invalid-feedback>
           </b-form-group>
         </validation-provider> -->
-<vue-editor v-model="AwForm.AwDescI" :editorToolbar="customToolbar">
+        <vue-editor v-model="AwForm.AwDescI" :editorToolbar="customToolbar">
         </vue-editor>
       </b-col>
       <!-- Award Descriptipn End -->
@@ -121,14 +121,12 @@
 <script>
 import { mapActions } from "vuex";
 import { VueEditor } from "vue2-editor";
-import _ from 'lodash';
-
-
+import _ from "lodash";
 
 export default {
   props: ["award", "type", "CvId"],
-  components:{
-    VueEditor
+  components: {
+    VueEditor,
   },
   data() {
     let AwFormVal;
@@ -138,6 +136,7 @@ export default {
         AwJobI: this.award.AwJob,
         AwDateI: new Date(this.award.AwDate).toISOString().substring(0, 10),
         AwDescI: this.award.AwDesc,
+        AwCvI: this.CvId,
       };
     } else if (this.type === "newItem") {
       AwFormVal = {
@@ -151,7 +150,7 @@ export default {
 
     return {
       AwForm: AwFormVal,
-            customToolbar: [
+      customToolbar: [
         ["bold", "italic", "underline"],
         [{ list: "ordered" }, { list: "bullet" }],
         [
@@ -162,22 +161,22 @@ export default {
         ],
         [{ color: [] }],
       ],
-      updateable:false
+      updateable: false,
     };
   },
-    watch: {
+  watch: {
     AwForm: {
       handler() {
-        if(this.type === 'item' && this.updateable ){
-         this.updateAwWatch()
+        if (this.type === "item" && this.updateable) {
+          this.updateAwWatch();
         }
-        this.updateable=true;
+        this.updateable = true;
       },
       deep: true,
     },
   },
   methods: {
-    ...mapActions(["saveAw","updateAw"]),
+    ...mapActions(["saveAw", "updateAw"]),
     updateModal() {
       this.$emit("setModalProp");
     },
@@ -187,16 +186,14 @@ export default {
     SaveAwSubmit() {
       this.saveAw(this.AwForm);
     },
-    updateAwWatch:_.debounce(function(){
-      var data ={
-        AwId:this.award._id,
-        data:this.AwForm
+    updateAwWatch: _.debounce(function () {
+      var data = {
+        AwId: this.award._id,
+        data: this.AwForm,
       };
 
       this.updateAw(data);
-
-    },6000)
-
+    }, 6000),
   },
 };
 </script>

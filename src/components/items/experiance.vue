@@ -197,6 +197,7 @@ export default {
           .substring(0, 10),
         ExpToI: new Date(this.experiance.ExpTo).toISOString().substring(0, 10),
         ExpDescI: this.experiance.ExpDesc,
+        ExpCvI: this.CvId,
       };
     } else if (this.type === "newItem") {
       ExpFormVal = {
@@ -248,6 +249,8 @@ export default {
       this.saveExp(this.ExpForm);
     },
     updateExpWatch: _.debounce(function () {
+
+      
       var data = {
         ExpId: this.experiance._id,
         data: this.ExpForm,

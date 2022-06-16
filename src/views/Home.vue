@@ -7,7 +7,14 @@
     <router-link :to="{ name: 'mentorLogin' }">Login as mentor</router-link>
 
     <br />
-
+    <br />
+    <br />
+    <b-container>
+      <div class="d-flex">
+        <b-input v-model="msgsend"> </b-input>
+        <b-button variant="primary" @click="sendMsgBtn()">send</b-button>
+      </div>
+    </b-container>
   </div>
 </template>
 
@@ -16,12 +23,37 @@
 
 export default {
   name: "Home",
-  components: {
+  components: {},
+  data() {
+    return {
+      msgsend: "",
+    };
   },
-}
-
-
-
+  sockets: {
+    connect() {
+      console.log("socket connected");
+    },
+    MESSAGE_SENT() {
+      console.log(
+        'this method was fired by the socket server. eg: io.emit("MESSAGE_SENT", data)'
+      );
+    },
+  },
+  methods: {
+    sendMsgBtn() {
+      this.$socket.client.emit("SEND_MESSAGE", {
+        from: "user",
+        senderId: "",
+        sessionId: "",
+        value: this.msgsend,
+      });
+    },
+  },
+  created() {
+    console.log(this.$socket);
+    this.$socket.client.emit("join",{session:'12121'});
+  },
+};
 </script>
 <style scoped >
 </style>

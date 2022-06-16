@@ -1,7 +1,7 @@
 <template>
   <b-container >
       <h4>meet prepare</h4>
-      <router-link :to="{ name:'userMeetRoom', params:{meetId:this.$route.params.meetId} }" >join </router-link>
+      <router-link v-if="Session" :to="{ name:'userMeetRoom', params:{meetId:this.$route.params.meetId} }" >join </router-link>
   </b-container>
 </template>
 

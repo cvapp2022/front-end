@@ -170,6 +170,7 @@ export default {
           .toISOString()
           .substring(0, 10),
         OrgDescI: this.organization.OrgDesc,
+        OrgCvI: this.CvId,
       };
     } else if (this.type === "newItem") {
       OrgFormVal = {

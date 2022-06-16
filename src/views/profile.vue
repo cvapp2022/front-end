@@ -17,27 +17,45 @@
             <div class="d-flex">
               <img src="@/assets/images/document.jpg" />
               <div class="d-flex flex-column mx-2">
-                <router-link :to="{name:'cvOne', params:{ cvId:item._id }}">
+                <router-link
+                  :to="{ name: 'cvOne', params: { cvId: item._id } }"
+                >
                   <h5>item title</h5>
                 </router-link>
-                <b-button variant='danger' @click="deleteCvBtn(item._id)" >Delete</b-button>
+                <b-button variant="danger" @click="deleteCvBtn(item._id)">
+                  Delete
+                </b-button>
               </div>
             </div>
           </div>
         </b-row>
       </b-tab>
       <b-tab title="Cover Letter">
-        <div class="docItem" v-for="item in cl" v-bind:key="item._id">
-          <div class="d-flex">
-            <img src="@/assets/images/document.jpg" />
-            <div class="d-flex flex-column mx-2">
-              <a href="#" @click="ClOneClick(item._id)">
-                <h5>item title</h5>
-              </a>
-              <h6><span></span> Delete</h6>
+        <b-row>
+          <div class="docItem">
+            <div class="d-flex-column">
+              <img src="@/assets/images/document.jpg" />
+              <div class="">
+                <b-button variant="primary" @click="createClBtn()"
+                  >Create Cl
+                </b-button>
+              </div>
             </div>
           </div>
-        </div>
+          <div class="docItem" v-for="item in cl" v-bind:key="item._id">
+            <div class="d-flex">
+              <img src="@/assets/images/document.jpg" />
+              <div class="d-flex flex-column mx-2">
+                <router-link :to ="{name:'clOne',params:{clId:item._id}}">
+                  <h5>item title</h5>
+                </router-link>
+                <b-button variant="danger" @click="deleteClBtn(item._id)">
+                  Delete
+                </b-button>
+              </div>
+            </div>
+          </div>
+        </b-row>
       </b-tab>
       <b-tab title="Mentorship programs">
         <div class="docItem" v-for="item in programs" v-bind:key="item._id">
@@ -85,7 +103,14 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   methods: {
-    ...mapActions([ "getClOne", "PayRequest", "createCv","deleteCv"]),
+    ...mapActions([
+      "getClOne",
+      "PayRequest",
+      "createCv",
+      "deleteCv",
+      "createCl",
+      "deleteCl"
+    ]),
 
     ClOneClick(clid) {
       this.getClOne(clid);
@@ -96,8 +121,14 @@ export default {
     createCvBtn() {
       this.createCv();
     },
-    deleteCvBtn(cvId){
+    deleteCvBtn(cvId) {
       this.deleteCv(cvId);
+    },
+    createClBtn() {
+      this.createCl();
+    },
+    deleteClBtn(clId){
+      this.deleteCl(clId)
     }
   },
   computed: {

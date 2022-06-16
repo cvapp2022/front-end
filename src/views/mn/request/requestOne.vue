@@ -3,8 +3,8 @@
     <b-tabs content-class="mt-3" class="my-3">
       <b-tab title="meetings" active>
         <h4>meetings list</h4>
-        
-        <div >
+
+        <div>
           <router-link
             :to="{ name: 'userMeetPrepare', params: { meetId: item._id } }"
             v-for="item in requestOne.ReqMeets"
@@ -32,14 +32,24 @@ export default {
         tabLoading: "loading-div",
       };
     },
+    requestsCount() {
+      return this.requests.length;
+    },
   },
-
+  watch: {
+    requestsCount(newVal) {
+      if (newVal > 0) {
+        this.getRequestOne(this.$route.params.requestOne);
+      }
+    },
+  },
   methods: {
     ...mapActions(["getRequestOne"]),
   },
-
   mounted() {
-    this.getRequestOne(this.$route.params.requestOne)
+    if (this.requestsCount > 0) {
+      this.getRequestOne(this.$route.params.requestOne);
+    }
   },
 };
 </script>

@@ -88,6 +88,7 @@ export default {
         },
         ...mapActions(['SaveSkill']),
         SaveSkillSubmit:function(){
+            console.log()
             this.SaveSkill(this.SkillForm)
         },
     },

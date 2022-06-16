@@ -39,8 +39,8 @@ const actions = {
                 commit('User', resp.data.payload.user)
                 commit('Token', cipher.toString())
 
-                VueCookie.set('user', resp.data.payload.user, { expires: "1h" })
-                VueCookie.set('token', cipher.toString(), { expires: "1h" })
+                //console.log(VueCookie.set('user', resp.data.payload.user, { expires: "1h" }))
+                VueCookie.set('token', txt, { expires: "1h" })
 
                 //Set Token Default
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + txt;
@@ -57,12 +57,12 @@ const actions = {
     LoginByCookie({ commit, dispatch }, data) {
 
 
-        const key = process.env.VUE_APP_ENCKEY //
+        //const key = process.env.VUE_APP_ENCKEY //
 
         //Dcrypt Token
-        var dcrypted = CryptoJS.AES.decrypt(data.Token, key).toString(CryptoJS.enc.Utf8);
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + dcrypted;
-        commit('Token', dcrypted)
+        //var dcrypted = CryptoJS.AES.decrypt(data.Token, key).toString(CryptoJS.enc.Utf8);
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.Token;
+        commit('Token', data.Token)
         dispatch('getProfile')
         dispatch('getPrograms')
 

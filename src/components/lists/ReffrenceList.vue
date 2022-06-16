@@ -12,6 +12,7 @@
         >
           + Add Reffrence</b-button
         >
+        <b-button variant="danger" @click="removeSectionBtn('reffrences')"  >rm</b-button>
       </b-row>
       <b-row>
         <b-collapse id="collapse-reff" class="mt-2" style="flex: 1">
@@ -22,39 +23,37 @@
         </b-collapse>
       </b-row>
     </b-card>
-    <div class="">
+    <div class="mx-4">
       <draggable
         v-bind="dragOptions"
         handle=".handle"
-        group="people"
+        group="Reffrence"
         @start="drag = true"
         @end="DragEnd()"
         v-model="draglist"
       >
         <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-          <b-card
-            class="my-3 p-2"
-            v-for="reff in this.draglist"
-            v-bind:key="reff._id"
-          >
-            <div class="d-flex justify-content-between">
-              <b-icon icon="justify" class="h1 handle"></b-icon>
-              <h4>{{ reff.RefName }}</h4>
-              <div class="">
-                <b-button v-b-toggle="'collap' + reff._id"> colp </b-button>
-                <b-button @click="DeleteRefSubmit(reff._id)" variant="danger"
-                  >Del</b-button
-                >
+          <div class="" v-for="reff in this.draglist" v-bind:key="reff._id">
+            <b-icon icon="justify" class="h1 handle"></b-icon>
+            <b-card class="my-3 p-2">
+              <div class="d-flex justify-content-between">
+                <h4>{{ reff.RefName }}</h4>
+                <div class="">
+                  <b-button v-b-toggle="'collap' + reff._id"> colp </b-button>
+                  <b-button @click="DeleteRefSubmit(reff._id)" variant="danger"
+                    >Del</b-button
+                  >
+                </div>
               </div>
-            </div>
-            <b-collapse :id="'collap' + reff._id">
-              <reffrence
-                v-bind:CvId="cvOne.cvId"
-                v-bind:reffrence="reff"
-                v-bind:type="'item'"
-              ></reffrence>
-            </b-collapse>
-          </b-card>
+              <b-collapse :id="'collap' + reff._id">
+                <reffrence
+                  v-bind:CvId="cvOne.cvId"
+                  v-bind:reffrence="reff"
+                  v-bind:type="'item'"
+                ></reffrence>
+              </b-collapse>
+            </b-card>
+          </div>
         </transition-group>
       </draggable>
     </div>
@@ -94,7 +93,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["deleteRef","changeReff"]),
+    ...mapActions(["deleteRef", "changeReff","removeSection"]),
 
     SetSkillModalProp(type, id) {
       this.SkillModalItemType = type;
@@ -108,6 +107,13 @@ export default {
 
       this.changeReff({ list: this.draglist, CvId: this.cvOne.cvId });
       console.log("drag end");
+    },
+    removeSectionBtn(section) {
+      var data = {
+        cvId: this.cvOne.cvId,
+        section,
+      };
+      this.removeSection(data);
     },
   },
   mounted() {

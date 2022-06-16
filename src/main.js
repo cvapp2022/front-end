@@ -2,11 +2,11 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { ValidationProvider , ValidationObserver , extend,localize } from 'vee-validate';
+import { ValidationProvider, ValidationObserver, extend, localize } from 'vee-validate';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueCookie from 'vue-cookies';
-
-
+import VueSocketIO from 'vue-socket.io-extended'
+import SocketIO from 'socket.io-client'
 
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -33,6 +33,13 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCookie)
 
+/* Establish Connection */
+const ioInstance = SocketIO('http://127.0.0.1:5000', {
+        reconnection: true,
+        reconnectionDelay: 500,
+        maxReconnectionAttempts: Infinity
+});
+Vue.use(VueSocketIO,ioInstance,{ store })
 
 Vue.config.productionTip = false
 

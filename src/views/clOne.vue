@@ -148,13 +148,13 @@
 </template>
 
 <script>
-import { mapGetters,mapActions } from "vuex";
-import _ from 'lodash';
+import { mapGetters, mapActions } from "vuex";
+import _ from "lodash";
 
 export default {
   data() {
     let clFormVal = {
-      ClNameI:"",
+      ClNameI: "",
       CLFullNameI: "",
       CLJobI: "",
       CLCmpHrNameI: "",
@@ -167,7 +167,7 @@ export default {
 
     return {
       clForm: clFormVal,
-      updateable:false
+      updateable: false,
     };
   },
 
@@ -178,42 +178,60 @@ export default {
   watch: {
     clForm: {
       handler(newVal) {
-        console.log('changed')
+        console.log("changed");
         //debounce
-        if(this.updateable){
+        if (this.updateable) {
           this.updateClWatch(newVal);
         }
-        this.updateable=true;
+        this.updateable = true;
       },
       deep: true,
     },
+    clOne:{
+      handler(newVal){
+      //clear form
+      this.clForm={};
+
+      //update form
+      this.clForm.ClNameI = newVal.CLName;
+      this.clForm.CLFullNameI = newVal.CLFullName;
+      this.clForm.CLJobI = newVal.CLJob;
+      this.clForm.CLCmpHrNameI = newVal.CLCmpHrName;
+      this.clForm.CLCmpNameI = newVal.CLCmpName;
+      this.clForm.CLMailI = newVal.CLMail;
+      this.clForm.CLPhoneI = newVal.CLPhone;
+      this.clForm.CLAddressI = newVal.CLAddress;
+      this.clForm.CLBodyI = newVal.CLBody;
+
+      }
+    }
+
   },
   mounted() {
-    this.clForm.ClNameI=this.clOne.CLName; 
-    this.clForm.CLFullNameI = this.clOne.CLFullName;
-    this.clForm.CLJobI = this.clOne.CLJob;
-    this.clForm.CLCmpHrNameI = this.clOne.CLCmpHrName;
-    this.clForm.CLCmpNameI = this.clOne.CLCmpName;
-    this.clForm.CLMailI = this.clOne.CLMail;
-    this.clForm.CLPhoneI = this.clOne.CLPhone;
-    this.clForm.CLAddressI = this.clOne.CLAddress;
-    this.clForm.CLBodyI = this.clOne.CLBody;
+    this.clForm={};
+    this.getClOne(this.$route.params.clId);
+      // this.clForm.ClNameI = this.clOne.CLName;
+      // this.clForm.CLFullNameI = this.clOne.CLFullName;
+      // this.clForm.CLJobI = this.clOne.CLJob;
+      // this.clForm.CLCmpHrNameI = this.clOne.CLCmpHrName;
+      // this.clForm.CLCmpNameI = this.clOne.CLCmpName;
+      // this.clForm.CLMailI = this.clOne.CLMail;
+      // this.clForm.CLPhoneI = this.clOne.CLPhone;
+      // this.clForm.CLAddressI = this.clOne.CLAddress;
+      // this.clForm.CLBodyI = this.clOne.CLBody;
   },
 
-  methods:{
-    ...mapActions(['updateCl']),
-    updateClWatch:_.debounce(function(newVal){
-      console.log('updated',newVal)
-      var data ={
-        clid:this.clOne._id,
-        data:newVal
-      }
-      this.updateCl(data)
-      
-    },6000)
-
-  }
-
+  methods: {
+    ...mapActions(["updateCl", "getClOne"]),
+    updateClWatch: _.debounce(function (newVal) {
+      console.log("updated", newVal);
+      var data = {
+        clid: this.clOne._id,
+        data: newVal,
+      };
+      this.updateCl(data);
+    }, 6000),
+  },
 };
 </script>
 

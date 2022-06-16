@@ -8,8 +8,9 @@
           class="font-weight-bold h5 text-dark"
           v-b-toggle.collapse-aw
         >
-          + Add Award</b-button
-        >
+          + Add Award
+        </b-button>
+        <b-button variant="danger" @click="removeSectionBtn('awards')"  >rm</b-button>
       </b-row>
       <b-row>
         <b-collapse id="collapse-aw" class="mt-2" style="flex: 1">
@@ -17,39 +18,37 @@
         </b-collapse>
       </b-row>
     </b-card>
-    <div class="">
+    <div class="mx-4">
       <draggable
         v-bind="dragOptions"
         handle=".handle"
-        group="people"
+        group="Awards"
         @start="drag = true"
         @end="DragEnd()"
         v-model="draglist"
       >
         <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-          <b-card
-            class="my-3 p-2"
-            v-for="aw in this.draglist"
-            v-bind:key="aw._id"
-          >
-            <div class="d-flex justify-content-between">
-              <b-icon icon="justify" class="h1 handle"></b-icon>
-              <h4>{{ aw.AwTitle }}</h4>
-              <div class="">
-                <b-button v-b-toggle="'collap' + aw._id"> colp </b-button>
-                <b-button @click="DeleteAwSubmit(aw._id)" variant="danger"
-                  >Del</b-button
-                >
+          <div class="" v-for="aw in this.draglist" v-bind:key="aw._id">
+            <b-icon icon="justify" class="h1 handle"></b-icon>
+            <b-card class="my-3 p-2">
+              <div class="d-flex justify-content-between">
+                <h4>{{ aw.AwTitle }}</h4>
+                <div class="">
+                  <b-button v-b-toggle="'collap' + aw._id"> colp </b-button>
+                  <b-button @click="DeleteAwSubmit(aw._id)" variant="danger"
+                    >Del</b-button
+                  >
+                </div>
               </div>
-            </div>
-            <b-collapse :id="'collap' + aw._id">
-              <award
-                v-bind:CvId="cvOne.cvId"
-                v-bind:award="aw"
-                v-bind:type="'item'"
-              ></award>
-            </b-collapse>
-          </b-card>
+              <b-collapse :id="'collap' + aw._id">
+                <award
+                  v-bind:CvId="cvOne.cvId"
+                  v-bind:award="aw"
+                  v-bind:type="'item'"
+                ></award>
+              </b-collapse>
+            </b-card>
+          </div>
         </transition-group>
       </draggable>
     </div>
@@ -77,33 +76,38 @@ export default {
       };
     },
   },
-  watch:{
-
-    awards(){
-      console.log(' award getter changes')
-      this.draglist=this.awards
-    }
-
+  watch: {
+    awards() {
+      console.log(" award getter changes");
+      this.draglist = this.awards;
+    },
   },
   data() {
     return {
       drag: false,
-      draglist:[]
+      draglist: [],
     };
   },
   methods: {
-    ...mapActions(["deleteAw","changeAw"]),
+    ...mapActions(["deleteAw", "changeAw",'removeSection']),
     DeleteAwSubmit: function (awid) {
-      this.deleteAw(awid)
+      this.deleteAw(awid);
     },
     DragEnd() {
       this.drag = false;
-      this.changeAw({list:this.draglist,CvId:this.cvOne.cvId})
+      this.changeAw({ list: this.draglist, CvId: this.cvOne.cvId });
     },
+    removeSectionBtn(section){
+      var data = {
+        cvId:this.cvOne.cvId,
+        section
+      }
+      this.removeSection(data)
+    }
   },
-  mounted(){
-    this.draglist=this.awards;
-  }
+  mounted() {
+    this.draglist = this.awards;
+  },
 };
 </script>
 

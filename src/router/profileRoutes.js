@@ -3,6 +3,7 @@ import cvOne from '../views/cvOne.vue';
 import clOne from '../views/clOne.vue';
 
 
+
 export const profileRoutes =[
     {
         path: '/profile',
@@ -21,7 +22,7 @@ export const profileRoutes =[
         }
     },
     {
-        path: '/cl/',
+        path: '/cl/:clId',
         name: 'clOne',
         component: clOne,
         meta: {

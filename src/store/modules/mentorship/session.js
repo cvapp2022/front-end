@@ -44,6 +44,9 @@ const actions = {
 
 const mutations = {
     Session: (state, Session) => (state.Session = Session),
+    SOCKET_MESSAGE_SENT(state,message){
+        state.Session.SessionMessage.push(message)
+    }
 }
 
 

@@ -11,13 +11,14 @@ const getters = {
 
 const actions = {
 
-    saveRequest(_,data){
+    saveRequest({dispatch},data){
 
         var url = process.env.VUE_APP_BASEURL + '/Mn/Request/';
         console.log(data)
         axios.post(url,data).then(resp=>{
             if(resp.data.success){
                 console.log('Request Saved')
+                dispatch('getProfile')
                 
             }
         })

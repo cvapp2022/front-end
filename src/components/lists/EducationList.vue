@@ -10,8 +10,9 @@
           class="font-weight-bold h5 text-dark"
           v-b-toggle.collapse-edu
         >
-          + Add Education</b-button
-        >
+          + Add Education
+        </b-button>
+        <b-button variant="danger" @click="removeSectionBtn('educations')"  >rm</b-button>
       </b-row>
       <b-row>
         <b-collapse id="collapse-edu" class="mt-2" style="flex: 1">
@@ -22,40 +23,38 @@
         </b-collapse>
       </b-row>
     </b-card>
-    <div class="">
+    <div class="mx-4">
       <draggable
         v-bind="dragOptions"
         handle=".handle"
-        group="people"
+        group="Educations"
         @start="drag = true"
         @end="DragEnd()"
         v-model="draglist"
       >
         <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-          <b-card
-            class="my-3 p-2"
-            v-for="edu in this.draglist"
-            v-bind:key="edu._id"
-          >
-            <div class="d-flex justify-content-between">
-              <b-icon icon="justify" class="h1 handle"></b-icon>
-              <h4>{{ edu.EduTitle }}</h4>
-              <div class="">
-                <b-button v-b-toggle="'collap' + edu._id"> colp </b-button>
-                <b-button @click="DeleteEduSubmit(edu._id)" variant="danger"
-                  >Del</b-button
-                >
+          <div class="" v-for="edu in this.draglist" v-bind:key="edu._id">
+            <b-icon icon="justify" class="h1 handle"></b-icon>
+            <b-card class="my-3 p-2">
+              <div class="d-flex justify-content-between">
+                <h4>{{ edu.EduTitle }}</h4>
+                <div class="">
+                  <b-button v-b-toggle="'collap' + edu._id"> colp </b-button>
+                  <b-button @click="DeleteEduSubmit(edu._id)" variant="danger"
+                    >Del</b-button
+                  >
+                </div>
               </div>
-            </div>
-            <b-collapse :id="'collap' + edu._id">
-              <education
-                v-bind:CvId="cvOne.cvId"
-                v-bind:education="edu"
-                v-bind:type="'item'"
-                @setModalProp="SetSkillModalProp('education', edu._id)"
-              ></education>
-            </b-collapse>
-          </b-card>
+              <b-collapse :id="'collap' + edu._id">
+                <education
+                  v-bind:CvId="cvOne.cvId"
+                  v-bind:education="edu"
+                  v-bind:type="'item'"
+                  @setModalProp="SetSkillModalProp('education', edu._id)"
+                ></education>
+              </b-collapse>
+            </b-card>
+          </div>
         </transition-group>
       </draggable>
     </div>
@@ -96,7 +95,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["deleteEdu","changeEdu"]),
+    ...mapActions(["deleteEdu", "changeEdu","removeSection"]),
     DragEnd() {
       this.drag = false;
       this.changeEdu({ list: this.draglist, CvId: this.cvOne.cvId });
@@ -108,10 +107,17 @@ export default {
     DeleteEduSubmit: function (eduid) {
       this.deleteEdu(eduid);
     },
+    removeSectionBtn(section) {
+      var data = {
+        cvId: this.cvOne.cvId,
+        section,
+      };
+      this.removeSection(data);
+    },
   },
-    mounted(){
-    this.draglist=this.educations;
-  }
+  mounted() {
+    this.draglist = this.educations;
+  },
 };
 </script>
 

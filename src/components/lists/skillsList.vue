@@ -92,7 +92,7 @@
 
 <script>
 
-import { mapActions } from 'vuex';
+import { mapActions,mapGetters } from 'vuex';
 
 export default {
 
@@ -104,9 +104,13 @@ export default {
                 SkillTitleI:"",
                 SkillValI:"",
                 SkillDescI:"",
+                SkillCvI:this.cvOne.cvId
             }
         }
 
+    },
+    computed:{
+        ...mapGetters(['cvOne'])
     },
     methods:{
         getValidationState({ dirty, validated, valid = null }) {
