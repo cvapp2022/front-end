@@ -14,7 +14,7 @@ const actions = {
 
     saveAw({commit},data){
 
-        var url = process.env.VUE_APP_BASEURL + '/Aw/';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Aw/';
         axios.post(url,data).then(resp=>{
             if(resp.data.status){
                 console.log('award Saved')
@@ -23,7 +23,7 @@ const actions = {
         })
     },
     updateAw(_,data){
-        var url = process.env.VUE_APP_BASEURL + '/Aw/'+data.AwId ;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Aw/'+data.AwId ;
         axios.put(url,data.data).then(resp=>{
             if(resp.data.success){
                 console.log('award Updated')
@@ -33,7 +33,7 @@ const actions = {
     },
     deleteAw({commit},awid){
 
-        var url = process.env.VUE_APP_BASEURL + '/Aw/'+awid;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Aw/'+awid;
 
         axios.delete(url).then(resp=>{
             if(resp.data.success){
@@ -58,7 +58,7 @@ const actions = {
             CvId:data.CvId
         }
 
-        var url = process.env.VUE_APP_BASEURL + '/Aw/changeSort';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Aw/changeSort';
 
         axios.post(url,newData).then(resp=>{
             if(resp.data.success){

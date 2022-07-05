@@ -15,7 +15,7 @@ const actions = {
 
     saveEdu({commit},data){
 
-        var url = process.env.VUE_APP_BASEURL + '/Edu/';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Edu/';
         axios.post(url,data).then(resp=>{
             if(resp.data.status){
                 console.log('Education Saved')
@@ -26,7 +26,7 @@ const actions = {
     },
     updateEdu(_,data){
 
-        var url = process.env.VUE_APP_BASEURL + '/Edu/'+data.EduId;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Edu/'+data.EduId;
         console.log(data.data)
         axios.put(url,data.data).then(resp=>{
             if(resp.data.success){
@@ -37,7 +37,7 @@ const actions = {
     },
     deleteEdu({commit},eduid){
 
-        var url = process.env.VUE_APP_BASEURL + '/Edu/'+eduid;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Edu/'+eduid;
 
         axios.delete(url).then(resp=>{
             if(resp.data.success){
@@ -62,7 +62,7 @@ const actions = {
             CvId:data.CvId
         }
 
-        var url = process.env.VUE_APP_BASEURL + '/Edu/changeSort';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Edu/changeSort';
 
         axios.post(url,newData).then(resp=>{
             if(resp.data.success){

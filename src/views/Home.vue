@@ -2,18 +2,14 @@
   <div class="home">
     <h4>Home page</h4>
 
-    <router-link to="profile"> my account eedd</router-link>
-    <router-link to="login"> Login</router-link>
-    <router-link :to="{ name: 'mentorLogin' }">Login as mentor</router-link>
-
+    <router-link to="dashboard"> my account eedd</router-link>
+    <router-link to="login">  Login</router-link>
+    <router-link to="register" >  Register</router-link>
     <br />
     <br />
     <br />
     <b-container>
-      <div class="d-flex">
-        <b-input v-model="msgsend"> </b-input>
-        <b-button variant="primary" @click="sendMsgBtn()">send</b-button>
-      </div>
+
     </b-container>
   </div>
 </template>

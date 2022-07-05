@@ -1,22 +1,11 @@
-import profile from '../views/profile.vue';
-import cvOne from '../views/cvOne.vue';
-import clOne from '../views/clOne.vue';
-
-
-
+function lazyLoad(view){
+    return() => import(`@/views/${view}.vue`)
+} 
 export const profileRoutes =[
-    {
-        path: '/profile',
-        name: 'profile',
-        component: profile,
-        meta: {
-            requireAuth: true
-        }
-    },
     {
         path: '/cv/:cvId',
         name: 'cvOne',
-        component: cvOne,
+        component: lazyLoad('cvOne'),
         meta: {
             requireAuth: true
         }
@@ -24,7 +13,7 @@ export const profileRoutes =[
     {
         path: '/cl/:clId',
         name: 'clOne',
-        component: clOne,
+        component: lazyLoad('clOne'),
         meta: {
             requireAuth: true
         }

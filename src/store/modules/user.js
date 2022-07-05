@@ -47,7 +47,7 @@ const actions = {
                 dispatch('getProfile')
                 dispatch('getPrograms')
                 //redirect to profile view 
-                router.push({ name: 'profile' })
+                router.push({ name: 'dashboard' })
 
             }
 
@@ -65,8 +65,41 @@ const actions = {
         commit('Token', data.Token)
         dispatch('getProfile')
         dispatch('getPrograms')
-
     },
+    Register({ commit, dispatch },user) {
+        var url = process.env.VUE_APP_BASEURL + '/User/';
+        axios.post(url, user).then(function (resp) {
+
+            if (resp.data.success) {
+
+                //encrypt token 
+                const key = process.env.VUE_APP_ENCKEY //
+                const iv = process.env.VUE_APP_ENCIV // 
+                const txt = resp.data.payload.token;
+
+                const cipher = CryptoJS.AES.encrypt(txt, key, {
+                    iv: CryptoJS.enc.Utf8.parse(iv),
+                    mode: CryptoJS.mode.CBC
+                })
+
+                commit('User', resp.data.payload.user)
+                commit('Token', cipher.toString())
+
+                //console.log(VueCookie.set('user', resp.data.payload.user, { expires: "1h" }))
+                VueCookie.set('token', txt, { expires: "1h" })
+
+                //Set Token Default
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + txt;
+                dispatch('getProfile')
+                dispatch('getPrograms')
+                //redirect to profile view 
+                router.push({ name: 'dashboard' })
+
+            }
+
+        })
+
+    }
 
 
 }

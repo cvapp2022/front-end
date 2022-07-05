@@ -7,8 +7,9 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueCookie from 'vue-cookies';
 import VueSocketIO from 'vue-socket.io-extended'
 import SocketIO from 'socket.io-client'
+import VueFileAgent from "vue-file-agent";
 
-
+import 'vue-file-agent/dist/vue-file-agent.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -32,7 +33,7 @@ Vue.component('ValidationObserver', ValidationObserver);
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCookie)
-
+Vue.use(VueFileAgent);
 /* Establish Connection */
 const ioInstance = SocketIO('http://127.0.0.1:5000', {
         reconnection: true,

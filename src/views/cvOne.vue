@@ -1,6 +1,22 @@
 <template>
   <b-container fluid="md" class="hfull" v-if="this.cvOneLoaded">
-    <div class="">
+    <div class="my-3">
+      <!-- template Card start -->
+      <b-card>
+        <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
+          Template
+        </h4>
+        <b-row>
+          <b-button
+            variant="primary"
+            v-for="item in cvTemplates"
+            v-bind:key="item._id"
+            @click="setTemplateBtn(item._id)"
+          >
+            {{ item.TemplateName }}
+          </b-button>
+        </b-row>
+      </b-card>
       <!-- Profile Card Start -->
       <b-card class="my-3">
         <h4 class="text-start card-title mb-4 p-1 font-weight-bold">Profile</h4>
@@ -81,44 +97,28 @@
       <ContactList></ContactList>
       <!-- Skills Card Start -->
       <SkillList></SkillList>
-      <skillModal
-        :CvId="cvOne.cvId"
-      ></skillModal>
-      <draggable
-        v-bind="dragOptions"
-        handle=".handle"
-        group="CvSections"
-        @start="drag = true"
-        @end="DragEnd()"
-        v-model="dragList"
-      >
-        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-          <div v-for="section in dragList" v-bind:key="section.name">
-            <!-- Experiance Card Start -->
-            <b-icon icon="justify" class="h1 handle"></b-icon>
-            <ExperianceList
-              v-if="section.name === 'experiences'"
-            ></ExperianceList>
+      <skillModal :CvId="cvOne.cvId"></skillModal>
+      <div v-for="section in dragList" v-bind:key="section.name">
+        <!-- Experiance Card Start -->
+        <ExperianceList v-if="section.name === 'experiences'"></ExperianceList>
 
-            <!-- Education Card Start -->
-            <EducationList v-if="section.name === 'educations'"></EducationList>
+        <!-- Education Card Start -->
+        <EducationList v-if="section.name === 'educations'"></EducationList>
 
-            <!-- Reffrence Card Start  -->
-            <ReffrenceList v-if="section.name === 'reffrences'"></ReffrenceList>
+        <!-- Reffrence Card Start  -->
+        <ReffrenceList v-if="section.name === 'reffrences'"></ReffrenceList>
 
-            <!-- Projects Card Start -->
-            <ProjectList v-if="section.name === 'projects'"></ProjectList>
+        <!-- Projects Card Start -->
+        <ProjectList v-if="section.name === 'projects'"></ProjectList>
 
-            <!-- Organizations Card Start -->
-            <OrganizationList
-              v-if="section.name === 'organizations'"
-            ></OrganizationList>
+        <!-- Organizations Card Start -->
+        <OrganizationList
+          v-if="section.name === 'organizations'"
+        ></OrganizationList>
 
-            <!-- Awards Card Start -->
-            <AwardList v-if="section.name === 'awards'"></AwardList>
-          </div>
-        </transition-group>
-      </draggable>
+        <!-- Awards Card Start -->
+        <AwardList v-if="section.name === 'awards'"></AwardList>
+      </div>
     </div>
 
     <b-button
@@ -157,6 +157,20 @@
       @click="addSectionBtn('projects')"
       >Add projects section</b-button
     >
+    <router-link
+      :to="{ name: 'cvPerview', params: { cvId: cvOne.cvId } }"
+      style="
+        position: fixed;
+        background: #5541f9;
+        color: white;
+        padding: 24px;
+        border-radius: 60px;
+        bottom: 20px;
+        right: 40px;
+      "
+    >
+      perview
+    </router-link>
 
     <skillListModal
       v-bind:CvId="cvOne.cvId"
@@ -181,7 +195,6 @@ import skillListModal from "../components/widget/skillListModal.vue";
 
 import { mapGetters, mapActions } from "vuex";
 import _ from "lodash";
-import draggable from "vuedraggable";
 
 export default {
   components: {
@@ -195,7 +208,6 @@ export default {
     skillModal,
     skillListModal,
     AwardList,
-    draggable,
   },
 
   data() {
@@ -209,7 +221,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["cvOne", "skills"]),
+    ...mapGetters(["cvOne", "skills", "cvTemplates"]),
     dragOptions() {
       return {
         animation: 200,
@@ -220,7 +232,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getCvOne", "changeSectionSort", "addSection"]),
+    ...mapActions([
+      "getCvOne",
+      "changeSectionSort",
+      "addSection",
+      "setCvTemplate",
+    ]),
     // FindContact(item) {
     //   var arr = this.contacts;
     //   let value;
@@ -232,8 +249,13 @@ export default {
     //   });
     //   return value;
     // },
-    SaveSkill() {
-      console.log("Skill Saved");
+
+    setTemplateBtn(templateId) {
+      var data = {
+        cvId: this.cvOne.cvId,
+        templateId,
+      };
+      this.setCvTemplate(data);
     },
     SetSkillModalProp(type, id) {
       this.SkillModalItemType = type;
@@ -255,7 +277,10 @@ export default {
       console.log(this.dragList);
     },
     checkSection(section) {
-      return this.cvOne.cvSections.find((item) => {
+      // var mainSections = this.cvOne.cvSections.main
+      // var sideSections = this.cvOne.cvSections.side
+      // var sections=[mainSections,sideSections].flat();
+      return this.dragList.find((item) => {
         return item.name === section;
       });
     },
@@ -271,7 +296,10 @@ export default {
   watch: {
     cvOne: {
       handler(newVal) {
-        this.dragList = newVal.cvSections;
+        var mainSections = newVal.cvSections.main
+        var sideSections = newVal.cvSections.side
+        var sections=[mainSections,sideSections].flat();
+        this.dragList =sections;
         this.cvOneLoaded = true;
       },
       deep: true,

@@ -14,7 +14,7 @@ const actions = {
 
     saveProj({commit},data){
 
-        var url = process.env.VUE_APP_BASEURL + '/Proj/';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Proj/';
         axios.post(url,data).then(resp=>{
             if(resp.data.status){
                 console.log('project Saved')
@@ -25,7 +25,7 @@ const actions = {
     updateProj(_,data){
 
         
-        var url = process.env.VUE_APP_BASEURL + '/Proj/'+data.ProjId;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Proj/'+data.ProjId;
         axios.put(url,data.data).then(resp=>{
             if(resp.data.success){
                 console.log('project Updated')
@@ -35,7 +35,7 @@ const actions = {
     },
     deleteProj({commit},projid){
 
-        var url = process.env.VUE_APP_BASEURL + '/Proj/'+projid;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Proj/'+projid;
 
         axios.delete(url).then(resp=>{
             if(resp.data.success){
@@ -61,7 +61,7 @@ const actions = {
 
     
 
-        var url = process.env.VUE_APP_BASEURL + '/Proj/changeSort';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Proj/changeSort';
 
         axios.post(url,newData).then(resp=>{
             if(resp.data.success){

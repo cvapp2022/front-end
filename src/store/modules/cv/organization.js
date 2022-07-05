@@ -17,7 +17,7 @@ const actions = {
     saveOrg({commit},data){
 
         //console.log('form',data)
-        var url = process.env.VUE_APP_BASEURL + '/Org/';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Org/';
         axios.post(url,data).then(resp=>{
             if(resp.data.status){
                 console.log('Organization Saved')
@@ -28,7 +28,7 @@ const actions = {
     },
 
     updateOrg(_,data){
-        var url = process.env.VUE_APP_BASEURL + '/Org/'+data.OrgId;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Org/'+data.OrgId;
         axios.put(url,data.data).then(resp=>{
             if(resp.data.success){
                 console.log('Organization Updated')
@@ -38,7 +38,7 @@ const actions = {
     },
     deleteOrg({commit},orgid){
 
-        var url = process.env.VUE_APP_BASEURL + '/Org/'+orgid;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Org/'+orgid;
 
         axios.delete(url).then(resp=>{
             if(resp.data.success){
@@ -65,7 +65,7 @@ const actions = {
 
      
 
-        var url = process.env.VUE_APP_BASEURL + '/Org/changeSort';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Org/changeSort';
 
         axios.post(url,newData).then(resp=>{
             if(resp.data.success){

@@ -13,7 +13,7 @@ const actions = {
 
     SaveSkill({commit},data){
 
-        var url = process.env.VUE_APP_BASEURL + '/Skill/';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Skill/';
         axios.post(url,data).then(resp=>{
 
             if(resp.data.status){
@@ -25,7 +25,7 @@ const actions = {
     },
     DeleteSkill({commit},skId){
 
-        var url = process.env.VUE_APP_BASEURL + '/skill/'+skId;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/skill/'+skId;
         axios.delete(url).then(resp=>{
 
             if(resp.data.status){
@@ -42,7 +42,7 @@ const actions = {
         console.log(obj)
         if(obj){
 
-            var url = process.env.VUE_APP_BASEURL + '/skill/push';
+            var url = process.env.VUE_APP_BASEURL + '/Cv/skill/push';
             axios.post(url,obj).then((resp)=>{
 
                 if(resp.data.status){
@@ -58,7 +58,7 @@ const actions = {
     },
     PullSkill({dispatch},obj){
         
-        var url = process.env.VUE_APP_BASEURL + '/skill/pull';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/skill/pull';
         axios.post(url,obj).then((resp)=>{
 
             if(resp.data.status){

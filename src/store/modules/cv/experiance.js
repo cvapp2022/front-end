@@ -17,7 +17,7 @@ const actions = {
     saveExp({commit},data){
 
         //console.log('form',data)
-        var url = process.env.VUE_APP_BASEURL + '/Exp/';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Exp/';
         axios.post(url,data).then(resp=>{
             if(resp.data.status){
                 console.log('Experiance Saved')
@@ -29,7 +29,7 @@ const actions = {
 
     updateExp(_,data){
 
-        var url = process.env.VUE_APP_BASEURL + '/Exp/'+data.ExpId;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Exp/'+data.ExpId;
         console.log(data.data)
         axios.put(url,data.data).then(resp=>{
             if(resp.data.success){
@@ -42,7 +42,7 @@ const actions = {
 
     deleteExp({commit},expid){
 
-        var url = process.env.VUE_APP_BASEURL + '/Exp/'+expid;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Exp/'+expid;
 
         axios.delete(url).then(resp=>{
             if(resp.data.success){
@@ -70,7 +70,7 @@ const actions = {
 
     
 
-        var url = process.env.VUE_APP_BASEURL + '/Exp/changeSort';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Exp/changeSort';
 
         axios.post(url,newData).then(resp=>{
             if(resp.data.success){

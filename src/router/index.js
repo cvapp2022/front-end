@@ -10,15 +10,17 @@ import { profileRoutes } from './profileRoutes';
 import { programRoutes } from './mn/programRoutes';
 import { requestRoutes } from './mn/requestRoutes';
 import { meetRoutes } from './mn/meetRoutes';
+import { mainRoutes } from './mainRoutes'
 
 Vue.use(VueRouter)
 
 const combineRoutes = [
+  mainRoutes,
   userRoutes,
-  profileRoutes,
-  programRoutes,
   requestRoutes,
-  meetRoutes
+  programRoutes,
+  meetRoutes,
+  profileRoutes,
 ]
 const routes = combineRoutes.flat();
 
@@ -38,12 +40,13 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requireGuest && !_.isEmpty(Token)) {
     router.push({ name: 'home' });
   }
-  else if (to.meta.requireAuth && _.isEmpty(Token)) {
+
+  if (to.meta.requireAuth && _.isEmpty(Token)) {
 
     //check if has cookie
     var TokenC = VueCookie.get('token')
     if (TokenC) {
-      console.log('am in herer')
+      console.log('')
     }
     else {
       router.push({ name: 'home' });

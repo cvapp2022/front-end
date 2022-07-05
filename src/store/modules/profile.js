@@ -86,19 +86,17 @@ const actions = {
                 commit('organizations', data.CVOrg)
                 commit('awards', data.CVAw)
                 commit('skills', data.CVSkill)
-
-
                 //router.push({name:'cvOne'})
-
-
             }
         })
 
     },
 
-
-
-
+    setCvTemplate(_,data){
+        console.log(data)
+        var url = process.env.VUE_APP_BASEURL + '/Cv/' + data.cvId+'/setTemplate';
+        axios.put(url,{TemplateIdI:data.templateId})
+    },
     getClOne({ commit }, clid) {
         var url = process.env.VUE_APP_BASEURL + '/Cl/' + clid;
         axios.get(url).then(resp => {
@@ -115,7 +113,7 @@ const actions = {
 
         var url = process.env.VUE_APP_BASEURL + '/Cl/';
         axios.post(url, { ClNameI: 'untiteld' }).then((resp) => {
-
+            console.log('activated')
             if (resp.data.success) {
                 commit('cl', resp.data.payload.list)
             }
@@ -131,7 +129,6 @@ const actions = {
             }
 
         })
-
     },
     updateCl({ commit }, data) {
         var url = process.env.VUE_APP_BASEURL + '/Cl/' + data.clid;
@@ -143,6 +140,10 @@ const actions = {
                 //router.push({name:'clOne'})
             }
         })
+    },
+    setClTemplate(_,data){
+        var url = process.env.VUE_APP_BASEURL + '/Cl/' + data.clId+'/setTemplate';
+        axios.put(url,{TemplateIdI:data.templateId})
     },
     changeSectionSort(_, data) {
         var url = process.env.VUE_APP_BASEURL + '/CV/' + data.cvId + '/changeSort';

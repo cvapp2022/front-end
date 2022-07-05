@@ -15,12 +15,14 @@ import reffrence from './modules/cv/reffrence';
 import organization from './modules/cv/organization';
 import awards from './modules/cv/award';
 import skill from './modules/cv/skills';
+import App from './modules/app';
 
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
+    App,
     User,
     profile,
     program,

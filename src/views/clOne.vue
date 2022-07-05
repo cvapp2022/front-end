@@ -1,6 +1,23 @@
 <template>
   <b-container fluid="md" class="hfull">
     <div class="">
+      <!-- Cover-Letter Template Card Start -->
+      <b-card class="my-3" >
+        <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
+         Templates
+        </h4>
+        <b-row>
+          <b-button 
+            variant="primary"
+            v-for="item in clTemplates"
+            v-bind:key="item._id"
+            @click="setTemplateBtn(item._id)"
+          >
+            {{item.TemplateName}}
+          </b-button>
+        </b-row>
+      </b-card>
+
       <!-- Personal Details Card Start -->
       <b-card class="my-3">
         <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
@@ -152,87 +169,76 @@ import { mapGetters, mapActions } from "vuex";
 import _ from "lodash";
 
 export default {
-  data() {
-    let clFormVal = {
-      ClNameI: "",
-      CLFullNameI: "",
-      CLJobI: "",
-      CLCmpHrNameI: "",
-      CLCmpNameI: "",
-      CLMailI: "",
-      CLPhoneI: "",
-      CLAddressI: "",
-      CLBodyI: "",
-    };
 
+  data(){
     return {
-      clForm: clFormVal,
-      updateable: false,
-    };
-  },
-
-  computed: {
-    ...mapGetters(["clOne"]),
-  },
-
-  watch: {
-    clForm: {
-      handler(newVal) {
-        console.log("changed");
-        //debounce
-        if (this.updateable) {
-          this.updateClWatch(newVal);
-        }
-        this.updateable = true;
+      clForm: {
+        ClNameI: "",
+        CLFullNameI: "",
+        CLJobI: "",
+        CLCmpHrNameI: "",
+        CLCmpNameI: "",
+        CLMailI: "",
+        CLPhoneI: "",
+        CLAddressI: "",
+        CLBodyI: "",
       },
-      deep: true,
-    },
-    clOne:{
-      handler(newVal){
-      //clear form
-      this.clForm={};
-
-      //update form
-      this.clForm.ClNameI = newVal.CLName;
-      this.clForm.CLFullNameI = newVal.CLFullName;
-      this.clForm.CLJobI = newVal.CLJob;
-      this.clForm.CLCmpHrNameI = newVal.CLCmpHrName;
-      this.clForm.CLCmpNameI = newVal.CLCmpName;
-      this.clForm.CLMailI = newVal.CLMail;
-      this.clForm.CLPhoneI = newVal.CLPhone;
-      this.clForm.CLAddressI = newVal.CLAddress;
-      this.clForm.CLBodyI = newVal.CLBody;
-
-      }
+      updateable:false
     }
-
   },
-  mounted() {
-    this.clForm={};
-    this.getClOne(this.$route.params.clId);
-      // this.clForm.ClNameI = this.clOne.CLName;
-      // this.clForm.CLFullNameI = this.clOne.CLFullName;
-      // this.clForm.CLJobI = this.clOne.CLJob;
-      // this.clForm.CLCmpHrNameI = this.clOne.CLCmpHrName;
-      // this.clForm.CLCmpNameI = this.clOne.CLCmpName;
-      // this.clForm.CLMailI = this.clOne.CLMail;
-      // this.clForm.CLPhoneI = this.clOne.CLPhone;
-      // this.clForm.CLAddressI = this.clOne.CLAddress;
-      // this.clForm.CLBodyI = this.clOne.CLBody;
+  computed:{
+    ...mapGetters(['clTemplates','clOne']),
   },
-
-  methods: {
-    ...mapActions(["updateCl", "getClOne"]),
+  methods:{
+    ...mapActions(['getClOne','updateCl','setClTemplate']),
+    setTemplateBtn(templateId){
+      var data = {
+        clId:this.clOne._id,
+        templateId
+      }
+      this.setClTemplate(data)
+    },
     updateClWatch: _.debounce(function (newVal) {
-      console.log("updated", newVal);
       var data = {
         clid: this.clOne._id,
         data: newVal,
       };
       this.updateCl(data);
-    }, 6000),
+    },6000),
+  
   },
-};
+  async mounted(){
+    console.log(this.$route.params.clId)
+      await this.getClOne(this.$route.params.clId)
+      this.$store.subscribe((mutation) => {
+        if(mutation.type === 'clOne'){
+          if(!this.updateable){
+            this.clForm.ClNameI =mutation.payload.CLName;
+            this.clForm.CLFullNameI =mutation.payload.CLFullName;
+            this.clForm.CLJobI =mutation.payload.CLJob;
+            this.clForm.CLCmpHrNameI =mutation.payload.CLCmpHrName;
+            this.clForm.CLCmpNameI = mutation.payload.CLCmpName;
+            this.clForm.CLMailI =mutation.payload.CLMail;
+            this.clForm.CLPhoneI =mutation.payload.CLPhone;
+            this.clForm.CLAddressI =mutation.payload.CLAddress;
+            this.clForm.CLBodyI =mutation.payload.CLBody;
+            this.updateable=true;
+          }
+        }
+      })
+  },
+
+  watch:{
+    clForm:{
+      handler(newVal){
+        if(this.updateable){
+          this.updateClWatch(newVal)
+        }
+      },
+      deep:true
+    }
+  }
+}
 </script>
 
 <style></style>

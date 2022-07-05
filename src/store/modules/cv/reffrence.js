@@ -14,7 +14,7 @@ const actions = {
 
     saveReff({commit},data){
 
-        var url = process.env.VUE_APP_BASEURL + '/Reff/';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Reff/';
         axios.post(url,data).then(resp=>{
             if(resp.data.status){
                 console.log('Reffrence Saved')
@@ -26,7 +26,7 @@ const actions = {
     
     updateReff(_,data){
 
-        var url = process.env.VUE_APP_BASEURL + '/Reff/'+data.RefId;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Reff/'+data.RefId;
         axios.put(url,data.data).then(resp=>{
             if(resp.data.success){
                 console.log('Reffrence Updated')
@@ -37,7 +37,7 @@ const actions = {
     },
     deleteRef({commit},refid){
 
-        var url = process.env.VUE_APP_BASEURL + '/Reff/'+refid;
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Reff/'+refid;
 
         axios.delete(url).then(resp=>{
             if(resp.data.success){
@@ -63,7 +63,7 @@ const actions = {
 
     
 
-        var url = process.env.VUE_APP_BASEURL + '/Reff/changeSort';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Reff/changeSort';
 
         axios.post(url,newData).then(resp=>{
             if(resp.data.success){

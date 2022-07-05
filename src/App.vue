@@ -1,8 +1,14 @@
 <template>
   <div id="app">
     
-        <!-- <navbar></navbar> -->
-        <router-view/>
+    <!-- <navbar></navbar> -->
+    <userNavbar v-if="!hideOn.includes(this.$route.name)" ></userNavbar>
+  
+    <router-view v-slot="{ Component }">
+      <transition name="fade">
+        <component :is="Component" />
+      </transition>
+    </router-view>
    
     </div>
 
@@ -13,33 +19,36 @@
 
 
 <script>
-// import navbar from './components/layout/navbar.vue';
-//import sidenav from './components/layout/sidenav.vue';
+import userNavbar from './components/widget/userNavbar.vue'
 import VueCookie from 'vue-cookies';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components:{
+    userNavbar
     // navbar,
     //sidenav
   },
   data(){
 
     return {
-      hideOn:['home','login','naron','sophia','jane','doe'],
+      hideOn:['home','login','register','userMeetPrepare','userMeetRoom'],
     }
   },
   methods:{
-    ...mapActions(['LoginByCookie'])
+    ...mapActions(['LoginByCookie','getInit'])
   },
   mounted(){
 
+    this.getInit()
     //Check Cookie
-
     var Token=VueCookie.get('token')
     if(Token){
       this.LoginByCookie({Token});
     }
+  },
+  computed:{
+    ...mapGetters(['User','Token'])
   }
 }
 </script>

@@ -12,7 +12,7 @@ const actions = {
 
     updateSocial(_,data){
 
-        var url = process.env.VUE_APP_BASEURL + '/Contact/';
+        var url = process.env.VUE_APP_BASEURL + '/Cv/Contact/';
         console.log(data)
         axios.put(url,data).then(resp=>{
             if(resp.data.success){
