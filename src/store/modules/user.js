@@ -4,14 +4,15 @@ import CryptoJS from 'crypto-js'
 import router from '../../router/index'
 
 
-
 const state = {
     User: {},
+    Notification:{},
     Token: {}
 }
 
 const getters = {
     User: state => state.User,
+    Notification:state=>state.Notification,
     Token: state => state.Token
 }
 
@@ -35,8 +36,8 @@ const actions = {
                     iv: CryptoJS.enc.Utf8.parse(iv),
                     mode: CryptoJS.mode.CBC
                 })
-
                 commit('User', resp.data.payload.user)
+                commit('Notification',resp.data.payload.user.UserNotif)
                 commit('Token', cipher.toString())
 
                 //console.log(VueCookie.set('user', resp.data.payload.user, { expires: "1h" }))
@@ -63,6 +64,9 @@ const actions = {
         //var dcrypted = CryptoJS.AES.decrypt(data.Token, key).toString(CryptoJS.enc.Utf8);
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.Token;
         commit('Token', data.Token)
+
+        //this.$socket.client.emit("join", { userId:data.user });
+
         dispatch('getProfile')
         dispatch('getPrograms')
     },
@@ -82,7 +86,10 @@ const actions = {
                     mode: CryptoJS.mode.CBC
                 })
 
+                this.$socket.client.emit("join", { userId:resp.data.payload.user });
+
                 commit('User', resp.data.payload.user)
+                commit('Notification',resp.data.payload.user.UserNotif)
                 commit('Token', cipher.toString())
 
                 //console.log(VueCookie.set('user', resp.data.payload.user, { expires: "1h" }))
@@ -106,6 +113,7 @@ const actions = {
 
 const mutations = {
     User: (state, User) => (state.User = User),
+    Notification:(state, Notification) => (state.Notification = Notification),
     Token: (state, Token) => (state.Token = Token)
 }
 

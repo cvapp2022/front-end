@@ -53,6 +53,12 @@ router.beforeEach((to, from, next) => {
     }
   }
 
+  //when move from classroom clear session
+  if(from.name ==='userMeetRoom'){
+    store.dispatch('clearSession')    
+  }
+
+
   next();
 
 

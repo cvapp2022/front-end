@@ -16,10 +16,7 @@ const actions = {
         var url = process.env.VUE_APP_BASEURL + '/mn/Program/';
         axios.get(url).then(resp=>{
             if(resp.data.success){
-
-                commit('programs',resp.data.payload)
-                console.log('Programs Lodded')
-                
+                commit('programs',resp.data.payload)                
             }
         })
 
@@ -28,9 +25,12 @@ const actions = {
 
         //find program in program list 
         var progOne=state.programs.find(item=> item._id === progId )
-        console.log(progOne)
         commit('programOne',progOne);
 
+    },
+    socket_programCreated({dispatch}){
+        console.log('program created sockets')
+        dispatch('getPrograms')
     }
 
 }

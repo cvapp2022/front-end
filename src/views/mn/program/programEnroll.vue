@@ -33,7 +33,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import VueMeetingSelector from "vue-meeting-selector";
-import slotsGenerator from "vue-meeting-selector/src/helpers/slotsGenerator";
+import slotsGenerator from "../../../helpers/slotsGenerator";
 
 export default {
   components: {
@@ -43,24 +43,35 @@ export default {
     return {
       date: new Date(),
       meetingsDays: [],
+      usedDates: [],
       meeting: [],
       loading: true,
       nbDaysToDisplay: 6,
     };
   },
   methods: {
-    ...mapActions(["getProgramOne","saveRequest"]),
+    ...mapActions(["getProgramOne", "saveRequest"]),
     enroll: function () {
-        var data = {
-            requestProgramIdI:this.programOne._id,
-            requestDatesI:this.meeting,
-            requestTypeI:'paid'
-        }
-        this.saveRequest(data);
-        
-      console.log();
+      var data = {
+        requestProgramIdI: this.programOne._id,
+        requestDatesI: this.meeting,
+        requestTypeI: "paid",
+      };
+      this.saveRequest(data);
     },
     async getNewDates(date) {
+      var usedDatesArr=[]
+      if (this.requests.length > 0) {
+        this.requests.forEach((request) => {
+          if (request.ReqState === "applied" && request.ReqMeets.length > 0) {
+            request.ReqMeets.forEach((meet) => {
+              if (meet.MeetDate) {
+                usedDatesArr.push(new Date(meet.MeetDate).getTime());
+              }
+            });
+          }
+        });
+      }
       const start = {
         hours: 14,
         minutes: 0,
@@ -70,7 +81,17 @@ export default {
         minutes: 0,
       };
       this.date = date;
-      return slotsGenerator(date, this.nbDaysToDisplay, start, end, 30);
+      var generatedSlots = slotsGenerator(
+        date,
+        this.nbDaysToDisplay,
+        start,
+        end,
+        30,
+        0,
+        usedDatesArr
+      );
+
+      return generatedSlots;
     },
     // @click on button-right
     async nextDate() {
@@ -80,7 +101,6 @@ export default {
       date.setDate(date.getDate() + 7);
       // get meetings with async function
       this.meetingsDays = await this.getNewDates(date);
-      console.log(this.meetingsDays);
       // hide loading
       this.loading = false;
     },
@@ -98,12 +118,11 @@ export default {
   async created() {
     // get meetings
     this.meetingsDays = await this.getNewDates(this.date);
-    console.log(this.meetingsDays);
     // hide loading
     this.loading = false;
   },
   computed: {
-    ...mapGetters(["programOne"]),
+    ...mapGetters(["programOne", "requests"]),
     classNames() {
       return {
         tabLoading: "loading-div",
@@ -111,7 +130,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route.params.progOne);
+    //get used dates
     this.getProgramOne(this.$route.params.progOne);
   },
 };

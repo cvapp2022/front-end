@@ -7,7 +7,7 @@
       </div>
     </b-row>
     <b-row class="my-4">
-      <b-col sm="3" v-for="item in programs" v-bind:key="item._id" class="d-flex flex-column justify-content-center" >
+      <b-col sm="3" v-for="item in programs" v-bind:key="item._id" class="my-2" >
         <program :program="item" />
       </b-col>
     </b-row>

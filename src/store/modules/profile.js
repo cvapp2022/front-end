@@ -24,11 +24,11 @@ const actions = {
         var url = process.env.VUE_APP_BASEURL + '/User/';
         axios.get(url).then(resp => {
 
-
             if (resp.data.success) {
                 commit('cv', resp.data.payload.CVUCvId)
                 commit('cl', resp.data.payload.CVUClId)
                 commit('User', resp.data.payload)
+                commit('Notification',resp.data.payload.UserNotif)
                 commit('requests', resp.data.payload.MNRequests)
             }
         })

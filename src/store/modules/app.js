@@ -24,6 +24,12 @@ const actions = {
                 commit('socialLogin',resp.data.payload.socialLogin)
             }
         })
+    },
+    socket_templateCreated({dispatch}){
+        dispatch('getInit')
+    },
+    socket_templateRemoved({dispatch}){
+        dispatch('getInit')
     }
 }
 

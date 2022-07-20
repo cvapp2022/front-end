@@ -41,6 +41,20 @@ const actions = {
         commit('requestOne', reqOne)
         
     },
+    socket_requestApplied({dispatch}){
+        console.log('request applied')
+        dispatch('getProfile')
+    },
+    socket_sessionCreated({dispatch}){
+        console.log('Session Created')
+        dispatch('getProfile')
+    },
+    socket_meetScheduled({dispatch}){
+        console.log('meet scheduled')
+        dispatch('getProfile')
+    }
+    
+
 
 }
 

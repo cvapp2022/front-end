@@ -35,11 +35,17 @@ export default {
       hideOn:['home','login','register','userMeetPrepare','userMeetRoom'],
     }
   },
+  watch:{
+    User(newVal){
+      if(newVal){
+        this.$socket.client.emit("USER_JOIN",newVal)
+      }
+    }
+  },
   methods:{
     ...mapActions(['LoginByCookie','getInit'])
   },
   mounted(){
-
     this.getInit()
     //Check Cookie
     var Token=VueCookie.get('token')

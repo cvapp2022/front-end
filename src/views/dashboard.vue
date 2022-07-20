@@ -13,7 +13,15 @@
 </template>
 
 <script>
-export default {};
+import {mapGetters} from 'vuex';
+export default {
+  computed:{
+    ...mapGetters(['User'])
+  },
+  mounted(){
+    //this.$socket.client.emit("USER_JOIN",this.User)
+  }
+};
 </script>
 
 <style>
