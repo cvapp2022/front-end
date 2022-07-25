@@ -13,7 +13,7 @@
         Pay</b-button
       >
       <router-link
-        v-if="state === 'applied' || state === 'active'"
+        v-if="state === 'applied' || state==='searching' || state === 'active'"
         :to="{ name: 'requestOne', params: { requestOne: requestId } }"
         class="btn btn-primary"
       >

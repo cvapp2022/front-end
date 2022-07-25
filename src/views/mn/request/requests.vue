@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapGetters,mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import request from '../../../components/items/mn/request.vue'
 
 export default {
@@ -33,12 +33,7 @@ export default {
   computed: {
     ...mapGetters(["requests"]),
   },
-  methods:{
-    ...mapActions(['getProfile'])
-  },
-  mounted(){
-    this.getProfile()
-  }
+
 
 };
 </script>

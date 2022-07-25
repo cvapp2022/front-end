@@ -24,7 +24,8 @@
           >
             <h5>edit</h5>
           </router-link>
-          <a class="btn btn-link" target="_blank" :href="'http://127.0.0.1:5000/api/v1/Cv/'+item._id +'/render'">Preview</a>
+          <a class="btn btn-link" target="_blank" :href="'http://127.0.0.1:5000/api/v1/Cv/'+item._id +'/render'">Download As PDF</a>
+          <router-link class="btn btn-link" :to="{name:'cvPerview',params: { cvId: item._id } }" >Preview</router-link>
           <b-button variant="link" @click="deleteCvBtn(item._id)">
             Delete
           </b-button>

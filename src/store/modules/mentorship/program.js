@@ -28,9 +28,8 @@ const actions = {
         commit('programOne',progOne);
 
     },
-    socket_programCreated({dispatch}){
-        console.log('program created sockets')
-        dispatch('getPrograms')
+    socket_programCreated({commit},data){
+        commit('addProgram',data)
     }
 
 }
@@ -38,7 +37,8 @@ const actions = {
 const mutations = {
 
     programs:(state,programs)=>(state.programs = programs),
-    programOne:(state,programOne)=>(state.programOne=programOne)
+    programOne:(state,programOne)=>(state.programOne=programOne),
+    addProgram:(state,addedProgram)=>(state.programs.push(addedProgram))
 }
 
 

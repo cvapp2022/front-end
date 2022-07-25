@@ -37,7 +37,7 @@
             <b-icon icon="justify" class="h1 handle"></b-icon>
             <b-card class="my-3 p-2">
               <div class="d-flex justify-content-between">
-                <h4>{{ reff.RefName }}</h4>
+                <h4>{{ reff.RefName }} at {{reff.RefAt}} </h4>
                 <div class="">
                   <b-button v-b-toggle="'collap' + reff._id"> colp </b-button>
                   <b-button @click="DeleteRefSubmit(reff._id)" variant="danger"

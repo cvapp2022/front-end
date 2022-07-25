@@ -19,11 +19,11 @@ const getters = {
 const actions = {
 
     //Login
-    Login({ commit, dispatch }, user) {
+    Login({ commit }, user) {
 
 
         var url = process.env.VUE_APP_BASEURL + '/User/login';
-        axios.post(url, user).then(function (resp) {
+        return axios.post(url, user).then(function (resp) {
 
             if (resp.data.success) {
 
@@ -41,21 +41,21 @@ const actions = {
                 commit('Token', cipher.toString())
 
                 //console.log(VueCookie.set('user', resp.data.payload.user, { expires: "1h" }))
+                VueCookie.set('user', resp.data.payload.user._id, { expires: "1h" })
                 VueCookie.set('token', txt, { expires: "1h" })
 
                 //Set Token Default
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + txt;
-                dispatch('getProfile')
-                dispatch('getPrograms')
-                //redirect to profile view 
-                router.push({ name: 'dashboard' })
+                // dispatch('getProfile')
+                // dispatch('getPrograms')
 
+                return resp.data.payload.user;
             }
 
         })
     },
 
-    LoginByCookie({ commit, dispatch }, data) {
+    LoginByCookie({commit }, data) {
 
 
         //const key = process.env.VUE_APP_ENCKEY //
@@ -66,9 +66,10 @@ const actions = {
         commit('Token', data.Token)
 
         //this.$socket.client.emit("join", { userId:data.user });
+        //dispatch('getProfile')
 
-        dispatch('getProfile')
-        dispatch('getPrograms')
+        return data.User;
+        // dispatch('getPrograms')
     },
     Register({ commit, dispatch },user) {
         var url = process.env.VUE_APP_BASEURL + '/User/';
@@ -114,6 +115,8 @@ const actions = {
 const mutations = {
     User: (state, User) => (state.User = User),
     Notification:(state, Notification) => (state.Notification = Notification),
+    SOCKET_NOTIFICATION_SENT_TO_USER:(state,Notification)=>(state.Notification.push(Notification)),
+    SOCKET_NOTIFICATION_SENT_TO_ALL_USERS:(state,Notification)=>(state.Notification.push(Notification)),
     Token: (state, Token) => (state.Token = Token)
 }
 

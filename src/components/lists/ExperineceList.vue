@@ -37,7 +37,7 @@
             <b-icon icon="justify" class="h1 handle"></b-icon>
             <b-card class="my-3 p-2">
               <div class="d-flex justify-content-between">
-                <h4>{{ exp.ExpTitle }}</h4>
+                <h4>{{exp.ExpJob}} at {{ exp.ExpTitle }}</h4>
                 <div class="">
                   <b-button v-b-toggle="'collap' + exp._id"> colp </b-button>
                   <b-button @click="DeleteExpSubmit(exp._id)" variant="danger"

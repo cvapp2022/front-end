@@ -37,7 +37,7 @@
             <b-icon icon="justify" class="h1 handle"></b-icon>
             <b-card class="my-3 p-2">
               <div class="d-flex justify-content-between">
-                <h4>{{ org.OrgTitle }}</h4>
+                <h4>{{org.OrgJob}} at {{ org.OrgTitle }}</h4>
                 <div class="">
                   <b-button v-b-toggle="'collap' + org._id"> colp </b-button>
                   <b-button @click="DeleteOrgSubmit(org._id)" variant="danger"

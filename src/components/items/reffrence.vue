@@ -103,10 +103,32 @@
           </b-form-group>
         </validation-provider>
       </b-col>
-      <!-- Reffrence PhoneEnd -->
-
+      <!-- Reffrence At Start -->
+      <b-col cols="12" sm="6">
+        <validation-provider
+          name="Reffrence at"
+          :rules="{ required: true, min: 3 }"
+          v-slot="validationContext"
+        >
+          <b-form-group
+            id="reff-at-input"
+            label="Reffrence At"
+            label-for="reff-at-input"
+          >
+            <b-form-input
+              id="reff-at-input"
+              name="reff-at-input"
+              type="text"
+              v-model="ReffForm.RefAtI"
+              :state="getValidationState(validationContext)"
+              aria-describedby="input-1-live-feedback"
+            >
+            </b-form-input>
+          </b-form-group>
+        </validation-provider>
+      </b-col>
       <!-- Education Form Buttons  -->
-      <b-col v-if="type === 'newItem'" class="d-flex justify-content-start">
+      <b-col sm="12" v-if="type === 'newItem'" class="d-flex justify-content-start">
         <b-button type="submit" variant="primary">Save</b-button>
         <b-button variant="danger" class="mx-2">Cancel</b-button>
       </b-col>
@@ -129,6 +151,7 @@ export default {
         RefJobI: this.reffrence.RefJob,
         RefMailI: this.reffrence.RefMail,
         RefPhoneI: this.reffrence.RefPhone,
+        RefAtI: this.reffrence.RefAt,
         RefCvI: this.CvId,
       };
     } else if (this.type === "newItem") {
@@ -137,6 +160,7 @@ export default {
         RefJobI: "",
         RefMailI: "",
         RefPhoneI: "",
+        RefAtI: "",
         RefCvI: this.CvId,
       };
     }

@@ -30,7 +30,7 @@ const actions = {
     },
     socket_templateRemoved({dispatch}){
         dispatch('getInit')
-    }
+    },
 }
 
 const mutations = {

@@ -38,7 +38,7 @@ Vue.use(VueFileAgent);
 const ioInstance = SocketIO('http://127.0.0.1:5000', {
         reconnection: true,
         reconnectionDelay: 500,
-        maxReconnectionAttempts: Infinity
+        maxReconnectionAttempts: 6
 });
 Vue.use(VueSocketIO,ioInstance,{ store })
 

@@ -70,7 +70,13 @@ export default {
         ...mapActions(['Login']),
         UserLogin:function(){
 
-            this.Login(this.form)
+            this.Login(this.form).then((user)=>{
+
+                //redirect to profile view 
+                this.$router.push({ name: 'dashboard' })
+                
+                this.$socket.client.emit("USER_JOIN",user._id);
+            })
          
         }
     },

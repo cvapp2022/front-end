@@ -31,23 +31,24 @@
       <!-- Education type  -->
       <b-col cols="12" sm="6">
         <validation-provider
-          name="Education type"
+          name="Education At"
           :rules="{ required: true, min: 3 }"
           v-slot="validationContext"
         >
           <b-form-group
-            id="edu-type"
-            label="Education type"
-            label-for="edu-type-input"
+            id="edu-at"
+            label="Education at"
+            label-for="edu-at-input"
           >
-            <b-form-select
-              id="edu-type-input"
-              v-model="EduForm.EduTypeI"
-              :options="EduTypeOptions"
+            <b-form-input
+              id="edu-at-input"
+              name="edu-at-input"
+              v-model="EduForm.EduAtI"
               :state="getValidationState(validationContext)"
-              aria-describedby="edu-type-live-feedback"
-            ></b-form-select>
-            <b-form-invalid-feedback id="edu-type-live-feedback">{{
+              aria-describedby="edu-at-live-feedback"
+            >
+            </b-form-input>
+            <b-form-invalid-feedback id="edu-at-live-feedback">{{
               validationContext.errors[0]
             }}</b-form-invalid-feedback>
           </b-form-group>
@@ -115,24 +116,6 @@
 
       <!-- Education Description  -->
       <b-col cols="12" sm="12">
-        <!-- <validation-provider
-            name="Education Description"
-            :rules="{ required: true, min: 3 }"
-            v-slot="validationContext">
-            <b-form-group id="edu-desc" label="Education Description" label-for="edu-desc" >
-                <b-textarea
-                id="edu-desc"
-                name='edu-desc'
-                type='date'
-                v-model="EduForm.EduDescI"
-                :state="getValidationState(validationContext)"
-                aria-describedby="edu-desc-live-feedback"
-                rows="6"
-                >
-                </b-textarea>
-                <b-form-invalid-feedback id="edu-desc-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-            </b-form-group>
-            </validation-provider> -->
         <vue-editor v-model="EduForm.EduDescI" :editorToolbar="customToolbar">
         </vue-editor>
       </b-col>
@@ -182,7 +165,7 @@ export default {
     if (this.type === "item") {
       EduFormVal = {
         EduTitleI: this.education.EduTitle,
-        EduTypeI: this.education.EduType,
+        EduAtI: this.education.EduAt,
         EduFromI: new Date(this.education.EduFrom)
           .toISOString()
           .substring(0, 10),
@@ -193,7 +176,7 @@ export default {
     } else if (this.type === "newItem") {
       EduFormVal = {
         EduTitleI: "",
-        EduTypeI: null,
+        EduAtI: "",
         EduFromI: "",
         EduToI: "",
         EduDescI: "",

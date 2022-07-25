@@ -90,15 +90,23 @@
         >
       </b-col>
       <b-col sm="6">
-        <iframe
-          :src="
-            'http://127.0.0.1:5000/api/v1/Cv/' +
-            this.$route.params.cvId +
-            '/render'
-          "
-          frameborder="0"
-          class="w-100 h-100"
-        ></iframe>
+        <b-card>
+          <vue-pdf-embed
+            :source="'http://127.0.0.1:5000/api/v1/Cv/' +this.$route.params.cvId +'/render'"
+            :page="page"
+            ref="pdfRef"
+            @rendered="handleDocumentRender"
+          />
+          <div class="" v-if="!this.pdfIsLoading">
+            <button :disabled="page <= 1" @click="page--">❮</button>
+            {{ page }} / {{ pageCount }}
+            <button :disabled="page >= pageCount" @click="page++">❯</button>
+          </div>
+
+        </b-card>
+        <!-- :src="
+            
+          " -->
       </b-col>
     </b-row>
   </b-container>
@@ -106,15 +114,20 @@
 
 <script>
 import draggable from "vuedraggable";
+import VuePdfEmbed from "vue-pdf-embed/dist/vue2-pdf-embed";
 import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
     draggable,
+    VuePdfEmbed
   },
   data() {
     return {
       drag: false,
       dragList: {},
+      page: 1,
+      pageCount: 1,
+      pdfIsLoading: true,
     };
   },
   watch: {
@@ -125,8 +138,21 @@ export default {
       deep: true,
     },
   },
+  sockets:{
+     async SECTION_UPDATED(){
+      console.log('SocketUpdated')
+      await this.$refs.pdfRef.load()
+      this.$refs.pdfRef.render()
+      console.log('pdf new is ',this.pdfIsLoading)
+    }
+  },
   methods: {
-    ...mapActions(["addSection", "getCvOne","changeSectionSort"]),
+    ...mapActions(["addSection", "getCvOne", "changeSectionSort"]),
+    handleDocumentRender() {
+      this.pdfIsLoading = false;
+      console.log('doc re renderd')
+      this.pageCount = this.$refs.pdfRef.pageCount;
+    },
     DragEnd() {
       this.drag = false;
       console.log(this.dragList);

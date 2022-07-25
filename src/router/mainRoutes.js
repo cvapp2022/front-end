@@ -18,7 +18,7 @@ export const mainRoutes =[
     {
         path:'/resumes/',
         name:'resumes',
-        component:lazyLoad('resumes'),
+        component:lazyLoad('cv/resumes'),
         meta: {
             requireAuth: true
         }
@@ -26,7 +26,7 @@ export const mainRoutes =[
     {
         path: '/resumes/:cvId',
         name: 'cvOne',
-        component: lazyLoad('cvOne'),
+        component: lazyLoad('cv/cvOne'),
         meta: {
             requireAuth: true
         }
@@ -34,7 +34,7 @@ export const mainRoutes =[
     {
         path: '/resumes/:cvId/perview',
         name: 'cvPerview',
-        component: lazyLoad('cvPreview'),
+        component: lazyLoad('cv/cvPreview'),
         meta: {
             requireAuth: true
         }
@@ -42,7 +42,7 @@ export const mainRoutes =[
     {
         path:'/cover-letters/',
         name:'coverLetters',
-        component:lazyLoad('coverLetters'),
+        component:lazyLoad('cl/coverLetters'),
         meta: {
             requireAuth: true
         }
@@ -50,7 +50,7 @@ export const mainRoutes =[
     {
         path: '/cover-letters/:clId',
         name: 'clOne',
-        component: lazyLoad('clOne'),
+        component: lazyLoad('cl/clOne'),
         meta: {
             requireAuth: true
         }
