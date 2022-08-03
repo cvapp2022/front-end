@@ -145,9 +145,9 @@ export default {
 <style scoped lang="scss">
 .simple-example {
   margin-top: 3em;
-  &__meeting-selector {
-    max-width: 50%;
-  }
+  // &__meeting-selector {
+  //   max-width: 50%;
+  // }
 }
 // since our scss is scoped we need to use ::v-deep
 ::v-deep .loading-div {

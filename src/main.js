@@ -7,13 +7,14 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueCookie from 'vue-cookies';
 import VueSocketIO from 'vue-socket.io-extended'
 import SocketIO from 'socket.io-client'
+import VueI18n from 'vue-i18n'
+import locals from './locals'
 import VueFileAgent from "vue-file-agent";
 
 import 'vue-file-agent/dist/vue-file-agent.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-
+// import './assets/css/bootstraprtl.min.css';
 import en from "vee-validate/dist/locale/en.json";
 import * as rules from "vee-validate/dist/rules";
 
@@ -34,8 +35,15 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCookie)
 Vue.use(VueFileAgent);
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages:locals
+});
+
 /* Establish Connection */
-const ioInstance = SocketIO('http://127.0.0.1:5000', {
+const ioInstance = SocketIO(process.env.VUE_APP_URL, {
         reconnection: true,
         reconnectionDelay: 500,
         maxReconnectionAttempts: 6
@@ -47,5 +55,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App)
 }).$mount('#app')

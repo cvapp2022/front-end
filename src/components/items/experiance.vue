@@ -4,13 +4,13 @@
       <!-- Experiance Title -->
       <b-col cols="12" sm="6">
         <validation-provider
-          name="Experiance Title"
+          :name="$t('ExpName')"
           :rules="{ required: true, min: 3 }"
           v-slot="validationContext"
         >
           <b-form-group
             id="exp-title"
-            label="Experiance title"
+            :label="$t('ExpName')"
             label-for="exp-title-input"
           >
             <b-form-input
@@ -31,13 +31,13 @@
       <!-- Experiance Job  -->
       <b-col cols="12" sm="6">
         <validation-provider
-          name="Experiance Job"
+          :name="$t('ExpJob')"
           :rules="{ required: true, min: 3 }"
           v-slot="validationContext"
         >
           <b-form-group
             id="exp-job"
-            label="Experiance Job"
+            :label="$t('ExpJob')"
             label-for="exp-job-input"
           >
             <b-form-input
@@ -58,13 +58,13 @@
       <!-- Experiance Date Start -->
       <b-col cols="12" sm="6">
         <validation-provider
-          name="Experiance Date Start"
+          :name="$t('DateStart')"
           :rules="{ required: true }"
           v-slot="validationContext"
         >
           <b-form-group
             id="exp-date-start"
-            label="Experiance Date Start"
+            :label="$t('DateStart')"
             label-for="exp-date-start-input"
           >
             <b-form-input
@@ -86,13 +86,13 @@
       <!-- Experiance Date End -->
       <b-col cols="12" sm="6">
         <validation-provider
-          name="Experiance Date end"
+          :name="$t('DateEnd')"
           :rules="{ required: true }"
           v-slot="validationContext"
         >
           <b-form-group
             id="exp-date-end"
-            label="Experiance Date end"
+            :label="$t('DateEnd')"
             label-for="exp-date-end-input"
           >
             <b-form-input
@@ -114,13 +114,13 @@
       <!-- Experiance Description  -->
       <b-col cols="12" sm="12">
         <validation-provider
-          name="Experiance Description"
+          :name="$t('ExpDesc')"
           :rules="{ required: true, min: 3 }"
           v-slot="validationContext"
         >
           <b-form-group
             id="exp-desc"
-            label="Experiance Description"
+            :label="$t('ExpDesc')"
             label-for="exp-desc"
           >
             <!-- <b-textarea
@@ -246,11 +246,21 @@ export default {
       return dirty || validated ? valid : null;
     },
     SaveExpSubmit() {
-      this.saveExp(this.ExpForm);
+      this.saveExp(this.ExpForm).then(() => {
+        //close collapse
+        this.$emit("expSaved");
+        //empty form
+        this.ExpForm = {
+          ExpTitleI: "",
+          ExpJobI: "",
+          ExpFromI: "",
+          ExpToI: "",
+          ExpDescI: "",
+          ExpCvI: this.CvId,
+        };
+      });
     },
     updateExpWatch: _.debounce(function () {
-
-      
       var data = {
         ExpId: this.experiance._id,
         data: this.ExpForm,

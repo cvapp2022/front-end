@@ -2,8 +2,8 @@
   <b-container>
   <b-row class="my-4">
     <div class="page_title">
-      <h2 class="font-weight-bolder" >Your Resumes</h2>
-      <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sapiente inventore autem, suscipit obcaecati ex laboriosam et</p>
+      <h2 class="font-weight-bolder" >{{$t('resumesTitle')}}</h2>
+      <p class="text-muted">{{$t('resumesDesc')}}</p>
     </div>
   </b-row>
   <b-row class="my-4">
@@ -22,12 +22,12 @@
             class="btn btn-link"
             :to="{ name: 'cvOne', params: { cvId: item._id } }"
           >
-            <h5>edit</h5>
+            <h5>{{$t('Edit')}}</h5>
           </router-link>
-          <a class="btn btn-link" target="_blank" :href="'http://127.0.0.1:5000/api/v1/Cv/'+item._id +'/render'">Download As PDF</a>
-          <router-link class="btn btn-link" :to="{name:'cvPerview',params: { cvId: item._id } }" >Preview</router-link>
+          <a class="btn btn-link" target="_blank" :href="process.env.VUE_APP_BASEURL+'/Cv/'+item._id +'/render'">{{$t("DownloadPdf")}}</a>
+          <router-link class="btn btn-link" :to="{name:'cvPerview',params: { cvId: item._id } }" >{{$t("Preview")}}</router-link>
           <b-button variant="link" @click="deleteCvBtn(item._id)">
-            Delete
+            {{$t('Delete')}}
           </b-button>
         </div>
       </div>
@@ -38,8 +38,8 @@
           <img src="@/assets/images/document.jpg" />
         </div>
         <div class="mx-4 mt-2">
-          <h4 class="text-muted" >New Resume</h4>
-          <p class="text-muted">Create a tailored resume for each job application. Double your chances of getting hired!</p>
+          <h4 class="text-muted" >{{$t("newResume")}}</h4>
+          <p class="text-muted">{{$t("newResumeDesc")}}</p>
         </div>
       </div>
     </b-col>
@@ -55,9 +55,15 @@ export default {
         ...mapActions([
             "createCv",
             "deleteCv",
+            "getCvOne"
         ]),
         createCvBtn() {
-            this.createCv();
+            this.createCv().then((cvId)=>{
+              if(this.cv.length === 1){
+                this.getCvOne(cvId)
+                this.$router.push({name:'cvStepInfo',params:{cvId}})
+              }
+            });
         },
         deleteCvBtn(cvId) {
             this.deleteCv(cvId);

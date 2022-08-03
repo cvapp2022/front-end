@@ -153,7 +153,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { VueEditor } from "vue2-editor";
-import _ from 'lodash';
+import _ from "lodash";
 
 export default {
   props: ["organization", "type", "CvId"],
@@ -196,7 +196,7 @@ export default {
         [{ color: [] }],
       ],
       SkillArr: [],
-      updateable:false
+      updateable: false,
     };
   },
   watch: {
@@ -211,7 +211,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["saveOrg",'updateOrg']),
+    ...mapActions(["saveOrg", "updateOrg"]),
     updateModal() {
       this.$emit("setModalProp");
     },
@@ -219,17 +219,25 @@ export default {
       return dirty || validated ? valid : null;
     },
     SaveOrgSubmit() {
-      this.saveOrg(this.OrgForm);
+      this.saveOrg(this.OrgForm).then(() => {
+        this.$emit("orgSaved");
+        this.OrgForm = {
+          OrgTitleI: "",
+          OrgJobI: "",
+          OrgFromI: "",
+          OrgToI: "",
+          OrgDescI: "",
+          OrgCvI: this.CvId,
+        };
+      });
     },
-    updateOrgWatch:_.debounce(function(){
-
-      var data= {
-        data:this.OrgForm,
-        OrgId:this.organization._id
-      }
+    updateOrgWatch: _.debounce(function () {
+      var data = {
+        data: this.OrgForm,
+        OrgId: this.organization._id,
+      };
       this.updateOrg(data);
-
-    },6000)
+    }, 6000),
   },
   computed: {
     ...mapGetters(["skills"]),

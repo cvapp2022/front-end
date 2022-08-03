@@ -11,9 +11,10 @@ const getters = {
 
 const actions = {
 
-    getPrograms({commit}){
+    getPrograms({commit},data){
 
-        var url = process.env.VUE_APP_BASEURL + '/mn/Program/';
+        console.log(this.app)
+        var url = process.env.VUE_APP_BASEURL + '/mn/Program/'+data.lang;
         axios.get(url).then(resp=>{
             if(resp.data.success){
                 commit('programs',resp.data.payload)                

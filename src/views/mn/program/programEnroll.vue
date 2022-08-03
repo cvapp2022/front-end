@@ -1,16 +1,17 @@
 <template>
-  <div class="">
-    <h4>ProgramOne d</h4>
-    <b-button @click="enroll()" variant="primary">enroll</b-button>
-    <div class="">
+  <b-container>
+    <b-row>
       <calander
+        class="w-100"
         :at="'programEnroll'"
         :dates="[]"
         @dates-updated="updateDate"
       ></calander>
-      <p>meeting Selected: {{ meeting ? meeting : "No Meeting selected" }}</p>
-    </div>
-  </div>
+    </b-row>
+    <b-row>
+      <b-button @click="enroll()" variant="primary">enroll</b-button>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -35,7 +36,10 @@ export default {
           requestDatesI: this.meeting,
           requestTypeI: "paid",
         };
-        this.saveRequest(data);
+        this.saveRequest(data).then(() => {
+          this.$router.push({ name: "requests" });
+          
+        });
       }
     },
     updateDate(dates) {

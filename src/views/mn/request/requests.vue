@@ -2,11 +2,8 @@
   <b-container>
     <b-row class="my-4">
       <div class="page_title">
-        <h2 class="font-weight-bolder">Your Mentorships</h2>
-        <p class="text-muted">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore
-          sapiente inventore autem, suscipit obcaecati ex laboriosam et
-        </p>
+        <h2 class="font-weight-bolder">{{$t("mentoringTitle")}}</h2>
+        <p class="text-muted">{{$t('mentoringDesc')}}</p>
       </div>
     </b-row>
     <b-row class="my-4">
@@ -15,9 +12,7 @@
       </b-col>
     </b-row>
     <b-row class="justify-content-center">
-      <router-link :to="{ name: 'programs' }" class="btn btn-primary"
-        >Enroll to another programs</router-link
-      >
+      <router-link :to="{ name: 'programs' }" class="btn btn-primary">{{$t('enrollToAnotherProgram')}}</router-link>
     </b-row>
   </b-container>
 </template>

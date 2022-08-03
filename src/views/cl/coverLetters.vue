@@ -2,8 +2,8 @@
   <b-container>
     <b-row class="my-4">
       <div class="page_title">
-        <h2 class="font-weight-bolder" >Your Cover Letters</h2>
-        <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sapiente inventore autem, suscipit obcaecati ex laboriosam et</p>
+        <h2 class="font-weight-bolder" >{{$t('coverLettersTitle')}}</h2>
+        <p class="text-muted">{{$t('coverLettersDesc')}}</p>
       </div>
     </b-row>
     <b-row class="my-4">
@@ -17,11 +17,11 @@
               <h5>item title</h5>
             </router-link>
             <router-link class="btn btn-link" :to ="{name:'clOne',params:{clId:item._id}}">
-              <h5>edit</h5>
+              <h5>{{$t("Edit")}}</h5>
             </router-link>
-            <a class="btn btn-link" target="_blank" :href="'http://127.0.0.1:5000/api/v1/Cl/'+item._id +'/render'">Preview</a>
+            <a class="btn btn-link" target="_blank" :href="process.env.VUE_APP_BASEURL+'/Cl/'+item._id +'/render'">{{$t("Preview")}}</a>
             <b-button variant="link" @click="deleteClBtn(item._id)">
-              Delete
+              {{$t("Delete")}}
             </b-button>
           </div>
         </div>
@@ -32,8 +32,8 @@
             <img src="@/assets/images/document.jpg" />
           </div>
           <div class="mx-2 mt-2">
-            <h4 class="text-muted" >New Cover Letter</h4>
-            <p class="text-muted">Create a tailored resume for each job application. Double your chances of getting hired!</p>
+            <h4 class="text-muted" >{{$t("newCoverLettter")}}</h4>
+            <p class="text-muted">{{$t("newCoverLetterDesc")}}</p>
           </div>
         </div>
       </b-col>

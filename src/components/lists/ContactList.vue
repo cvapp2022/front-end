@@ -129,10 +129,12 @@ export default {
   methods: {
     ...mapActions(["updateSocial"]),
     getVal(field) {
-      var item = this.contacts.find((obj) => {
-        return obj.CKey === field;
-      });
-      return item.CValue;
+      if(!_.isEmpty(this.contacts) && this.contacts.length > 0){
+        var item = this.contacts.find((obj) => {
+          return obj.CKey === field;
+        });
+        return item
+      }
     },
     handleWatch: _.debounce(function (name) {
 
@@ -190,11 +192,11 @@ export default {
   },
   mounted() {
     //fil inputs
-    this.facebook = this.getVal("facebook");
-    this.twitter = this.getVal("twitter");
-    this.linkedin = this.getVal("linked-in");
-    this.google = "";
-    this.github = this.getVal("github");
+    this.facebook = this.getVal("facebook").CValue;
+    this.twitter = this.getVal("twitter").CValue;
+    this.github = this.getVal("github").CValue;
+    this.linkedin = this.getVal("linkedin").CValue;
+    // this.google = "";
   },
 };
 </script>

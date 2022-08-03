@@ -72,18 +72,9 @@
           </b-form>
         </b-card>
         <div class="d-flex flex-column mb-1">
-          <!-- <b-button variant="primary" class="my-1"
-            >Register With Facebook</b-button
-          > -->
-          <b-button variant="primary" class="my-1"
-            >Register With Google</b-button
-          >
-          <b-button variant="primary" class="my-1"
-            >Register With Linked-in</b-button
-          >
-          <b-button variant="primary" class="my-1"
-            >Register With Github</b-button
-          >
+          <a class="btn btn-primary my-1" :href="this.socialLogin.google">Register With Google</a>
+          <a class="btn btn-primary my-1" :href="this.socialLogin.linkedin">Register With Linked-in</a>
+          <a class="btn btn-primary my-1" :href="this.socialLogin.github">Register With Github</a>
         </div>
       </b-col>
     </b-row>
@@ -91,7 +82,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -108,8 +99,15 @@ export default {
   methods: {
     ...mapActions(["Register"]),
     UserRegister: function () {
-      this.Register(this.form);
+      this.Register(this.form).then((user) => {
+        //redirect to profile view
+        this.$socket.client.emit("USER_JOIN", user._id);
+        this.$router.push({ name: "dashboard" });
+      });
     },
+  },
+  computed: {
+    ...mapGetters(["socialLogin"]),
   },
 };
 </script>

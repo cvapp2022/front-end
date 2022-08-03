@@ -3,22 +3,23 @@
     <b-card class="my-3 px-2">
       <b-row class="justify-content-between align-items-start">
         <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
-          Education
+          {{$t("Educations")}}
         </h4>
         <b-button
           variant="link"
-          class="font-weight-bold h5 text-dark"
+          class="font-weight-bold h5 text-primary"
           v-b-toggle.collapse-edu
         >
-          + Add Education
+          {{$t("AddEdu")}}
         </b-button>
-        <b-button variant="danger" @click="removeSectionBtn('educations')"  >rm</b-button>
+        <!-- <b-button variant="danger" @click="removeSectionBtn('educations')"  >rm</b-button> -->
       </b-row>
       <b-row>
-        <b-collapse id="collapse-edu" class="mt-2" style="flex: 1">
+        <b-collapse id="collapse-edu" class="mt-2">
           <education
             v-bind:CvId="cvOne.cvId"
             v-bind:type="'newItem'"
+            @eduSaved="toggleCollapse"
           ></education>
         </b-collapse>
       </b-row>
@@ -33,16 +34,23 @@
         v-model="draglist"
       >
         <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-          <div class="" v-for="edu in this.draglist" v-bind:key="edu._id">
+          <div
+            class="d-flex align-items-baseline"
+            v-for="edu in this.draglist"
+            v-bind:key="edu._id"
+          >
             <b-icon icon="justify" class="h1 handle"></b-icon>
-            <b-card class="my-3 p-2">
+            <b-card class="flex-fill my-3 p-2">
               <div class="d-flex justify-content-between">
                 <h4>{{ edu.EduTitle }} at {{ edu.EduAt }}</h4>
                 <div class="">
-                  <b-button v-b-toggle="'collap' + edu._id"> colp </b-button>
-                  <b-button @click="DeleteEduSubmit(edu._id)" variant="danger"
-                    >Del</b-button
-                  >
+                  <b-button v-b-toggle="'collap' + edu._id" variant="link">
+                    <span class="when-open">
+                      <b-icon icon="chevron-up"></b-icon></span
+                    ><span class="when-closed">
+                      <b-icon icon="chevron-down"></b-icon
+                    ></span>
+                  </b-button>
                 </div>
               </div>
               <b-collapse :id="'collap' + edu._id">
@@ -54,6 +62,9 @@
                 ></education>
               </b-collapse>
             </b-card>
+            <b-button @click="DeleteEduSubmit(edu._id)" variant="link">
+              <b-icon icon="trash"></b-icon>
+            </b-button>
           </div>
         </transition-group>
       </draggable>
@@ -95,7 +106,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["deleteEdu", "changeEdu","removeSection"]),
+    ...mapActions(["deleteEdu", "changeEdu", "removeSection"]),
     DragEnd() {
       this.drag = false;
       this.changeEdu({ list: this.draglist, CvId: this.cvOne.cvId });
@@ -105,7 +116,24 @@ export default {
       this.SkillModalItemId = id;
     },
     DeleteEduSubmit: function (eduid) {
-      this.deleteEdu(eduid);
+      this.$bvModal
+        .msgBoxConfirm("Please confirm that you want to delete everything."+eduid, {
+          title: "Please Confirm",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "YES",
+          cancelTitle: "NO",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((value) => {
+          if(value){
+            this.deleteEdu(eduid);
+          }
+          //this.boxTwo = value;
+        });
     },
     removeSectionBtn(section) {
       var data = {
@@ -113,6 +141,9 @@ export default {
         section,
       };
       this.removeSection(data);
+    },
+    toggleCollapse() {
+      this.$root.$emit("bv::toggle::collapse", "collapse-edu");
     },
   },
   mounted() {

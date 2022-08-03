@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       isDisconnected: false,
-      hideOn: ["home", "login", "register", "userMeetPrepare", "userMeetRoom"],
+      hideOn: ["home", "login", "register", "userMeetPrepare", "userMeetRoom","social"],
     };
   },
   watch: {
@@ -63,7 +63,19 @@ export default {
       this.isDisconnected = false;
       this.getInit();
       this.getProfile();
-      this.getPrograms();
+      this.getPrograms({ lang: this.$i18n.locale });
+    },
+    NOTIFICATION_SENT_TO_USER(data) {
+      this.$bvToast.toast(this.$t(data.NotifMessage,data.NotifValues), {
+        toaster:'b-toaster-bottom-right',
+        solid: true,
+      });
+    },
+    NOTIFICATION_SENT_TO_ALL_USERS(data) {
+      this.$bvToast.toast(this.$t(data.NotifMessage,data.NotifValues), {
+        toaster:'b-toaster-bottom-right',
+        solid: true,
+      });
     },
   },
   methods: {
@@ -76,10 +88,10 @@ export default {
     this.getInit();
     //Check Cookie
     var Token = VueCookie.get("token");
-    var UserCookie =VueCookie.get('user');
+    var UserCookie = VueCookie.get("user");
     if (Token && UserCookie) {
-      this.LoginByCookie({ Token,User:UserCookie }).then((userId)=>{
-        this.$socket.client.emit("USER_JOIN",userId);
+      this.LoginByCookie({ Token, User: UserCookie }).then((userId) => {
+        this.$socket.client.emit("USER_JOIN", userId);
       });
     }
   },
@@ -110,5 +122,10 @@ export default {
 
 .card-body {
   padding: 0.8rem !important;
+}
+
+.collapsed > .when-open,
+.not-collapsed > .when-closed {
+  display: none;
 }
 </style>

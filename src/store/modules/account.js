@@ -36,11 +36,26 @@ const actions = {
 
     createCv({ commit }) {
         var url = process.env.VUE_APP_BASEURL + '/Cv/';
-        axios.post(url, { CvNameI: 'untiteld' }).then(resp => {
+        return axios.post(url, { CvNameI: 'untiteld' }).then(resp => {
 
             if (resp.data.success) {
-                console.log(resp.data)
                 commit('cv', resp.data.payload.list)
+                return resp.data.payload.item._id;
+            }
+        })
+
+    },
+
+    async updateCV(_,data){
+
+
+        var url = process.env.VUE_APP_BASEURL + '/Cv/'+data.cvId;
+
+        return  axios.put(url,data.data).then(resp=>{
+            if(resp.data.success){
+                //commit('profile',resp.data.payload.list)
+                console.log('Cv Updated')
+                return resp.data.payload
             }
         })
 
@@ -69,9 +84,13 @@ const actions = {
             if (resp.data.success) {
 
                 var data = resp.data.payload;
-
+                console.log(data)
                 var cvObj = {
                     cvName: data.CVName,
+                    cvFullName:data.CVFullName,
+                    cvProfile:data.CVProfile,
+                    cvAddress:data.CVAddress,
+                    cvPosition:data.CVPosition,
                     cvId: data._id,
                     cvImg: data.CVImg,
                     cvSections: data.CvSections

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import User from './modules/user';
-import profile from './modules/profile';
+import account from './modules/account';
 import program from './modules/mentorship/program';
 import request from './modules/mentorship/request';
 import session from './modules/mentorship/session';
@@ -24,7 +24,7 @@ export default new Vuex.Store({
   modules: {
     App,
     User,
-    profile,
+    account,
     program,
     request,
     session,

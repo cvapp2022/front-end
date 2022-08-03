@@ -45,6 +45,11 @@
                     </b-form-group>
                 </b-form>  
               </b-card>
+                <div class="d-flex flex-column mb-1">
+          <a class="btn btn-primary my-1" :href="this.socialLogin.google">Register With Google</a>
+          <a class="btn btn-primary my-1" :href="this.socialLogin.linkedin">Register With Linked-in</a>
+          <a class="btn btn-primary my-1" :href="this.socialLogin.github">Register With Github</a>
+        </div>
           </b-col>
       </b-row>
   </b-container>
@@ -52,7 +57,7 @@
 
 <script>
 
-import { mapActions } from 'vuex';
+import { mapActions,mapGetters } from 'vuex';
 
 export default {
 
@@ -77,9 +82,11 @@ export default {
                 
                 this.$socket.client.emit("USER_JOIN",user._id);
             })
-         
         }
     },
+    computed:{
+        ...mapGetters(['socialLogin'])
+    }
 
 }
 </script>

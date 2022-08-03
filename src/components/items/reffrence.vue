@@ -128,7 +128,11 @@
         </validation-provider>
       </b-col>
       <!-- Education Form Buttons  -->
-      <b-col sm="12" v-if="type === 'newItem'" class="d-flex justify-content-start">
+      <b-col
+        sm="12"
+        v-if="type === 'newItem'"
+        class="d-flex justify-content-start"
+      >
         <b-button type="submit" variant="primary">Save</b-button>
         <b-button variant="danger" class="mx-2">Cancel</b-button>
       </b-col>
@@ -186,7 +190,17 @@ export default {
     },
     ...mapActions(["saveReff", "updateReff"]),
     SaveReffSubmit: function () {
-      this.saveReff(this.ReffForm);
+      this.saveReff(this.ReffForm).then(() => {
+        this.$emit("reffSaved");
+        this.ReffForm = {
+          RefNameI: "",
+          RefJobI: "",
+          RefMailI: "",
+          RefPhoneI: "",
+          RefAtI: "",
+          RefCvI: this.CvId,
+        };
+      });
       console.log("Reff Saved");
     },
     updateProjWatch: _.debounce(function () {

@@ -34,7 +34,7 @@ import Storage from "../../../components/widget/room/storage.vue";
 import vidchat from "../../../components/widget/room/vidchat.vue";
 import chat from "../../../components/widget/room/chat.vue";
 
-import { mapGetters } from "vuex";
+import { mapGetters,mapActions } from "vuex";
 import _ from "lodash";
 import router from "../../../router/index";
 
@@ -46,21 +46,37 @@ export default {
     vidchat,
     chat,
   },
-  data(){
+  data() {
     return {
-      roomId:null
+      roomId: null,
+    };
+  },
+  sockets: {
+    USER_JOINED() {
+      this.$socket.client.emit("join", { session: this.roomId });
+    },
+    SESSION_CLOSED(){
+      console.log('mentor closed session redirect to rating',this.$route.params.meetId)
+      router.push({ name: "userMeetRate",params:{meetId:this.$route.params.meetId} })
     }
+  },
+  methods:{
+    ...mapActions(['clearSession'])
   },
   mounted() {
     if (_.isEmpty(this.Session)) {
       router.push({ name: "profile" });
     }
     this.roomId = this.Session.SessionId;
-    console.log(this.roomId)
+    console.log(this.roomId);
     this.$socket.client.emit("join", { session: this.roomId });
   },
   computed: {
     ...mapGetters(["Session"]),
+  },
+  beforeDestroy() {
+    this.$socket.client.emit("leave", { session: this.roomId });
+    this.clearSession()
   },
 };
 </script>

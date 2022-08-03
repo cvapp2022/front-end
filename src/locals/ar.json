@@ -1,0 +1,95 @@
+{
+    "Save":"حفظ",
+    "Edit":"تعديل",
+    "Delete":"إزالة",
+    "Update":"تعديل",
+    "Cancel":"إلغاء",
+    "Preview":"عرض",
+    "DownloadPdf":"تحميل كا PDF",
+    
+    "login":"تسجيل الدخول",
+    "register":"إنشاء حساب جديد",
+    "dashboard":"الرئيسية",
+    "resumes":"السيرة الذاتية",
+    "coverLetters":"الخطابات التعريفية",
+    "mentoring":"الأرشارد",
+    
+    "newResume":"سيرة ذاتية جديدة",
+    "newResumeDesc":"سيرة ذاتية جديدسيرة ذاتية جديدسيرة ذاتية جديدسيرة ذاتية جديدسيرة ذاتية جديدسيرة ذاتية جديد",
+    
+    "newCoverLettter":"خطاب تعريفي جديد",
+    "newCoverLetterDesc":"خطاب تعريفي جديخطاب تعريفي جديخطاب تعريفي جديخطاب تعريفي جديخطاب تعريفي جديخطاب تعريفي جديخطاب تعريفي جديخطاب تعريفي جدي!",
+    
+    "dashboardTitle":"الصفحة الرئيسية",
+    "dashboardDesc":" شرح مطول عن الصفحة الرئيسية",
+  
+    "resumesTitle":"سيرك الذاتية",
+    "resumesDesc":"شرح مطول سيرك الذاتية",  
+    
+    "coverLettersTitle":"خطاباتك التعريفية",
+    "coverLettersDesc":"شرح مطول خطاباتك التعريفية",
+
+    "mentoringTitle":"المنح الارشادية",
+    "mentoringDesc":"المنح الارشادية شرح مطول " ,
+
+    "programsTitle":"أختر منحة",
+    "programsDesc":"شرح مطول منح ",
+
+    "enrollToProgram":"التقدم للمنحة",
+    "enrollToAnotherProgram":"التقدم الى منح اخرى",
+
+    "DateStart":"بدأت بتاريخ",
+    "DateEnd":"أنتهت بتاريخ",
+
+    "Templates":"القوالب",
+    "Profile":"المعلومات الشخصية",
+    "Experiences":"الخبرات",
+    "Educations":"التعليم",
+    "Reffrences":"المراجع",
+    "Awards":"الجوائز",
+    "Projects":"المشاريع",
+    "Organizations":" تطوعية",
+    "Skills":"مهارات",
+    
+    "AddExp":"إضف خبرة",
+    "AddEdu":"إضف تعليم",
+    "AddReff":"أضف مرجع",
+    "AddAw":"أضف جائزة",
+    "AddProj":"أضف مشروع",
+    "AddOrg":"أضف تطوع",
+    "AddSkill":"أضف مهارة",
+
+    "ExpName":"أسم الخبرة",
+    "ExpJob":"منصب الخبرة",
+    "ExpDesc":"شرح عن الخبرة",
+
+    "EduName":"أسم التعليم",
+    "EduAt":"في",
+    "EduDesc":"شرح عن التعليم",
+
+    "ReffName":"الأسم الكامل للمرحع",
+    "ReffJob":"منصب المرجع",
+    "ReffMail":"البريد الألكتروني للمرجع",
+    "ReffPhone":"رقم المرجع",
+    "ReffAt":"المرجع يعمل عند",
+
+    "AwTitle":"أسم الجائزة",
+    "Awjob":"منصب الجائزة",
+    "AwDate":"في",
+    "AwDesc":"شرح عن الجائزة",
+
+    "OrgTitle":"أسم التطوع",
+    "OrgJob":"منصب التطوع",
+    "OrgDesc":"شرح عن التطوع",
+
+    "ProjName":"أسم المشروع",
+    "ProjDesc":"شرح عن المشروع",
+
+    "notifUserRegister":"تم سجيل حسابك بنجاح",
+    "notifRequestApplied":"المرشد {mentorName} قبل طلب الأنتساب للمنحة ",
+    "notifRequestPaid":"تمت عملية الدفع للمنحة بنجاح ",
+    "notifMeetSchedueld":"قام المرشد بتحديد موعد للجلسة القادمة الرجاء الدخول للمنحة",
+    "notifSessionReady":"تم إعداد الجلسة بنجاح الرجاء الدخول للجلسة",
+    "notifNewTemplate":"{templateName} قمنا بأضافة قالب سيرة ذاتية جديد  ",
+    "notifNewProgram":" {programName} قمنا بأضافة منحة جديدة   "
+}

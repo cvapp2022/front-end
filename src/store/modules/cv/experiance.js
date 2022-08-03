@@ -14,17 +14,16 @@ const getters = {
 const actions = {
 
 
-    saveExp({commit},data){
+    async saveExp({commit},data){
 
         //console.log('form',data)
         var url = process.env.VUE_APP_BASEURL + '/Cv/Exp/';
-        axios.post(url,data).then(resp=>{
-            if(resp.data.status){
-                console.log('Experiance Saved')
-                commit('experiances',resp.data.items.list)
+        return axios.post(url, data).then((resp)=>{
+            if (resp.data.success) {
+                commit('experiances', resp.data.payload.list);
+                return resp.data.payload.item;
             }
-        })
-
+        });
     },
 
     updateExp(_,data){

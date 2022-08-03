@@ -1,0 +1,97 @@
+{
+    "Save":"Save",
+    "Edit":"Edit",
+    "Delete":"Delete",
+    "Update":"Update",
+    "Cancel":"Cancel",
+    "Preview":"Preview",
+    "DownloadPdf":"Download As PDF",
+
+    "login":"login",
+    "register":"register",
+    "dashboard":"Dashboard",
+    "resumes":"resumes",
+    "coverLetters":"Cover Letters",
+    "mentoring":"Mentoring",
+
+    "newResume":"New Resume",
+    "newResumeDesc":"Create a tailored resume for each job application. Double your chances of getting hired!",
+    
+    "newCoverLettter":"New Cover Letter",
+    "newCoverLetterDesc":"Create a tailored resume for each job application. Double your chances of getting hired!",
+    
+    "dashboardTitle":"Your Dashboard ",
+    "dashboardDesc":"lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sapiente inventore autem, suscipit obcaecati ex laboriosam et",
+    
+    "resumesTitle":"Your Resumes",
+    "resumesDesc":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sapiente inventore autem, suscipit obcaecati ex laboriosam et",
+    
+    "coverLettersTitle":"Your Cover Letters",
+    "coverLettersDesc":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sapiente inventore autem, suscipit obcaecati ex laboriosam et",
+
+    "mentoringTitle":"Your Mentorships",
+    "mentoringDesc":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sapiente inventore autem, suscipit obcaecati ex laboriosam et",
+
+    "programsTitle":"Choose A Program",
+    "programsDesc":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sapiente inventore autem, suscipit obcaecati ex laboriosam et",
+
+    "enrollToProgram":"Enroll To Program",
+    "enrollToAnotherProgram":"Enroll to another programs,",
+
+    
+    "Templates":"Templates",
+    "Profile":"Profile",
+    "Experiences":"Experiences",
+    "Educations":"Educations",
+    "Reffrences":"Reffrences",
+    "Awards":"Awards",
+    "Projects":"Projects",
+    "Organizations":"Organizations",
+    "Skills":"Skills",
+    
+    "DateStart":"Started at",
+    "DateEnd":"Ended at",
+    
+    "AddExp":"+ Add Experience",
+    "AddEdu":"+ Add Education",
+    "AddReff":"+ Add Reffrence",
+    "AddAw":"+ Add Award",
+    "AddProj":"+ Add Project",
+    "AddOrg":"+ Add Organization",
+    "AddSkill":"+ Add Skill",
+
+    "ExpName":"Experence name",
+    "ExpJob":"Experience job",
+    "ExpDesc":"Experence Descreption",
+
+    "EduName":"Education name",
+    "EduAt":"Education at",
+    "EduDesc":"Education Descreption",
+
+    "ReffName":"Reffrence full name",
+    "ReffJob":"Reffrence job",
+    "ReffMail":"Reffrence mail",
+    "ReffPhone":"Reffrence phone",
+    "ReffAt":"Reffrence working at",
+
+    "AwTitle":"Award title",
+    "Awjob":"Award job",
+    "AwDate":"Award at",
+    "AwDesc":"Award descreption",
+
+    "OrgTitle":"Organization title",
+    "OrgJob":"Organization job",
+    "OrgDesc":"Organization descreption",
+
+    "ProjName":"Project name",
+    "ProjDesc":"Project Descreption",
+
+    "notifUserRegister":"Your Account Successfully registered",
+    "notifRequestApplied":"mentor {mentorName} applied your mentorship request",
+    "notifRequestPaid":"Your request Successfully Paid",
+    "notifRequestRegisterd":"Your request Successfully Registerd",
+    "notifMeetSchedueld":"Your mentor schedueld new meet please check your request",
+    "notifSessionReady":"Your meet session is ready please eneter Classroom",
+    "notifNewTemplate":"Check New Cv Template {templateName}",
+    "notifNewProgram":"Check New Program  {programName}"
+}

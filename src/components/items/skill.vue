@@ -3,16 +3,20 @@
     {{skill.SkillTitle}}
     <button class="del-btn mx-1" v-if="type === 'list'" @click="DelteSkill(skill._id)">X</button>
     <button class="del-btn mx-1" v-if="type === 'item'" @click.prevent="PullSkillM(skill._id)">X</button>
+    <button class="del-btn mx-1" v-if="type === 'repo'" @click="SaveSkillBtn(skill)">+</button>
   </b-badge>
 </template>
 
 <script>
 
-import { mapActions } from 'vuex';
+import { mapActions,mapGetters } from 'vuex';
 export default {
  props:['skill','type','itemid','itemtype'],
+   computed:{
+    ...mapGetters(["cvOne"]),
+  },
  methods:{
-    ...mapActions(['DeleteSkill','PullSkill']),
+    ...mapActions(['DeleteSkill','PullSkill','SaveSkill']),
     DelteSkill(skId){
         this.DeleteSkill(skId)
     },
@@ -22,12 +26,21 @@ export default {
         item:this.itemid,
         skill:this.skill._id
       }
-      
       this.PullSkill(obj)
-
+    },
+    SaveSkillBtn(data){
+      var SkillForm={
+        SkillTitleI:data.SkillTitle,
+        SkillValI:10,
+        SkillDescI:data.SkillDesc,
+        SkillCvI:this.cvOne.cvId
+      }
+      this.SaveSkill(SkillForm).then((resp)=>{
+        this.$emit('skillSavedFromRepo',resp.item)
+      })
+      //var skill = { SkillTitleI:data.SkillTitle,SkillDescI:data.SkillDesc }
     }
-
- }
+ },
 }
 </script>
 

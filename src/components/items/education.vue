@@ -4,13 +4,13 @@
       <!-- Edueriance Title -->
       <b-col cols="12" sm="6">
         <validation-provider
-          name="Edueriance Title"
+          :name="$t('EduName')"
           :rules="{ required: true }"
           v-slot="validationContext"
         >
           <b-form-group
             id="edu-title"
-            label="Education title"
+            :label="$t('EduName')"
             label-for="edu-title-input"
           >
             <b-form-input
@@ -31,13 +31,13 @@
       <!-- Education type  -->
       <b-col cols="12" sm="6">
         <validation-provider
-          name="Education At"
+          :name="$t('EduAt')"
           :rules="{ required: true, min: 3 }"
           v-slot="validationContext"
         >
           <b-form-group
             id="edu-at"
-            label="Education at"
+            :label="$t('EduAt')"
             label-for="edu-at-input"
           >
             <b-form-input
@@ -65,7 +65,7 @@
         >
           <b-form-group
             id="edu-date-start"
-            label="Education Date Start"
+            :label="$t('DateStart')"
             label-for="edu-date-start-input"
           >
             <b-form-input
@@ -94,7 +94,7 @@
         >
           <b-form-group
             id="edu-date-end"
-            label="Education Date end"
+            :label="$t('DateEnd')"
             label-for="edu-date-end-input"
           >
             <b-form-input
@@ -214,7 +214,17 @@ export default {
       return dirty || validated ? valid : null;
     },
     SaveEduSubmit: function () {
-      this.saveEdu(this.EduForm);
+      this.saveEdu(this.EduForm).then(() => {
+        this.$emit("eduSaved");
+        this.EduForm = {
+          EduTitleI: "",
+          EduAtI: "",
+          EduFromI: "",
+          EduToI: "",
+          EduDescI: "",
+          EduCvI: this.CvId,
+        };
+      });
       console.log("Education Saved");
     },
     updateEduWatch: _.debounce(function () {

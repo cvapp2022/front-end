@@ -7,16 +7,13 @@
       <img
         class="img-fluid rounded-top"
         src="@/assets/images/prog.jpg"
-        :alt="program.ProgName"
+        :alt="program.ProgChilds[0].ChildName"
       />
       <div class="text-center m-2">
-        <h4>{{ program.ProgName }}</h4>
+        <h4>{{ program.ProgChilds[0].ChildName }}</h4>
         <h4 v-if="checkRequests(program._id)" >has request </h4>
         <p class="text-dark">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis,
-          eaque. Voluptates dolorem iste reiciendis vero? Iusto vel distinctio
-          ipsam eligendi porro provident repellat velit explicabo, sit, aut
-          error temporibus sapiente!
+          {{program.ProgChilds[0].ChildDesc}}
         </p>
       </div>
     </b-card>

@@ -10,7 +10,8 @@ import { profileRoutes } from './profileRoutes';
 import { programRoutes } from './mn/programRoutes';
 import { requestRoutes } from './mn/requestRoutes';
 import { meetRoutes } from './mn/meetRoutes';
-import { mainRoutes } from './mainRoutes'
+import { mainRoutes } from './mainRoutes';
+import { resumeStepsRoutes } from './resumeStepsRoutes';
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,7 @@ const combineRoutes = [
   programRoutes,
   meetRoutes,
   profileRoutes,
+  resumeStepsRoutes
 ]
 const routes = combineRoutes.flat();
 

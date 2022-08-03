@@ -16,6 +16,14 @@ export const userRoutes = [
             requireGuest: true
         }
     },
+    {
+        path:'/login/:social',
+        name:'social',
+        component:lazyLoad('user/social'),
+        meta: {
+            requireGuest: true
+        }
+    },
     // {
     //     path: '/profile',
     //     name: 'profile',
@@ -31,5 +39,13 @@ export const userRoutes = [
         meta:{
             requireGuest:true
         }
-    }
+    },
+    {
+        path:'/register/:social',
+        name:'social',
+        component:lazyLoad('user/social'),
+        meta: {
+            requireGuest: true
+        }
+    },
 ]

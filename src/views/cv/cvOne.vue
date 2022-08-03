@@ -2,103 +2,19 @@
   <b-container fluid="md" class="hfull" v-if="this.cvOneLoaded">
     <div class="my-3">
       <!-- template Card start -->
-      <b-card>
-        <h4 class="text-start card-title mb-4 p-1 font-weight-bold">
-          Template
-        </h4>
-        <b-row>
-          <b-button
-            variant="primary"
-            v-for="item in cvTemplates"
-            v-bind:key="item._id"
-            @click="setTemplateBtn(item._id)"
-          >
-            {{ item.TemplateName }}
-          </b-button>
-        </b-row>
-      </b-card>
+      <TemplateList></TemplateList>
+
       <!-- Profile Card Start -->
-      <b-card class="my-3">
-        <h4 class="text-start card-title mb-4 p-1 font-weight-bold">Profile</h4>
-        <b-row>
-          <img
-            v-if="cvOne.cvImg !== null"
-            :src="'https://drive.google.com/thumbnail?id=' + cvOne.cvImg"
-            alt=""
-          />
-        </b-row>
-        <b-form class="row">
-          <b-col cols="12" sm="6">
-            <b-form-group
-              id="cv-img-group"
-              label="Image profile:"
-              label-for="cv-img"
-              description="max 8 MB"
-            >
-              <b-form-file
-                id="cv-img"
-                size="large"
-                accept="image/jpeg, image/png, image/gif"
-                placeholder="Choose a file or drop it here..."
-                v-model="cvimg"
-                drop-placeholder="Drop file here..."
-              ></b-form-file>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12" sm="6">
-            <b-form-group
-              id="input-group-1"
-              label="Email address:"
-              label-for="input-1"
-              description="We'll never share your email with anyone else."
-            >
-              <b-form-input
-                id="input-1"
-                size="large"
-                type="email"
-                placeholder="Enter email"
-                required
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-
-          <b-col cols="12" sm="6">
-            <b-form-group
-              id="input-group-2"
-              label="Your Name:"
-              label-for="input-2"
-            >
-              <b-form-input
-                id="input-2"
-                size="large"
-                placeholder="Enter name"
-                required
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-
-          <b-col cols="12" sm="6">
-            <b-form-group
-              id="input-group-2"
-              label="Your Name:"
-              label-for="input-2"
-            >
-              <b-form-input
-                id="input-2"
-                placeholder="Enter name"
-                required
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-        </b-form>
-      </b-card>
+      <ProfileList @profileUpdated="profileUpdated" ></ProfileList>
 
       <!-- Social media Card Start -->
       <ContactList></ContactList>
+
       <!-- Skills Card Start -->
-      <SkillList></SkillList>
+      <SkillList ref="skillList"></SkillList>
       <skillModal :CvId="cvOne.cvId"></skillModal>
       <div v-for="section in dragList" v-bind:key="section.name">
+        
         <!-- Experiance Card Start -->
         <ExperianceList v-if="section.name === 'experiences'"></ExperianceList>
 
@@ -181,6 +97,8 @@
 </template>
 
 <script>
+import TemplateList from '../../components/lists/TemplateList.vue';
+import ProfileList from '../../components/lists/ProfileList.vue';
 import SkillList from "../../components/lists/SkillList.vue";
 import ContactList from "../../components/lists/ContactList.vue";
 import ExperianceList from "../../components/lists/ExperineceList.vue";
@@ -198,6 +116,8 @@ import _ from "lodash";
 
 export default {
   components: {
+    TemplateList,
+    ProfileList,
     ContactList,
     SkillList,
     ExperianceList,
@@ -221,7 +141,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["cvOne", "skills", "cvTemplates"]),
+    ...mapGetters(["cvOne", "skills",]),
     dragOptions() {
       return {
         animation: 200,
@@ -238,25 +158,6 @@ export default {
       "addSection",
       "setCvTemplate",
     ]),
-    // FindContact(item) {
-    //   var arr = this.contacts;
-    //   let value;
-    //   //console.log(arr)
-    //   arr.forEach((element) => {
-    //     if (element.CKey === item) {
-    //       value = element.CValue;
-    //     }
-    //   });
-    //   return value;
-    // },
-
-    setTemplateBtn(templateId) {
-      var data = {
-        cvId: this.cvOne.cvId,
-        templateId,
-      };
-      this.setCvTemplate(data);
-    },
     SetSkillModalProp(type, id) {
       this.SkillModalItemType = type;
       this.SkillModalItemId = id;
@@ -277,9 +178,6 @@ export default {
       console.log(this.dragList);
     },
     checkSection(section) {
-      // var mainSections = this.cvOne.cvSections.main
-      // var sideSections = this.cvOne.cvSections.side
-      // var sections=[mainSections,sideSections].flat();
       return this.dragList.find((item) => {
         return item.name === section;
       });
@@ -291,6 +189,9 @@ export default {
       };
       this.addSection(data);
     },
+    profileUpdated(){
+      this.$refs.skillList.getRepoSkills()
+    }
   },
 
   watch: {

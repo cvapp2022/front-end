@@ -11,14 +11,14 @@ const getters = {
 
 const actions = {
 
-    SaveSkill({commit},data){
+    async SaveSkill({commit},data){
 
         var url = process.env.VUE_APP_BASEURL + '/Cv/Skill/';
-        axios.post(url,data).then(resp=>{
+        return axios.post(url,data).then(resp=>{
 
-            if(resp.data.status){
-
-                commit('skills',resp.data.items.list)
+            if(resp.data.success){
+                commit('skills',resp.data.payload.list)
+                return resp.data.payload
             }
 
         })

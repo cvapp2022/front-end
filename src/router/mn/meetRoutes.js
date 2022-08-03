@@ -21,4 +21,12 @@ export const meetRoutes =[
             requireAuth: true
         }
     },
+    {
+        path: '/mentorship/meet/:meetId/rate',
+        name: 'userMeetRate',
+        component: lazyLoad('mn/meet/meetRate'),
+        meta: {
+            requireAuth: true
+        }
+    },
 ]

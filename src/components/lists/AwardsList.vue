@@ -2,19 +2,23 @@
   <div class="">
     <b-card class="my-3 px-2">
       <b-row class="justify-content-between align-items-start">
-        <h4 class="text-start card-title mb-4 p-1 font-weight-bold">Award</h4>
+        <h4 class="text-start card-title mb-4 p-1 font-weight-bold">{{$t("Award")}}</h4>
         <b-button
           variant="link"
-          class="font-weight-bold h5 text-dark"
+          class="font-weight-bold h5 text-primary"
           v-b-toggle.collapse-aw
         >
-          + Add Award
+          {{$t("AddAw")}}
         </b-button>
-        <b-button variant="danger" @click="removeSectionBtn('awards')"  >rm</b-button>
+        <!-- <b-button variant="danger" @click="removeSectionBtn('awards')"  >rm</b-button> -->
       </b-row>
       <b-row>
-        <b-collapse id="collapse-aw" class="mt-2" style="flex: 1">
-          <award v-bind:CvId="cvOne.cvId" v-bind:type="'newItem'"></award>
+        <b-collapse id="collapse-aw" class="mt-2">
+          <award 
+            v-bind:CvId="cvOne.cvId"
+            v-bind:type="'newItem'"
+            @awSaved="toggleCollapse"
+           ></award>
         </b-collapse>
       </b-row>
     </b-card>
@@ -28,16 +32,20 @@
         v-model="draglist"
       >
         <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-          <div class="" v-for="aw in this.draglist" v-bind:key="aw._id">
+          <div class="d-flex align-items-baseline" v-for="aw in this.draglist" v-bind:key="aw._id">
             <b-icon icon="justify" class="h1 handle"></b-icon>
-            <b-card class="my-3 p-2">
+            <b-card class="flex-fill my-3 p-2">
               <div class="d-flex justify-content-between">
                 <h4>{{ aw.AwTitle }}</h4>
                 <div class="">
-                  <b-button v-b-toggle="'collap' + aw._id"> colp </b-button>
-                  <b-button @click="DeleteAwSubmit(aw._id)" variant="danger"
-                    >Del</b-button
-                  >
+                  <b-button v-b-toggle="'collap' + aw._id" variant="link">
+                    <span class="when-open">
+                      <b-icon icon="chevron-up"></b-icon>
+                    </span>
+                    <span class="when-closed">
+                      <b-icon icon="chevron-down"></b-icon>
+                    </span>
+                  </b-button>
                 </div>
               </div>
               <b-collapse :id="'collap' + aw._id">
@@ -48,6 +56,9 @@
                 ></award>
               </b-collapse>
             </b-card>
+            <b-button @click="DeleteAwSubmit(aw._id)" variant="link"
+              ><b-icon icon="trash"></b-icon
+            ></b-button>
           </div>
         </transition-group>
       </draggable>
@@ -89,21 +100,44 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["deleteAw", "changeAw",'removeSection']),
+    ...mapActions(["deleteAw", "changeAw", "removeSection"]),
     DeleteAwSubmit: function (awid) {
-      this.deleteAw(awid);
+      this.$bvModal
+        .msgBoxConfirm(
+          "Please confirm that you want to delete everything." + awid,
+          {
+            title: "Please Confirm",
+            size: "sm",
+            buttonSize: "sm",
+            okVariant: "danger",
+            okTitle: "YES",
+            cancelTitle: "NO",
+            footerClass: "p-2",
+            hideHeaderClose: false,
+            centered: true,
+          }
+        )
+        .then((value) => {
+          if (value) {
+            this.deleteAw(awid);
+          }
+        });
     },
     DragEnd() {
       this.drag = false;
       this.changeAw({ list: this.draglist, CvId: this.cvOne.cvId });
     },
-    removeSectionBtn(section){
+    removeSectionBtn(section) {
       var data = {
-        cvId:this.cvOne.cvId,
-        section
-      }
-      this.removeSection(data)
-    }
+        cvId: this.cvOne.cvId,
+        section,
+      };
+      this.removeSection(data);
+    },
+    toggleCollapse() {
+      console.log('toggeld ')
+      this.$root.$emit("bv::toggle::collapse", "collapse-aw");
+    },
   },
   mounted() {
     this.draglist = this.awards;

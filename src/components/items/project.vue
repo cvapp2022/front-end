@@ -157,7 +157,15 @@ export default {
     ...mapActions(["saveProj", "updateProj"]),
     ProjSubmit: function () {
       if (this.type === "newItem") {
-        this.saveProj(this.ProjForm);
+        this.saveProj(this.ProjForm).then(() => {
+          this.$emit("projSaved");
+          this.ProjForm = {
+            ProjNameI: "",
+            ProjDateI: "",
+            ProjDescI: "",
+            ProjCvI: this.CvId,
+          };
+        });
       }
     },
     updateProjWatch: _.debounce(function () {

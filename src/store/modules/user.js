@@ -1,8 +1,6 @@
 import axios from "axios";
 import VueCookie from 'vue-cookies';
 import CryptoJS from 'crypto-js'
-import router from '../../router/index'
-
 
 const state = {
     User: {},
@@ -19,40 +17,36 @@ const getters = {
 const actions = {
 
     //Login
-    Login({ commit }, user) {
+    async Login({ commit }, user) {
 
 
         var url = process.env.VUE_APP_BASEURL + '/User/login';
-        return axios.post(url, user).then(function (resp) {
+        const resp = await axios.post(url, user);
+        if (resp.data.success) {
 
-            if (resp.data.success) {
+            //encrypt token 
+            const key = process.env.VUE_APP_ENCKEY; //
+            const iv = process.env.VUE_APP_ENCIV; // 
+            const txt = resp.data.payload.token;
 
-                //encrypt token 
-                const key = process.env.VUE_APP_ENCKEY //
-                const iv = process.env.VUE_APP_ENCIV // 
-                const txt = resp.data.payload.token;
+            const cipher = CryptoJS.AES.encrypt(txt, key, {
+                iv: CryptoJS.enc.Utf8.parse(iv),
+                mode: CryptoJS.mode.CBC
+            });
+            commit('User', resp.data.payload.user);
+            commit('Notification', resp.data.payload.user.UserNotif);
+            commit('Token', cipher.toString());
 
-                const cipher = CryptoJS.AES.encrypt(txt, key, {
-                    iv: CryptoJS.enc.Utf8.parse(iv),
-                    mode: CryptoJS.mode.CBC
-                })
-                commit('User', resp.data.payload.user)
-                commit('Notification',resp.data.payload.user.UserNotif)
-                commit('Token', cipher.toString())
+            //console.log(VueCookie.set('user', resp.data.payload.user, { expires: "1h" }))
+            VueCookie.set('user', resp.data.payload.user._id, { expires: "1h" });
+            VueCookie.set('token', txt, { expires: "1h" });
 
-                //console.log(VueCookie.set('user', resp.data.payload.user, { expires: "1h" }))
-                VueCookie.set('user', resp.data.payload.user._id, { expires: "1h" })
-                VueCookie.set('token', txt, { expires: "1h" })
-
-                //Set Token Default
-                axios.defaults.headers.common['Authorization'] = 'Bearer ' + txt;
-                // dispatch('getProfile')
-                // dispatch('getPrograms')
-
-                return resp.data.payload.user;
-            }
-
-        })
+            //Set Token Default
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + txt;
+            // dispatch('getProfile')
+            // dispatch('getPrograms')
+            return resp.data.payload.user;
+        }
     },
 
     LoginByCookie({commit }, data) {
@@ -71,41 +65,76 @@ const actions = {
         return data.User;
         // dispatch('getPrograms')
     },
-    Register({ commit, dispatch },user) {
-        var url = process.env.VUE_APP_BASEURL + '/User/';
-        axios.post(url, user).then(function (resp) {
 
-            if (resp.data.success) {
+    LoginBySocial({commit},data){
 
+        
+        let url;
+        if(data.social === 'linkedin'){
+            url=process.env.VUE_APP_BASEURL + '/User/loginLinkedin?code='+data.query.code;
+        }
+        else if(data.social === 'google'){
+            url=process.env.VUE_APP_BASEURL + '/User/loginGoogle?code='+data.query.code;
+        }
+        else if(data.social === 'github'){
+            url=process.env.VUE_APP_BASEURL + '/User/loginGithub?code='+data.query.code;
+        }
+        return axios.get(url).then((resp)=>{
+            if(resp.data.success){
                 //encrypt token 
-                const key = process.env.VUE_APP_ENCKEY //
-                const iv = process.env.VUE_APP_ENCIV // 
+                const key = process.env.VUE_APP_ENCKEY; //
+                const iv = process.env.VUE_APP_ENCIV; // 
                 const txt = resp.data.payload.token;
-
+        
                 const cipher = CryptoJS.AES.encrypt(txt, key, {
                     iv: CryptoJS.enc.Utf8.parse(iv),
                     mode: CryptoJS.mode.CBC
-                })
-
-                this.$socket.client.emit("join", { userId:resp.data.payload.user });
-
-                commit('User', resp.data.payload.user)
-                commit('Notification',resp.data.payload.user.UserNotif)
-                commit('Token', cipher.toString())
+                });
+                commit('User', resp.data.payload.user);
+                commit('Notification', resp.data.payload.user.UserNotif);
+                commit('Token', cipher.toString());
 
                 //console.log(VueCookie.set('user', resp.data.payload.user, { expires: "1h" }))
-                VueCookie.set('token', txt, { expires: "1h" })
-
+                VueCookie.set('user', resp.data.payload.user._id, { expires: "1h" });
+                VueCookie.set('token', txt, { expires: "1h" });
+    
                 //Set Token Default
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + txt;
-                dispatch('getProfile')
-                dispatch('getPrograms')
-                //redirect to profile view 
-                router.push({ name: 'dashboard' })
-
+                return resp.data.payload.user;
             }
-
         })
+    },
+    async Register({ commit },user) {
+        var url = process.env.VUE_APP_BASEURL + '/User/';
+        const resp = await axios.post(url, user);
+        if (resp.data.success) {
+
+            //encrypt token 
+            const key = process.env.VUE_APP_ENCKEY; //
+            const iv = process.env.VUE_APP_ENCIV; // 
+            const txt = resp.data.payload.token;
+
+            const cipher = CryptoJS.AES.encrypt(txt, key, {
+                iv: CryptoJS.enc.Utf8.parse(iv),
+                mode: CryptoJS.mode.CBC
+            });
+
+            
+
+            commit('User', resp.data.payload.user);
+            commit('Notification', resp.data.payload.user.UserNotif);
+            commit('Token', cipher.toString());
+
+            //console.log(VueCookie.set('user', resp.data.payload.user, { expires: "1h" }))
+            VueCookie.set('token', txt, { expires: "1h" });
+            VueCookie.set('user', resp.data.payload.user._id, { expires: "1h" });
+
+            //Set Token Default
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + txt;
+
+            return resp.data.payload.user;
+
+        }
 
     }
 

@@ -4,13 +4,13 @@
       <!-- Award Title -->
       <b-col cols="12" sm="6">
         <validation-provider
-          name="Award Title"
+          :name="$t('AwTitle')"
           :rules="{ required: true, min: 3 }"
           v-slot="validationContext"
         >
           <b-form-group
             id="aw-title"
-            label="Award title"
+            :label="$t('AwTitle')"
             label-for="aw-title-input"
           >
             <b-form-input
@@ -31,11 +31,11 @@
       <!-- Award Job  -->
       <b-col cols="12" sm="6">
         <validation-provider
-          name="Award Job"
+          :name="$t('Awjob')"
           :rules="{ required: true, min: 3 }"
           v-slot="validationContext"
         >
-          <b-form-group id="aw-job" label="Award Job" label-for="aw-job-input">
+          <b-form-group id="aw-job" :label="$t('Awjob')" label-for="aw-job-input">
             <b-form-input
               id="aw-job-input"
               name="aw-job-input"
@@ -54,13 +54,13 @@
       <!-- Award Date Start -->
       <b-col cols="12" sm="6">
         <validation-provider
-          name="Award Date"
+          :name="$t('AwDate')"
           :rules="{ required: true }"
           v-slot="validationContext"
         >
           <b-form-group
             id="aw-date"
-            label="Award Date"
+            :label="$t('AwDate')"
             label-for="aw-date-input"
           >
             <b-form-input
@@ -111,8 +111,8 @@
 
       <!-- Award Form Buttons  -->
       <b-col v-if="type === 'newItem'" class="d-flex justify-content-start">
-        <b-button type="submit" variant="primary">Save</b-button>
-        <b-button variant="danger" class="mx-2">Cancel</b-button>
+        <b-button type="submit" variant="primary">{{$t('Save')}}</b-button>
+        <b-button variant="danger" class="mx-2">{{$t('Cancel')}}</b-button>
       </b-col>
     </b-form>
   </validation-observer>
@@ -184,7 +184,16 @@ export default {
       return dirty || validated ? valid : null;
     },
     SaveAwSubmit() {
-      this.saveAw(this.AwForm);
+      this.saveAw(this.AwForm).then(() => {
+        this.$emit("awSaved");
+        this.AwForm = {
+          AwTitleI: "",
+          AwJobI: "",
+          AwDateI: "",
+          AwDescI: "",
+          AwCvI: this.CvId,
+        };
+      });
     },
     updateAwWatch: _.debounce(function () {
       var data = {

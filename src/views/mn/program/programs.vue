@@ -2,8 +2,8 @@
   <b-container>
     <b-row class="my-4">
       <div class="page_title">
-        <h2 class="font-weight-bolder" >Choose A Program</h2>
-        <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sapiente inventore autem, suscipit obcaecati ex laboriosam et</p>
+        <h2 class="font-weight-bolder" >{{$t("programsTitle")}}</h2>
+        <p class="text-muted">{{$t("programsDesc")}}</p>
       </div>
     </b-row>
     <b-row class="my-4">
