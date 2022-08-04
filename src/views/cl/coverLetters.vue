@@ -19,7 +19,7 @@
             <router-link class="btn btn-link" :to ="{name:'clOne',params:{clId:item._id}}">
               <h5>{{$t("Edit")}}</h5>
             </router-link>
-            <a class="btn btn-link" target="_blank" :href="process.env.VUE_APP_BASEURL+'/Cl/'+item._id +'/render'">{{$t("Preview")}}</a>
+            <a class="btn btn-link" target="_blank" :href="$baseUrl+'/Cl/'+item._id +'/render'">{{$t("Preview")}}</a>
             <b-button variant="link" @click="deleteClBtn(item._id)">
               {{$t("Delete")}}
             </b-button>
