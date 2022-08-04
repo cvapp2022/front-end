@@ -100,7 +100,7 @@
         <b-card>
           <vue-pdf-embed
             :source="
-              process.env.VUE_APP_BASEURL+'/Cv/' +
+              $baseurl+'/Cv/' +
               this.$route.params.cvId +
               '/render'
             "
