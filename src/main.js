@@ -15,7 +15,7 @@ import 'vue-file-agent/dist/vue-file-agent.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 // import './assets/css/bootstraprtl.min.css';
-import en from "vee-validate/dist/locale/en.json";
+import ar from "vee-validate/dist/locale/ar.json";
 import * as rules from "vee-validate/dist/rules";
 
 
@@ -26,7 +26,7 @@ Object.keys(rules).forEach(rule => {
   extend(rule, rules[rule]);
 });
 
-localize("en", en);
+localize("ar", ar);
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
@@ -37,8 +37,8 @@ Vue.use(VueCookie)
 Vue.use(VueFileAgent);
 Vue.use(VueI18n)
 const i18n = new VueI18n({
-  locale: 'en',
-  fallbackLocale: 'en',
+  locale: 'ar',
+  fallbackLocale: 'ar',
   messages:locals
 });
 

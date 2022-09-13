@@ -93,7 +93,9 @@ const actions = {
                     cvPosition:data.CVPosition,
                     cvId: data._id,
                     cvImg: data.CVImg,
-                    cvSections: data.CvSections
+                    cvTemplate:data.CVTemplate,
+                    cvSections: data.CvSections,
+                    cvLang:data.CVLang
                 }
 
                 commit('cvOne', cvObj)
@@ -111,10 +113,22 @@ const actions = {
 
     },
 
-    setCvTemplate(_,data){
+    setCvTemplate({commit},data){
         console.log(data)
         var url = process.env.VUE_APP_BASEURL + '/Cv/' + data.cvId+'/setTemplate';
-        axios.put(url,{TemplateIdI:data.templateId})
+        axios.put(url,{TemplateIdI:data.templateId}).then(resp=>{
+            if(resp.data.success){
+                commit('cvOneSetTemplate',resp.data.payload.CVTemplate)
+            }
+        })
+    },
+    setCvLang({commit},data){
+        var url = process.env.VUE_APP_BASEURL + '/Cv/' + data.cvId+'/setLang';
+        axios.put(url,{LangI:data.lang}).then(resp=>{
+            if(resp.data.success){
+                commit('cvOneSetLang',resp.data.payload.CVLang)
+            }
+        })
     },
     getClOne({ commit }, clid) {
         var url = process.env.VUE_APP_BASEURL + '/Cl/' + clid;
@@ -209,6 +223,12 @@ const mutations = {
     cv: (state, cv) => (state.cv = cv),
     cl: (state, cl) => (state.cl = cl),
     cvOne: (state, cvOne) => (state.cvOne = cvOne),
+    cvOneSetTemplate:(state,newTemplate)=>{
+        state.cvOne.cvTemplate=newTemplate
+    },
+    cvOneSetLang:(state,newLang)=>{
+        state.cvOne.cvLang=newLang
+    },
     clOne: (state, clOne) => (state.clOne = clOne)
 
 }

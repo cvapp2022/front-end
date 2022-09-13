@@ -1,31 +1,19 @@
 <template>
   <b-container fluid>
-    <b-row class="overflow-auto flex-column flex-nowrap" style="height: 60vh">
-      <div
-        class=""
+    <b-row class="overflow-auto flex-column flex-nowrap p-2" style="height: 60vh">
+      <b-badge
         v-for="item in this.Session.SessionMessage"
         v-bind:key="item._id"
+        class="p-3 h3 my-2"
+        :class="{'align-self-end': item.MessageSender === 'mentor','align-self-start':item.MessageSender === 'user'}"
+        :variant="setMsgVariant(item.MessageSender)"
+        style="width:fit-content"
       >
-        <b-card
-          v-if="item.MessageSender === 'user'"
-          bg-variant="info"
-          text-variant="white"
-          class="my-2"
-        >
-          <p>{{ item.MessageValue }}</p>
-        </b-card>
-        <b-card
-          v-if="item.MessageSender === 'mentor'"
-          bg-variant="primary"
-          text-variant="white"
-          class="my-2"
-        >
-          <p>{{ item.MessageValue }}</p>
-        </b-card>
-      </div>
+        {{ item.MessageValue }}
+      </b-badge>
     </b-row>
     <b-row class="">
-      <div class="d-flex m-3">
+      <div class="d-flex flex-fill m-3">
         <b-input v-model="msgsend"></b-input>
         <b-button variant="primary" @click="sendMsgBtn">send</b-button>
       </div>
@@ -52,6 +40,10 @@ export default {
     },
   },
   methods: {
+    setMsgVariant(source){
+      if(source==='mentor') return 'info';
+      else return 'primary';
+    },
     sendMsgBtn() {
         var form={
           msgFromI: "user",

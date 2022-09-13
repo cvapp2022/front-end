@@ -24,7 +24,7 @@
           >
             <h5>{{$t('Edit')}}</h5>
           </router-link>
-          <a class="btn btn-link" target="_blank" :href="$baseUrl+'/Cv/'+item._id +'/render'">{{$t("DownloadPdf")}}</a>
+          <a class="btn btn-link" target="_blank" :href="$baseUrl+'api/v1/Cv/'+item._id +'/render'">{{$t("DownloadPdf")}}</a>
           <router-link class="btn btn-link" :to="{name:'cvPerview',params: { cvId: item._id } }" >{{$t("Preview")}}</router-link>
           <b-button variant="link" @click="deleteCvBtn(item._id)">
             {{$t('Delete')}}

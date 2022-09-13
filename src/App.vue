@@ -110,6 +110,9 @@ export default {
   color: #2c3e50;
   background: #ffffff;
 }
+label{
+  text-align:start !important
+}
 .connPopup {
   width: 20%;
   position: sticky;

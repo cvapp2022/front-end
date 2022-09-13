@@ -1,13 +1,22 @@
 <template>
   <b-container>
     <b-row class="my-4" style="height: 100vh">
-      <b-col sm="6">
+      <b-col sm="7">
         <div class="d-flex flex-column">
-          <div class="mb-4">
-            <TemplateList @templateChanged="reRender" ></TemplateList>
+          <langList @langChanged="reRender()"></langList>
+          <div class="mb-3">
+            <TemplateList @templateChanged="reRender"></TemplateList>
           </div>
-          <div>
-            <b-card class="d-flex flex-row p-3" no-body>
+          <div class="mb-3">
+            <b-card
+              :class="
+                cvOne.cvTemplate.TemplateName === 'james' && cvOne.cvLang ==='en'
+                  ? 'flex-row-reverse'
+                  : 'flex-row'
+              "
+              class="d-flex p-3"
+              no-body
+            >
               <div class="w-25 p-2">
                 <draggable
                   v-bind="dragOptions"
@@ -21,7 +30,10 @@
                     type="transition"
                     :name="!drag ? 'flip-list' : null"
                   >
-                    <div v-for="section in dragList.side" v-bind:key="section.name">
+                    <div
+                      v-for="section in dragList.side"
+                      v-bind:key="section.name"
+                    >
                       <b-card class="my-2 text-center justify-content-center">
                         <b-icon icon="justify" class="h5 handle"></b-icon>
                         {{ section.name }}</b-card
@@ -45,7 +57,10 @@
                     type="transition"
                     :name="!drag ? 'flip-list' : null"
                   >
-                    <div v-for="section in dragList.main" v-bind:key="section.name">
+                    <div
+                      v-for="section in dragList.main"
+                      v-bind:key="section.name"
+                    >
                       <b-card class="my-2 text-center justify-content-center">
                         <b-icon icon="justify" class="h5 handle"></b-icon>
                         {{ section.name }}</b-card
@@ -96,56 +111,82 @@
           </div>
         </div>
       </b-col>
-      <b-col sm="6">
-        <b-card>
-          <vue-pdf-embed
-            :source="
-              $baseUrl+'/Cv/' +
-              this.$route.params.cvId +
-              '/render'
-            "
-            :page="page"
-            ref="pdfRef"
-            @rendered="handleDocumentRender"
-          />
+      <b-col sm="5">
+        <b-card no-body>
           <div class="" v-if="!this.pdfIsLoading">
             <button :disabled="page <= 1" @click="page--">❮</button>
             {{ page }} / {{ pageCount }}
             <button :disabled="page >= pageCount" @click="page++">❯</button>
           </div>
+          <vue-pdf-embed
+            :source="$baseUrl + 'api/v1/Cv/' + this.$route.params.cvId + '/render'"
+            :page="page"
+            ref="pdfRef"
+            @rendered="handleDocumentRender"
+          />
         </b-card>
-        <!-- :src="
-            
-          " -->
       </b-col>
     </b-row>
-    <router-link
-      :to="{ name: 'cvOne', params: { cvId: cvOne.cvId } }"
-      style="
-        position: fixed;
-        background: #5541f9;
-        color: white;
-        padding: 24px;
-        border-radius: 60px;
-        bottom: 20px;
-        right: 40px;
-      "
-    >
-      Edit
-    </router-link>
+    <div class="" style="bottom: 20px;right: 40px;position: fixed;">
+      <router-link
+        :to="{ name: 'cvOne', params: { cvId: cvOne.cvId } }"
+        class="mx-2 p-2 btn-secondary border-rounded"
+      >
+        Edit
+      </router-link>
+      <b-button
+        v-if="cvOne.cvTemplate.isPaid"
+        variant="secondary"
+        v-b-modal.my-modal
+        class="mx-2 p-2"
+        pill
+      >
+        Buy To Download
+      </b-button>
+      <a
+        target="_blank"
+        v-if="!cvOne.cvTemplate.isPaid"
+        :href="$baseUrl + 'api/v1/Cv/' + this.$route.params.cvId + '/render'"
+        class="mx-2 p-2 btn-secondary border-rounded"
+      >
+        Download As PDF
+      </a>
+    </div>
+    <b-modal id="my-modal" hide-header hide-footer>
+      <div class="accordion" role="tablist">
+          <b-button block v-b-toggle.accordion-1 variant="info">Pay with paypal</b-button>
+          <b-button block v-b-toggle.accordion-2 variant="info">Pay with Credit Card</b-button>
+          <b-button block v-b-toggle.accordion-3 variant="info">Pay with syriatel cash</b-button>
+
+          <b-collapse id="accordion-1" accordion="my-accordion"  v-model="paypalCollapse" role="tabpanel">
+            <h4>pay with paypal collapse</h4>
+            <a :href="paypalLink">pay</a>
+          </b-collapse>
+          <b-collapse id="accordion-2" accordion="my-accordion"  v-model="ccCollapse" role="tabpanel">
+            <h4>pay with CC collapse</h4>
+          </b-collapse>
+          <b-collapse id="accordion-3" accordion="my-accordion"  v-model="syrCollapse" role="tabpanel">
+            <h4>pay with syr collapse</h4>
+          </b-collapse>
+      </div>
+    </b-modal>
+
   </b-container>
 </template>
 
 <script>
 import draggable from "vuedraggable";
 import VuePdfEmbed from "vue-pdf-embed/dist/vue2-pdf-embed";
-import TemplateList from '../../components/lists/TemplateList.vue'
+import TemplateList from "../../components/lists/TemplateList.vue";
+import langList from '../../components/lists/LangList.vue'
 import { mapActions, mapGetters } from "vuex";
+import axios from 'axios';
 export default {
   components: {
     draggable,
     VuePdfEmbed,
-    TemplateList
+    TemplateList,
+    langList,
   },
   data() {
     return {
@@ -154,6 +195,10 @@ export default {
       page: 1,
       pageCount: 1,
       pdfIsLoading: true,
+      paypalCollapse:false,
+      ccCollapse:false,
+      syrCollapse:false,
+      paypalLink:''
     };
   },
   watch: {
@@ -163,6 +208,15 @@ export default {
       },
       deep: true,
     },
+    paypalCollapse(val){
+      if(val){
+        var url = process.env.VUE_APP_BASEURL +'/Order/Template/'+this.cvOne.cvTemplate._id+'/orderPayPalReq';
+        axios.get(url).then((resp)=>{
+          console.log(resp)
+          this.paypalLink=resp.data
+        })
+      }
+    }
   },
   sockets: {
     async SECTION_UPDATED() {
@@ -172,10 +226,11 @@ export default {
   },
   methods: {
     ...mapActions(["addSection", "getCvOne", "changeSectionSort"]),
-    async reRender(){
+    async reRender() {
       await this.$refs.pdfRef.load();
       this.$refs.pdfRef.render();
     },
+
     handleDocumentRender() {
       this.pdfIsLoading = false;
       console.log("doc re renderd");

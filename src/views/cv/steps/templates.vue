@@ -12,6 +12,9 @@
       </div>
     </b-row>
     <b-row>
+      <langList class="col-12"></langList>
+    </b-row>
+    <b-row>
       <TemplateList class="col-12"></TemplateList>
     </b-row>
     <b-row>
@@ -29,12 +32,14 @@
 
 <script>
 import TemplateList from "../../../components/lists/TemplateList.vue";
+import langList from '../../../components/lists/LangList.vue'
 import stepsNavigator from "../../../components/widget/stepsNavigator.vue";
 import { mapGetters, mapActions } from "vuex";
 import _ from "lodash";
 export default {
   components: {
     TemplateList,
+    langList,
     stepsNavigator,
   },
   computed: {

@@ -3,10 +3,11 @@
     class="text-decoration-none"
     :to="{ name: 'progamOne', params: { progOne: program._id } }"
   >
+    
     <b-card no-body class="rounded-top">
       <img
         class="img-fluid rounded-top"
-        src="@/assets/images/prog.jpg"
+        :src="' https://drive.google.com/thumbnail?authuser=0&sz=w320&id='+program.ProgImg"
         :alt="program.ProgChilds[0].ChildName"
       />
       <div class="text-center m-2">

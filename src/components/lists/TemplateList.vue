@@ -1,6 +1,6 @@
 <template>
   <b-card>
-    <h4 class="text-start card-title mb-4 p-1 font-weight-bold">Template</h4>
+    <h4 class="text-start card-title mb-4 p-1 font-weight-bold">Templates</h4>
     <b-row>
       <b-button
         variant="primary"
