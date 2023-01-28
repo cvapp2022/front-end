@@ -22,7 +22,6 @@
         </b-collapse>
       </b-row>
     </b-card>
-    <div class="mx-4">
       <draggable
         v-bind="dragOptions"
         handle=".handle"
@@ -35,9 +34,31 @@
           <div class="d-flex align-items-baseline" v-for="aw in this.draglist" v-bind:key="aw._id">
             <b-icon icon="justify" class="h1 handle"></b-icon>
             <b-card class="flex-fill my-3 p-2">
-              <div class="d-flex justify-content-between">
-                <h4>{{ aw.AwTitle }}</h4>
-                <div class="">
+              <b-row :id="'collap'+aw._id+'header'" :ref="'collap'+aw._id+'header'">
+                <b-col cols="2" sm="1" class="px-1 px-sm-3">
+                  <b-card class="bg-light w-100" no-body >
+                    <div class="mx-auto my-2">
+                      <b-icon icon="trophy" class="h4 m-0"></b-icon>
+                    </div>
+                  </b-card>
+                </b-col>
+                <b-col cols="8" sm="10" class="d-flex flex-column text-start">
+                  <div class="font-weight-bold h5">{{ aw.AwTitle }} </div>
+                  <div class="h6 text-primary">{{ aw.AwJob }}</div>
+                  <div class="p">{{aw.AwDate}}</div>
+                  <div class="mt-3" style="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis tenetur porro, neque corrupti similique enim distinctio tempora fugiat velit in suscipit laboriosam dignissimos voluptatibus ipsa repellat ipsum sunt consectetur officia?</div>
+                </b-col>
+                <b-col cols="2" sm="1">
+                  <b-button v-b-toggle="'collap' + aw._id" variant="link">
+                    <span class="when-open">
+                      <b-icon icon="chevron-up"></b-icon></span
+                    ><span class="when-closed">
+                      <b-icon icon="chevron-down"></b-icon
+                    ></span>
+                  </b-button>
+                </b-col>
+              </b-row>
+              <b-collapse :id="'collap' + aw._id">
                   <b-button v-b-toggle="'collap' + aw._id" variant="link">
                     <span class="when-open">
                       <b-icon icon="chevron-up"></b-icon>
@@ -46,9 +67,6 @@
                       <b-icon icon="chevron-down"></b-icon>
                     </span>
                   </b-button>
-                </div>
-              </div>
-              <b-collapse :id="'collap' + aw._id">
                 <award
                   v-bind:CvId="cvOne.cvId"
                   v-bind:award="aw"
@@ -56,19 +74,18 @@
                 ></award>
               </b-collapse>
             </b-card>
-            <b-button @click="DeleteAwSubmit(aw._id)" variant="link"
+            <b-button @click="DeleteAwSubmit(aw._id)" variant="link" class="d-none d-sm-block"
               ><b-icon icon="trash"></b-icon
             ></b-button>
           </div>
         </transition-group>
       </draggable>
-    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import award from "../items/award.vue";
+import award from "../items/cv/award.vue";
 import draggable from "vuedraggable";
 
 export default {
@@ -141,6 +158,18 @@ export default {
   },
   mounted() {
     this.draglist = this.awards;
+    this.$root.$on('bv::collapse::state', (collapseId,state) => {
+      var itemId=collapseId+'header';
+      var items=this.$refs[itemId];
+      if(items){
+        if(state){
+          items[0].classList.add('d-none')
+        }
+        else{
+          items[0].classList.remove('d-none')
+        }
+      }
+    })
   },
 };
 </script>

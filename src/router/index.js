@@ -7,6 +7,7 @@ import store from '../store/index'
 
 import { userRoutes } from './userRoutes';
 import { profileRoutes } from './profileRoutes';
+import {serviceRoutes} from './serviceRoutes';
 import { programRoutes } from './mn/programRoutes';
 import { requestRoutes } from './mn/requestRoutes';
 import { meetRoutes } from './mn/meetRoutes';
@@ -21,6 +22,7 @@ const combineRoutes = [
   requestRoutes,
   programRoutes,
   meetRoutes,
+  serviceRoutes,
   profileRoutes,
   resumeStepsRoutes
 ]

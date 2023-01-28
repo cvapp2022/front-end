@@ -49,7 +49,7 @@ const actions = {
         }
     },
 
-    LoginByCookie({commit }, data) {
+    async LoginByCookie({commit }, data) {
 
 
         //const key = process.env.VUE_APP_ENCKEY //

@@ -110,9 +110,9 @@
       <!-- Award Descriptipn End -->
 
       <!-- Award Form Buttons  -->
-      <b-col v-if="type === 'newItem'" class="d-flex justify-content-start">
+      <b-col v-if="type === 'newItem'" class="d-flex justify-content-start my-2">
         <b-button type="submit" variant="primary">{{$t('Save')}}</b-button>
-        <b-button variant="danger" class="mx-2">{{$t('Cancel')}}</b-button>
+        <b-button variant="danger" class="mx-2" @click="$emit('awSaved')">{{$t('Cancel')}}</b-button>
       </b-col>
     </b-form>
   </validation-observer>

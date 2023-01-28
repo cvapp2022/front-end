@@ -10,13 +10,13 @@ const getters = {
 
 const actions = {
 
-    updateSocial(_,data){
+    updateSocial({commit},data){
 
         var url = process.env.VUE_APP_BASEURL + '/Cv/Contact/';
         console.log(data)
         axios.put(url,data).then(resp=>{
             if(resp.data.success){
-                console.log('Contact Updated')
+               commit('updateContact',resp.data.payload)
                 
             }
         })
@@ -27,7 +27,18 @@ const actions = {
 
 const mutations = {
 
-    contacts:(state,contacts)=>(state.contacts = contacts)
+    contacts:(state,contacts)=>(state.contacts = contacts),
+    updateContact:(state,contact)=>{
+
+        var contactIndex=state.contacts.findIndex(item=> item.CKey===contact.CKey )
+        if(contactIndex >= 0){
+            state.contacts[contactIndex]=contact;
+        }
+        else{
+            state.contacts.push(contact)
+        }
+
+    }
 
 }
 

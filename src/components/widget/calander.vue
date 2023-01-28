@@ -55,8 +55,8 @@ export default {
     },
     async getNewDates(date) {
       var usedDatesArr = [];
-      if (this.requests.length > 0) {
-        this.requests.forEach((request) => {
+      if (this.mnRequests.length > 0) {
+        this.mnRequests.forEach((request) => {
           if (request.ReqState === "applied" && request.ReqMeets.length > 0) {
             request.ReqMeets.forEach((meet) => {
               if (meet.MeetDate) {
@@ -119,7 +119,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["requests"]),
+    ...mapGetters(["mnRequests"]),
     classNames() {
       return {
         tabLoading: "loading-div",

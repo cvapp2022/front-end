@@ -19,9 +19,9 @@ const actions = {
         //console.log('form',data)
         var url = process.env.VUE_APP_BASEURL + '/Cv/Org/';
         axios.post(url,data).then(resp=>{
-            if(resp.data.status){
+            if(resp.data.success){
                 console.log('Organization Saved')
-                commit('organizations',resp.data.items.list)
+                commit('organizations',resp.data.payload.list)
             }
         })
 

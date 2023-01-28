@@ -38,7 +38,7 @@
 <script>
 import axios from 'axios';
 import { mapGetters } from "vuex";
-import skill from "../items/skill.vue";
+import skill from "../items/cv/skill.vue";
 
 export default {
   components: {

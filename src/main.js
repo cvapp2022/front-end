@@ -51,7 +51,7 @@ const ioInstance = SocketIO(process.env.VUE_APP_URL, {
 Vue.use(VueSocketIO,ioInstance,{ store })
 
 Vue.config.productionTip = false
-
+Vue.prototype.$mutated=[]
 Vue.prototype.$baseUrl = process.env.VUE_APP_URL;
 
 new Vue({

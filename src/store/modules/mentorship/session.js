@@ -56,7 +56,7 @@ const actions = {
 const mutations = {
     Session: (state, Session) => (state.Session = Session),
     ClearSession: (state) => { state.Session = {} },
-    SOCKET_MESSAGE_SENT(state, message) {
+    SOCKET_MN_SESSION_MESSAGE_SENT(state, message) {
         state.Session.SessionMessage.push(message)
     },
     SOCKET_FILE_UPLOADED(state, data) {

@@ -23,13 +23,17 @@ const actions = {
 
         var url = process.env.VUE_APP_BASEURL + '/User/';
         axios.get(url).then(resp => {
-
             if (resp.data.success) {
-                commit('cv', resp.data.payload.CVUCvId)
-                commit('cl', resp.data.payload.CVUClId)
-                commit('User', resp.data.payload)
-                commit('Notification',resp.data.payload.UserNotif)
-                commit('requests', resp.data.payload.MNRequests)
+                commit('cv', resp.data.payload.user.BlUserCv)
+                commit('cl', resp.data.payload.user.BlUserCl)
+                commit('User', resp.data.payload.user)
+                commit('Notification',resp.data.payload.user.UserNotif)
+                commit('mnRequests', resp.data.payload.user.MNRequests)
+                commit('servRequests', resp.data.payload.user.SRRequests)
+                commit('templateOrders',resp.data.payload.user.TemplateOrders)
+                commit('serviceOrders',resp.data.payload.user.ServiceOrders)
+                commit('chats',resp.data.payload.chats)
+                // commit('ServRequests')
             }
         })
     },
@@ -54,7 +58,6 @@ const actions = {
         return  axios.put(url,data.data).then(resp=>{
             if(resp.data.success){
                 //commit('profile',resp.data.payload.list)
-                console.log('Cv Updated')
                 return resp.data.payload
             }
         })
@@ -84,7 +87,6 @@ const actions = {
             if (resp.data.success) {
 
                 var data = resp.data.payload;
-                console.log(data)
                 var cvObj = {
                     cvName: data.CVName,
                     cvFullName:data.CVFullName,
@@ -113,10 +115,10 @@ const actions = {
 
     },
 
-    setCvTemplate({commit},data){
-        console.log(data)
+    async setCvTemplate({commit},data){
+   
         var url = process.env.VUE_APP_BASEURL + '/Cv/' + data.cvId+'/setTemplate';
-        axios.put(url,{TemplateIdI:data.templateId}).then(resp=>{
+        return axios.put(url,{TemplateIdI:data.templateId}).then(resp=>{
             if(resp.data.success){
                 commit('cvOneSetTemplate',resp.data.payload.CVTemplate)
             }
@@ -134,7 +136,6 @@ const actions = {
         var url = process.env.VUE_APP_BASEURL + '/Cl/' + clid;
         axios.get(url).then(resp => {
             if (resp.data.success) {
-                console.log('ClOne Fetched')
                 commit('clOne', resp.data.payload)
 
                 //router.push({ name: 'clOne' })
@@ -146,7 +147,6 @@ const actions = {
 
         var url = process.env.VUE_APP_BASEURL + '/Cl/';
         axios.post(url, { ClNameI: 'untiteld' }).then((resp) => {
-            console.log('activated')
             if (resp.data.success) {
                 commit('cl', resp.data.payload.list)
             }
@@ -167,7 +167,6 @@ const actions = {
         var url = process.env.VUE_APP_BASEURL + '/Cl/' + data.clid;
         axios.put(url, data.data).then(resp => {
             if (resp.data.success) {
-                console.log('ClOne Updated')
                 commit('clOne', resp.data.payload)
 
                 //router.push({name:'clOne'})
@@ -188,13 +187,21 @@ const actions = {
         var url = process.env.VUE_APP_BASEURL + '/CV/' + data.cvId + '/addSection';
         axios.put(url, { SectionNameI: data.section }).then(function (resp) {
             if (resp.data.success) {
-                var cvOne = {
-                    cvId: resp.data.payload._id,
-                    cvImg: resp.data.payload.CVImg,
-                    cvName: resp.data.payload.CVName,
-                    cvSections: resp.data.payload.CvSections
+                var data = resp.data.payload;
+                var cvObj = {
+                    cvName: data.CVName,
+                    cvFullName:data.CVFullName,
+                    cvProfile:data.CVProfile,
+                    cvAddress:data.CVAddress,
+                    cvPosition:data.CVPosition,
+                    cvId: data._id,
+                    cvImg: data.CVImg,
+                    cvTemplate:data.CVTemplate,
+                    cvSections: data.CvSections,
+                    cvLang:data.CVLang
                 }
-                commit('cvOne', cvOne)
+
+                commit('cvOne', cvObj)
             }
         })
     },
@@ -203,13 +210,21 @@ const actions = {
         var url = process.env.VUE_APP_BASEURL + '/CV/' + data.cvId + '/removeSection';
         axios.put(url, { SectionNameI: data.section }).then(function (resp) {
             if (resp.data.success) {
-                var cvOne = {
-                    cvId: resp.data.payload._id,
-                    cvImg: resp.data.payload.CVImg,
-                    cvName: resp.data.payload.CVName,
-                    cvSections: resp.data.payload.CvSections
+                var data = resp.data.payload;
+                var cvObj = {
+                    cvName: data.CVName,
+                    cvFullName:data.CVFullName,
+                    cvProfile:data.CVProfile,
+                    cvAddress:data.CVAddress,
+                    cvPosition:data.CVPosition,
+                    cvId: data._id,
+                    cvImg: data.CVImg,
+                    cvTemplate:data.CVTemplate,
+                    cvSections: data.CvSections,
+                    cvLang:data.CVLang
                 }
-                commit('cvOne', cvOne)
+                commit('cvOne', cvObj)
+
             }
         })
     }

@@ -17,9 +17,9 @@ const actions = {
 
         var url = process.env.VUE_APP_BASEURL + '/Cv/Edu/';
         axios.post(url,data).then(resp=>{
-            if(resp.data.status){
+            if(resp.data.success){
                 console.log('Education Saved')
-                commit('educations',resp.data.items.list)
+                commit('educations',resp.data.payload.list)
             }
         })
 

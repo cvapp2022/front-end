@@ -18,7 +18,6 @@
         </b-collapse>
       </b-row>
     </b-card>
-    <div class="mx-4">
       <draggable
         v-bind="dragOptions"
         handle=".handle"
@@ -31,20 +30,39 @@
           <div class="d-flex align-items-baseline" v-for="proj in this.draglist" v-bind:key="proj._id">
             <b-icon icon="justify" class="h1 handle"></b-icon>
             <b-card class="flex-fill my-3 p-2">
-              <div class="d-flex justify-content-between">
-                <h4>{{ proj.ProjName }}</h4>
-                <div class="">
-                  <b-button v-b-toggle="'collap' + proj._id" variant="link">                     
+              <b-row :id="'collap'+proj._id+'header'" :ref="'collap'+proj._id+'header'">
+                <b-col cols="2" sm="1" class="px-1 px-sm-3">
+                  <b-card class="bg-light w-100" no-body >
+                    <div class="mx-auto my-2">
+                      <b-icon icon="gear" class="h4 m-0"></b-icon>
+                    </div>
+                  </b-card>
+                </b-col>
+                <b-col cols="8" sm="10" class="d-flex flex-column text-start">
+                  <div class="font-weight-bold h5">{{ proj.ProjName }} </div>
+                  <!-- <div class="h6 text-primary">{{ proj }}</div> -->
+                  <div class="p">{{proj.ProjDate}}</div>
+                  <div class="mt-3" style="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis tenetur porro, neque corrupti similique enim distinctio tempora fugiat velit in suscipit laboriosam dignissimos voluptatibus ipsa repellat ipsum sunt consectetur officia?</div>
+                </b-col>
+                <b-col cols="2" sm="1">
+                  <b-button v-b-toggle="'collap' + proj._id" variant="link">
                     <span class="when-open">
-                      <b-icon icon="chevron-up"></b-icon>
-                    </span>
-                    <span class="when-closed">
-                      <b-icon icon="chevron-down"></b-icon>
-                    </span>
+                      <b-icon icon="chevron-up"></b-icon></span
+                    ><span class="when-closed">
+                      <b-icon icon="chevron-down"></b-icon
+                    ></span>
                   </b-button>
-                </div>
-              </div>
+                </b-col>
+              </b-row>
               <b-collapse :id="'collap' + proj._id">
+                <b-button v-b-toggle="'collap' + proj._id" variant="link">                     
+                  <span class="when-open">
+                    <b-icon icon="chevron-up"></b-icon>
+                  </span>
+                  <span class="when-closed">
+                    <b-icon icon="chevron-down"></b-icon>
+                  </span>
+                </b-button>
                 <project
                   v-bind:CvId="cvOne.cvId"
                   v-bind:project="proj"
@@ -53,17 +71,16 @@
                 ></project>
               </b-collapse>
             </b-card>
-            <b-button @click="DeleteProjSubmit(proj._id)" variant="link"><b-icon icon="trash" ></b-icon></b-button>
+            <b-button @click="DeleteProjSubmit(proj._id)" variant="link" class="d-none d-sm-block"><b-icon icon="trash" ></b-icon></b-button>
           </div>
         </transition-group>
       </draggable>
-    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import project from "../items/project.vue";
+import project from "../items/cv/project.vue";
 import draggable from "vuedraggable";
 export default {
   components: {
@@ -139,6 +156,18 @@ export default {
   },
   mounted() {
     this.draglist = this.projects;
+      this.$root.$on('bv::collapse::state', (collapseId,state) => {
+      var itemId=collapseId+'header';
+      var items=this.$refs[itemId];
+      if(items){
+        if(state){
+          items[0].classList.add('d-none')
+        }
+        else{
+          items[0].classList.remove('d-none')
+        }
+      }
+    })
   },
 };
 </script>

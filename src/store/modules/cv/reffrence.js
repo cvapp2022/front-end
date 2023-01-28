@@ -16,9 +16,9 @@ const actions = {
 
         var url = process.env.VUE_APP_BASEURL + '/Cv/Reff/';
         axios.post(url,data).then(resp=>{
-            if(resp.data.status){
+            if(resp.data.success){
                 console.log('Reffrence Saved')
-                commit('reffrences',resp.data.items.list)
+                commit('reffrences',resp.data.payload.list)
             }
         })
 

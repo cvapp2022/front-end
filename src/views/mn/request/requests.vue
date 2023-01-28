@@ -7,7 +7,7 @@
       </div>
     </b-row>
     <b-row class="my-4">
-      <b-col sm="12" v-for="item in requests" v-bind:key="item._id">
+      <b-col sm="12" v-for="item in mnRequests" v-bind:key="item._id">
         <request :request="item" />
       </b-col>
     </b-row>
@@ -26,7 +26,7 @@ export default {
     request
   },
   computed: {
-    ...mapGetters(["requests"]),
+    ...mapGetters(["mnRequests"]),
   },
 
 

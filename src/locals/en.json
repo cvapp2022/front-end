@@ -86,6 +86,9 @@
     "ProjName":"Project name",
     "ProjDesc":"Project Descreption",
 
+    "PhoneNumber":"Phone Number",
+    "OpNumber":"Transaction Number",
+
     "notifUserRegister":"Your Account Successfully registered",
     "notifRequestApplied":"mentor {mentorName} applied your mentorship request",
     "notifRequestPaid":"Your request Successfully Paid",

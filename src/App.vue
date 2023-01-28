@@ -2,12 +2,12 @@
   <div id="app">
     <!-- <navbar></navbar> -->
     <userNavbar v-if="User && !hideOn.includes(this.$route.name)"></userNavbar>
-
-    <router-view v-slot="{ Component }">
-      <transition name="fade">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+    <div class="d-flex">
+      <userSideBar v-if="User && !hideOn.includes(this.$route.name)"></userSideBar>
+      <router-view v-slot="{ Component }">
+          <component :is="Component" />
+      </router-view>
+    </div>
     <div
       class="
         connPopup
@@ -31,12 +31,14 @@
 
 <script>
 import userNavbar from "./components/widget/userNavbar.vue";
+import userSideBar from './components/widget/userSideBar.vue'
 import VueCookie from "vue-cookies";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
     userNavbar,
+    userSideBar
     // navbar,
     //sidenav
   },
@@ -61,9 +63,10 @@ export default {
     },
     USER_JOINED() {
       this.isDisconnected = false;
-      this.getInit();
+      // this.getInit();
       this.getProfile();
-      this.getPrograms({ lang: this.$i18n.locale });
+      //this.getPrograms({ lang: this.$i18n.locale });
+      // this.getServices({lang: this.$i18n.locale});
     },
     NOTIFICATION_SENT_TO_USER(data) {
       this.$bvToast.toast(this.$t(data.NotifMessage,data.NotifValues), {
@@ -79,13 +82,14 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["LoginByCookie", "getInit", "getProfile", "getPrograms"]),
+    ...mapActions(["LoginByCookie", "getInit", "getProfile", "getPrograms","getServices"]),
     connectSocket() {
       this.$socket.client.emit("USER_JOIN", this.User._id);
     },
   },
   mounted() {
-    this.getInit();
+
+
     //Check Cookie
     var Token = VueCookie.get("token");
     var UserCookie = VueCookie.get("user");
@@ -94,6 +98,8 @@ export default {
         this.$socket.client.emit("USER_JOIN", userId);
       });
     }
+
+    this.getInit({lang: this.$i18n.locale});
   },
   computed: {
     ...mapGetters(["User", "Token"]),
@@ -130,5 +136,8 @@ label{
 .collapsed > .when-open,
 .not-collapsed > .when-closed {
   display: none;
+}
+.text-start{
+  text-align:start !important;
 }
 </style>

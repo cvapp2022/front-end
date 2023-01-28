@@ -85,6 +85,9 @@
     "ProjName":"أسم المشروع",
     "ProjDesc":"شرح عن المشروع",
 
+    "PhoneNumber":"رقم الموبايل",
+    "OpNumber":"رقم العملية",
+
     "notifUserRegister":"تم سجيل حسابك بنجاح",
     "notifRequestApplied":"المرشد {mentorName} قبل طلب الأنتساب للمنحة ",
     "notifRequestPaid":"تمت عملية الدفع للمنحة بنجاح ",

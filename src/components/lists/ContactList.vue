@@ -130,14 +130,13 @@ export default {
     ...mapActions(["updateSocial"]),
     getVal(field) {
       if(!_.isEmpty(this.contacts) && this.contacts.length > 0){
-        var item = this.contacts.find((obj) => {
+        var contactKey = this.contacts.findIndex((obj) => {
           return obj.CKey === field;
         });
-        return item
+        return this.contacts[contactKey]
       }
     },
     handleWatch: _.debounce(function (name) {
-
       if(this.updateable){
         var data = {
           ContactNameI:name,
@@ -150,7 +149,7 @@ export default {
       this.updateable=true;
 
       
-    },4000),
+    },650),
   },
   watch: {
     mail: {
@@ -196,7 +195,8 @@ export default {
     this.twitter = this.getVal("twitter").CValue;
     this.github = this.getVal("github").CValue;
     this.linkedin = this.getVal("linkedin").CValue;
-    // this.google = "";
+    this.mail=this.getVal("mail").CValue
+    this.google=this.getVal("google").CValue
   },
 };
 </script>

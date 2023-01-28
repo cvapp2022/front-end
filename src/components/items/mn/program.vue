@@ -27,11 +27,11 @@ import { mapGetters } from 'vuex';
 export default {
     props:['program'],
     computed:{
-      ...mapGetters(['requests'])
+      ...mapGetters(['mnRequests'])
     },
     methods:{
       checkRequests(progId){        
-        return this.requests.find((item)=>{ return item.ReqProg._id ===progId})
+        return this.mnRequests.find((item)=>{ return item.ReqProg._id ===progId})
       }
     }
 };

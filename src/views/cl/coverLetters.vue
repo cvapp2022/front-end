@@ -7,6 +7,9 @@
       </div>
     </b-row>
     <b-row class="my-4">
+      <profileNav></profileNav>
+    </b-row>
+    <b-row class="my-4">
       <b-col sm="4" v-for="item in cl" v-bind:key="item._id">
         <div class="d-flex">
           <div class="border rounded">
@@ -62,9 +65,12 @@
 </template>
 
 <script>
-
+import profileNav from '../../components/widget/profileNav.vue';
 import { mapActions, mapGetters } from "vuex";
 export default {
+  components:{
+    profileNav
+  },
   methods:{
     ...mapActions([
       "createCl",

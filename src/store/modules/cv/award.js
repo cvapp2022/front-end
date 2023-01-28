@@ -16,9 +16,9 @@ const actions = {
 
         var url = process.env.VUE_APP_BASEURL + '/Cv/Aw/';
         axios.post(url,data).then(resp=>{
-            if(resp.data.status){
+            if(resp.data.success){
                 console.log('award Saved')
-                commit('awards',resp.data.items.list)
+                commit('awards',resp.data.payload.list)
             }
         })
     },

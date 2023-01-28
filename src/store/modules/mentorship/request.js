@@ -1,13 +1,13 @@
 import axios from "axios";
 import Vue from 'vue';
 const state = {
-    requests: [],
-    requestOne: {}
+    mnRequests: [],
+    mnRequestOne: {}
 }
 
 const getters = {
-    requests: state => state.requests,
-    requestOne: state => state.requestOne
+    mnRequests: state => state.mnRequests,
+    mnRequestOne: state => state.mnRequestOne
 }
 
 const actions = {
@@ -37,9 +37,8 @@ const actions = {
     },
     getRequestOne({ state, commit }, reqId) {
 
-        var reqOne = state.requests.find(item => item._id === reqId)
-        console.log(state.requests)
-        commit('requestOne', reqOne)
+        var reqOne = state.mnRequests.find(item => item._id === reqId)
+        commit('mnRequestOne', reqOne)
 
     },
     socket_requestApplied({ commit },data) {
@@ -60,12 +59,12 @@ const actions = {
 }
 
 const mutations = {
-    requests: (state, requests) => (state.requests = requests),
-    requestOne: (state, requestOne) => (state.requestOne = requestOne),
-    addRequest: (state, addedRequest) => (state.requests.push(addedRequest)),
+    mnRequests: (state, mnRequests) => (state.mnRequests = mnRequests),
+    mnRequestOne: (state, mnRequestOne) => (state.mnRequestOne = mnRequestOne),
+    addRequest: (state, addedRequest) => (state.mnRequests.push(addedRequest)),
     updateRequest(state, updatedRequest){
-        var reqIndex=state.requests.findIndex(el => el._id === updatedRequest._id);
-        Vue.set(state.requests, reqIndex, updatedRequest); 
+        var reqIndex=state.mnRequests.findIndex(el => el._id === updatedRequest._id);
+        Vue.set(state.mnRequests, reqIndex, updatedRequest); 
     }
 }
 

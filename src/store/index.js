@@ -3,9 +3,13 @@ import Vuex from 'vuex'
 
 import User from './modules/user';
 import account from './modules/account';
-import program from './modules/mentorship/program';
-import request from './modules/mentorship/request';
+import order from './modules/user/order';
+import mnProgram from './modules/mentorship/program';
+import mnRequest from './modules/mentorship/request';
 import session from './modules/mentorship/session';
+
+import service from './modules/service';
+import servRequest from './modules/service/request';
 
 import experiance from './modules/cv/experiance';
 import education from './modules/cv/education';
@@ -15,6 +19,7 @@ import reffrence from './modules/cv/reffrence';
 import organization from './modules/cv/organization';
 import awards from './modules/cv/award';
 import skill from './modules/cv/skills';
+import chat from './modules/chat'
 import App from './modules/app';
 
 
@@ -25,8 +30,9 @@ export default new Vuex.Store({
     App,
     User,
     account,
-    program,
-    request,
+    order,
+    mnProgram,
+    mnRequest,
     session,
     experiance,
     education,
@@ -35,6 +41,9 @@ export default new Vuex.Store({
     reffrence,
     organization,
     skill,
-    awards
+    awards,
+    service,
+    servRequest,
+    chat
   }
 })
