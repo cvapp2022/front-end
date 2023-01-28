@@ -43,7 +43,8 @@
                     <b-form-group>
                         <b-button type="submit" variant="primary" block class="mt-3">Submit</b-button>
                     </b-form-group>
-                </b-form>  
+                </b-form>
+                <router-link to="register" >  Register</router-link>
               </b-card>
                 <div class="d-flex flex-column mb-1">
           <a class="btn btn-primary my-1" :href="this.socialLogin.google">Register With Google</a>
