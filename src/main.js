@@ -45,8 +45,8 @@ const i18n = new VueI18n({
 /* Establish Connection */
 const ioInstance = SocketIO(process.env.VUE_APP_URL, {
         reconnection: true,
-        reconnectionDelay: 500,
-        maxReconnectionAttempts: 6
+        reconnectionDelay: 8000,
+        maxReconnectionAttempts: 2
 });
 Vue.use(VueSocketIO,ioInstance,{ store })
 
