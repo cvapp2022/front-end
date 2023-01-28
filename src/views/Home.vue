@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h4>Home page</h4>
+    <h4>Updated Home page</h4>
 
     <router-link to="dashboard"> my account eedd</router-link>
     <router-link to="login">  Login</router-link>
